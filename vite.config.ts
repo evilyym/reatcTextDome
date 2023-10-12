@@ -17,6 +17,15 @@ export default defineConfig({
       ,],
     }),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://dev-zjnu-vvr.goliveplus.cn",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {

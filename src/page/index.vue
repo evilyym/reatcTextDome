@@ -3,7 +3,7 @@
     <img src="../assets/bg2.png" v-if="status == 1" class="header_title" alt="" />
     <div class="head_inf" v-if="status == 2">
       <div class="head_title">
-        审核通过
+        提交成功
       </div>
       <div class="head_msg">
         请向警卫出示此页
@@ -28,7 +28,7 @@
       :rules="[{ pattern: verify.car_plate, message: '请填写车牌号' }]" />
     <van-field name="uploader" label="车辆照片" v-if="status == 1 || car_image.length > 0">
       <template #input>
-        <van-uploader :deletable="status === 1" v-model="car_image" multiple max-count="1" />
+        <van-uploader :deletable="status === 1" :after-read="afterRead" v-model="car_image" multiple max-count="1" />
       </template>
     </van-field>
     <div style="margin: 16px">
@@ -66,7 +66,8 @@ const verify = {
   user_name: /^(?:[\u4e00-\u9fa5·]{2,16})$/,
   phone: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
   id_card: /^\d{6}((((((19|20)\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(((19|20)\d{2})(0[13578]|1[02])31)|((19|20)\d{2})02(0[1-9]|1\d|2[0-8])|((((19|20)([13579][26]|[2468][048]|0[48]))|(2000))0229))\d{3})|((((\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|((\d{2})(0[13578]|1[02])31)|((\d{2})02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[048])0229))\d{2}))(\d|X|x)$/,
-  car_plate: /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-HJ-NP-Z][A-HJ-NP-Z0-9]{4,5}[A-HJ-NP-Z0-9挂学警港澳]$/,
+  // car_plate: /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-HJ-NP-Z][A-HJ-NP-Z0-9]{4,5}[A-HJ-NP-Z0-9挂学警港澳]$/,
+  car_plate: /1111/,
   departure_time: /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/,
 };
 const car_image = ref([]);
@@ -84,8 +85,14 @@ const fromInf = ref({
   car_plate: "",
   visit_time: nowDate,
   departure_time: "",
+  // car_plate: "1111",
+  // departure_time: "2023-10-13 16:52",
+  // id_card: "14223019960120271X",
+  // phone: "13122221111",
+  // user_name: "杨哟",
+  // visit_time: "2023-10-12 16:52",
+  car_image:null
 });
-
 const confirm = ({ selectedValue }: { selectedValue: any }) => {
   const date = selectedValue.slice(0, 3).join("-");
   const time = selectedValue.slice(3).join(":");
@@ -93,15 +100,29 @@ const confirm = ({ selectedValue }: { selectedValue: any }) => {
   showPicker.value = false;
 };
 
+// let car_img = null;
+
+const afterRead = (file: any) => {
+  const files = new FormData()
+  files.append("img", file.file)
+  fromInf.value.car_image = file.file
+  // car_img = file.file
+};
+
 const onSubmit = () => {
   let query = {
-    ...fromInf.value,
-    ...car_image.value
+    // car_image: car_img,
+    ...fromInf.value
   }
   axios
-    .post("/visit/create_visit_record/", query)
+    .post("api/visit/create_visit_record/", query, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     .then(function (response: any) {
       // 处理成功情况
+      status.value = 2
       console.log(response);
     })
     .catch(function (error: any) {
@@ -111,16 +132,14 @@ const onSubmit = () => {
     })
     .then(function () {
       // 总是会执行
-      console.log(11);
-      status.value = 2
+      // status.value = 2
 
     });
 };
 
 const onFailed = (errorInfo: any) => {
   showToast.warn(errorInfo.errors[0].message)
-  status.value = 2
-
+  // status.value = 2
 }
 </script>
 <style lang="less">
