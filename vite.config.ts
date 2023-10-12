@@ -6,8 +6,8 @@ import NutUIResolver from '@nutui/nutui/dist/resolver'
 // import VitePluginCss from ''
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/vvr_wap",
-  build: { outDir: 'dist/vvr_wap' },
+  base: "/vvr_wap/",
+  build: { outDir: 'dist' },
   plugins: [vue(),
     Components({
       resolvers: [
