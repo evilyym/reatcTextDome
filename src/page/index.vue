@@ -71,7 +71,7 @@ const verify = {
   departure_time: /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/,
 };
 const car_image = ref([]);
-const status = ref(1);
+const status = ref(2);
 const showPicker = ref(false);
 
 const minDate = new Date();
@@ -170,7 +170,7 @@ const onFailed = (errorInfo: any) => {
   .head_msg {
     font-size: 14px;
     font-weight: bold;
-    color: #caddfa;
+    color: #faddfa;
   }
 
   .img1 {
