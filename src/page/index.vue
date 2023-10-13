@@ -86,8 +86,8 @@ const fromInf = ref({
   visit_time: nowDate,
   departure_time: "",
   car_image: null,
-  
-    // car_plate: "浙A111156",
+
+  //   car_plate: "浙A111156",
   // departure_time: "2023-10-13 16:52",
   // id_card: "14223019960120271X",
   // phone: "13122221111",
@@ -124,14 +124,15 @@ const onSubmit = () => {
       }
     })
     .then(function (response: any) {
-      if (response.date.code != 200) {
-        showToast.fail(response.date.msg)
+      if (response.data.code != 200) {
+        showToast.fail(response.data.msg)
       } else {
         status.value = 2
       }
     })
-    .catch(function () {
+    .catch(function (err:any) {
       showToast.fail('网络错误')
+      console.log(err)
     })
     .then(function () {
     });
