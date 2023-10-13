@@ -5,9 +5,27 @@ import { VantResolver } from 'unplugin-vue-components/resolvers'
 import NutUIResolver from '@nutui/nutui/dist/resolver'
 // import VitePluginCss from ''
 // https://vitejs.dev/config/
+
+const buildConfig = {
+  outDir: 'dist/vvr_wap',
+  terserOptions: {
+    compress: {
+      drop_console: true, // 生产环境移除console
+      drop_debugger: true // 生产环境移除debugger
+    }
+  },
+  rollupOptions: {
+    output: {
+      manualChunks: {
+        // echarts: ['echarts']
+      }
+    }
+  }
+}
+
 export default defineConfig({
   base: "/vvr_wap/",
-  build: { outDir: 'dist' },
+  build: { ...buildConfig},
   plugins: [vue(),
     Components({
       resolvers: [
