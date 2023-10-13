@@ -25,7 +25,7 @@ const buildConfig = {
 }
 
 export default defineConfig({
-  base: "/",
+  base: "/vvr_wap",
   build: { ...buildConfig},
   plugins: [vue(),
     Components({
