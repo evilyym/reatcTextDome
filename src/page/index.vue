@@ -22,8 +22,9 @@
     <van-field v-model="fromInf.id_card" label="身份证" :readonly="status !== 1" placeholder="请填写身份证" required
       :rules="[{ pattern: verify.id_card, message: fromInf.id_card ? '身份号格式不正确' : '请填写身份证' }]" />
     <van-field v-model="fromInf.visit_time" readonly label="来访时间" required :rules="[{ message: '请填写来访时间' }]" />
-    <van-field label="离开时间" required v-model="fromInf.departure_time" :is-link="status === 1" readonly placeholder="点击选择离开时间"
-      @click="status == 1 ? showPicker = true : ''" :rules="[{ pattern: verify.departure_time, message: '请填写离开时间' }]" />
+    <van-field label="离开时间" required v-model="fromInf.departure_time" :is-link="status === 1" readonly
+      placeholder="点击选择离开时间" @click="status == 1 ? showPicker = true : ''"
+      :rules="[{ pattern: verify.departure_time, message: '请填写离开时间' }]" />
     <van-field v-model="fromInf.car_plate" label="车牌号" :readonly="status !== 1" placeholder="请填写车牌号" required
       :rules="[{ pattern: verify.car_plate, message: fromInf.car_plate ? '车牌号格式不正确' : '请填写车牌号' }]" />
     <van-field name="uploader" label="车辆照片" v-if="status == 1 || car_image.length > 0">
@@ -109,6 +110,7 @@ const afterRead = (file: any) => {
   fromInf.value.car_image = file.file
   // car_img = file.file
 };
+const requestState = ref(false)
 
 const onSubmit = () => {
   let query = {
@@ -116,6 +118,8 @@ const onSubmit = () => {
     ...fromInf.value
   }
   // 
+  if (requestState.value) return
+  requestState.value = true
   axios
     // .post("api/visit/create_visit_record/", query, {
     .post("https://dev-zjnu-vvr.goliveplus.cn/visit/create_visit_record/", query, {
@@ -135,6 +139,7 @@ const onSubmit = () => {
       console.log(err)
     })
     .then(function () {
+      requestState.value = false
     });
 };
 
