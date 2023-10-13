@@ -85,13 +85,14 @@ const fromInf = ref({
   car_plate: "",
   visit_time: nowDate,
   departure_time: "",
-  // car_plate: "浙A111156",
+  car_image: null,
+  
+    // car_plate: "浙A111156",
   // departure_time: "2023-10-13 16:52",
   // id_card: "14223019960120271X",
   // phone: "13122221111",
   // user_name: "杨哟",
   // visit_time: "2023-10-12 16:52",
-  car_image:null
 });
 const confirm = ({ selectedValue }: { selectedValue: any }) => {
   const date = selectedValue.slice(0, 3).join("-");
@@ -117,25 +118,22 @@ const onSubmit = () => {
   // 
   axios
     // .post("api/visit/create_visit_record/", query, {
-    .post("https://dev-zjnu-vvr.goliveplus.cn/visit/create_visit_record/", query, {
+      .post("https://dev-zjnu-vvr.goliveplus.cn/visit/create_visit_record/", query, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
     .then(function (response: any) {
-      // 处理成功情况
-      status.value = 2
-      console.log(response);
+      if (response.date.code != 200) {
+        showToast.fail(response.date.msg)
+      } else {
+        status.value = 2
+      }
     })
-    .catch(function (error: any) {
-      // 处理错误情况
-      console.log(error);
-
+    .catch(function () {
+      showToast.fail('网络错误')
     })
     .then(function () {
-      // 总是会执行
-      // status.value = 2
-
     });
 };
 

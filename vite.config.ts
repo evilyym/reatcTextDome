@@ -37,10 +37,10 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      "/api": {
+      "/vvr_wap/api": {
         target: "https://dev-zjnu-vvr.goliveplus.cn",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/vvr_wap\/api/, ""),
       },
     },
   },
