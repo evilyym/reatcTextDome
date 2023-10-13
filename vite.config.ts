@@ -8,6 +8,7 @@ import NutUIResolver from '@nutui/nutui/dist/resolver'
 
 const buildConfig = {
   outDir: 'dist/vvr_wap',
+  // outDir: 'dist',
   terserOptions: {
     compress: {
       drop_console: true, // 生产环境移除console
@@ -24,7 +25,7 @@ const buildConfig = {
 }
 
 export default defineConfig({
-  base: "/vvr_wap/",
+  base: "/",
   build: { ...buildConfig},
   plugins: [vue(),
     Components({
