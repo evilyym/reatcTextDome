@@ -85,7 +85,7 @@ const fromInf = ref({
   id_card: "",
   car_plate: "",
   visit_time: nowDate,
-  departure_time: "",
+  departure_time: nowDate.split(" ")[0] + " 23:59",
   car_image: null,
 
   //   car_plate: "浙A111156",
