@@ -25,8 +25,8 @@
     <van-field label="离开时间" required v-model="fromInf.departure_time" :is-link="status === 1" readonly
       placeholder="点击选择离开时间" @click="status == 1 ? showPicker = true : ''"
       :rules="[{ pattern: verify.departure_time, message: '请填写离开时间' }]" />
-    <van-field v-model="fromInf.car_plate" label="车牌号" :readonly="status !== 1" placeholder="请填写车牌号" required
-      :rules="[{ pattern: verify.car_plate, message: fromInf.car_plate ? '车牌号格式不正确' : '请填写车牌号' }]" />
+    <van-field v-model="fromInf.car_plate" label="车牌号" :readonly="status !== 1" placeholder="请填写车牌号"
+      :rules="[{ required:false, pattern: verify.car_plate, message: fromInf.car_plate ? '车牌号格式不正确' : '请填写车牌号' }]" />
     <van-field name="uploader" label="车辆照片" v-if="status == 1 || car_image.length > 0">
       <template #input>
         <van-uploader :deletable="status === 1" :after-read="afterRead" v-model="car_image" multiple max-count="1" />
@@ -67,8 +67,7 @@ const verify = {
   user_name: /^(?:[\u4e00-\u9fa5·]{2,16})$/,
   phone: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
   id_card: /^\d{6}((((((19|20)\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(((19|20)\d{2})(0[13578]|1[02])31)|((19|20)\d{2})02(0[1-9]|1\d|2[0-8])|((((19|20)([13579][26]|[2468][048]|0[48]))|(2000))0229))\d{3})|((((\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|((\d{2})(0[13578]|1[02])31)|((\d{2})02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[048])0229))\d{2}))(\d|X|x)$/,
-  car_plate: /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-HJ-NP-Z][A-HJ-NP-Z0-9]{4,5}[A-HJ-NP-Z0-9挂学警港澳]$/,
-  // car_plate: /1111/,
+  car_plate: /(^$)|(^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-HJ-NP-Z][A-HJ-NP-Z0-9]{4,5}[A-HJ-NP-Z0-9挂学警港澳]$)/,
   departure_time: /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/,
 };
 const car_image = ref([]);
