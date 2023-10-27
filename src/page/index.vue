@@ -119,9 +119,17 @@ const onSubmit = () => {
   // 
   if (requestState.value) return
   requestState.value = true
+  const hostname = location.hostname;
+  let bastUrl
+  if (hostname.indexOf('dev') > -1 || hostname.indexOf('localhost') > -1){
+    bastUrl="https://dev-zjnu-vvr.goliveplus.cn/"
+  }else{
+    
+    bastUrl="https://doorctlapi.zjnu.edu.cn/vvr_api/"
+  }
   axios
     // .post("api/visit/create_visit_record/", query, {
-    .post("https://dev-zjnu-vvr.goliveplus.cn/visit/create_visit_record/", query, {
+    .post(bastUrl+'visit/create_visit_record/', query, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
