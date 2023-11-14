@@ -16,7 +16,7 @@
     error-message-align="right" label-align="top">
     <!-- right -->
     <van-field v-model="fromInf.user_name" label="姓名" :readonly="status !== 1" placeholder="请填写姓名" required
-      :rules="[{ pattern: verify.user_name, message: fromInf.user_name ? '姓名字数2位以上' : '请填写姓名' }]" />
+      :rules="[{ pattern: verify.user_name, message: fromInf.user_name ? '姓名字数2-10位' : '请填写姓名' }]" />
     <van-field v-model="fromInf.phone" label="手机号" :readonly="status !== 1" placeholder="请填写手机号" required
       :rules="[{ pattern: verify.phone, message: fromInf.phone ? '手机号格式不正确' : '请填写手机号' }]" />
     <van-field v-model="fromInf.id_card" label="身份证" :readonly="status !== 1" placeholder="请填写身份证" required
@@ -64,7 +64,7 @@ var nowDate = new Date()
   .replace(/\//g, "-");
 
 const verify = {
-  user_name: /^(?:[\u4e00-\u9fa5·]{2,16})$/,
+  user_name: /^(?:[\u4e00-\u9fa5·]{2,10})$/,
   phone: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
   id_card: /^\d{6}((((((19|20)\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(((19|20)\d{2})(0[13578]|1[02])31)|((19|20)\d{2})02(0[1-9]|1\d|2[0-8])|((((19|20)([13579][26]|[2468][048]|0[48]))|(2000))0229))\d{3})|((((\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|((\d{2})(0[13578]|1[02])31)|((\d{2})02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[048])0229))\d{2}))(\d|X|x)$/,
   car_plate: /(^$)|(^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-HJ-NP-Z][A-HJ-NP-Z0-9]{4,5}[A-HJ-NP-Z0-9挂学警港澳]$)/,
