@@ -126,7 +126,7 @@ const onSubmit = () => {
   } else if(hostname.indexOf('localhost') > -1|| hostname.indexOf('127.0.0.1') > -1){
     bastUrl="/vvr_wap/api"
   }else{
-    bastUrl="https://doorctlapi.zjnu.edu.cn/vvr_api/"
+    bastUrl="https://zjnu-vvr.goliveplus.cn/vvr_api/"
   }
   axios
     // .post("api/visit/create_visit_record/", query, {
