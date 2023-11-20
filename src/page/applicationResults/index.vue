@@ -4,7 +4,7 @@
 }
 
 :deep(.van-tab--active) {
-  font-size: 0.4rem !important;
+  font-size: 16px !important;
   font-weight: 600 !important;
 }
 
@@ -14,50 +14,50 @@
   hr {
     font-size: 1px;
     border: none;
-    height: 2px;
+    height: 1px;
     background-color: #EDEDED;
   }
 
   .listBox {
-    border-radius: 30px 30px 0 0;
+    border-radius: 15px 15px 0 0;
     overflow: hidden;
     background-color: #fff;
 
     .cirdBox {
-      padding: 30px;
+      padding: 15px;
       position: relative;
 
       p,
       h4 {
         margin: 0;
-        line-height: 40px;
+        line-height: 20px;
       }
 
       h4 {
-        line-height: 40px;
+        line-height: 20px;
         font-weight: 600;
-        font-size: 36px;
+        font-size: 18px;
         position: relative;
 
         span {
           position: absolute;
-          right: 10px;
-          font-size: 28px;
+          right: 5px;
+          font-size: 14px;
         }
       }
 
       p {
-        margin-top: 15px;
+        margin-top: 8px;
         color: #666666;
         font-weight: 400;
-        font-size: 28px;
+        font-size: 14px;
         position: relative;
 
         &:last-child {
           span {
             position: absolute;
-            right: 10px;
-            font-size: 28px;
+            right: 5px;
+            font-size: 14px;
           }
         }
       }
@@ -72,13 +72,13 @@
 
       .rightArrow {
         position: absolute;
-        width: 20px;
-        height: 20px;
-        border-top: 4px solid #333;
-        border-right: 4px solid #333;
+        width: 10px;
+        height: 10px;
+        border-top: 2px solid #333;
+        border-right: 2px solid #333;
         transform: rotate(45deg);
-        right: 30px;
-        top: 60px;
+        right: 15px;
+        top: 30px;
       }
     }
   }

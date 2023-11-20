@@ -10,7 +10,6 @@ declare module 'vue' {
     NutDatePicker: typeof import('@nutui/nutui')['DatePicker']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    VanBtn: typeof import('vant/es')['Btn']
     VanButton: typeof import('vant/es')['Button']
     VanDatetimePicker: typeof import('vant/es')['DatetimePicker']
     VanDropdownItem: typeof import('vant/es')['DropdownItem']

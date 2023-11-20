@@ -1,32 +1,32 @@
 <style lang="less" scoped>
 .applyActivities {
   position: relative;
-  padding-top: 10px;
+  padding-top: 5px;
   display: flex;
   flex-direction: column;
   height: 100%;
 
   .userInfo {
     margin: auto;
-    width: 690px;
-    height: 164px;
-    background: linear-gradient(161deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%) #1677FF;
-    box-shadow: 0px 12 24px 0px rgba(22, 119, 255, 0.3);
-    border-radius: 24px 24px 0px 0px;
+    width: 345px;
+    height: 82px;
+    background: #1677FF;
+    // box-shadow: 0px 12 24px 0px rgba(22, 119, 255, 0.3);
+    border-radius: 12px 12px 0px 0px;
 
     color: #fff;
-    padding: 10px;
+    padding: 5px;
     box-sizing: border-box;
-    font-size: 32px;
+    font-size: 16px;
 
     p {
-      margin: 20px;
+      margin: 10px;
       position: relative;
 
       span {
         &:last-child {
           position: absolute;
-          left: 250px;
+          left: 125px;
         }
       }
     }
@@ -34,20 +34,20 @@
 
   .activityInfo {
     background-color: #fff;
-    padding: 30px;
-    border-radius: 24px 24px 0px 0px;
+    padding: 15px;
+    border-radius: 12px 12px 0px 0px;
     flex-grow: 1;
 
     h4,
     h5 {
-      padding: 0 30px 0;
+      padding: 0 15px 0;
       margin: 0;
-      font-size: 36px;
+      font-size: 18px;
       font-weight: 600;
     }
 
     h5 {
-      padding-top: 30px;
+      padding-top: 15px;
     }
   }
 }
@@ -70,18 +70,19 @@
       </van-form>
       <van-form @submit="onSubmit">
         <h5>选择申请材料</h5>
-        <van-field readonly clickable name="picker" :value="value" placeholder="点击选择申请材料" @click="showPicker = true" />
-        <van-popup v-model="showPicker" position="bottom">
-          <!-- <van-picker show-toolbar :columns="columns" @cancel="showPicker = false" /> -->
+        <van-field v-model="result" is-link readonly name="picker" label="选择器" placeholder="点击选择城市"
+          @click="showPicker = true" />
+        <van-popup v-model:show="showPicker" position="bottom">
+          <van-picker @cancel="showPicker = false" />
         </van-popup>
         <h5>使用信息</h5>
         <van-field required v-model="formData" name="" label="使用地点" placeholder="手机号"
           :rules="[{ required: true, message: '请填写密码' }]" />
 
-        <van-field required readonly clickable name="datetimePicker" :value="value" label="时间选择" placeholder="点击选择时间"
+        <van-field v-model="result" is-link readonly name="picker" label="选择器" placeholder="点击选择城市"
           @click="showPicker = true" />
-        <van-popup v-model="showPicker" position="bottom">
-          <van-datetime-picker type="time" @cancel="showPicker = false" />
+        <van-popup v-model:show="showPicker" position="bottom">
+          <van-picker @cancel="showPicker = false" />
         </van-popup>
         <van-field required autosize type="textarea" rows="2" maxlength="100" show-word-limit v-model="formData" name=""
           label="使用原因" placeholder="手机号" :rules="[{ required: true, message: '请填写密码' }]" />
@@ -103,7 +104,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-const value = ref(11)
+const result = ref(11)
 const showPicker = ref(false)
 const formData = ref(1)
 const onSubmit = () => { }

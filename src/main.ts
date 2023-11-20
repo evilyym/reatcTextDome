@@ -4,15 +4,19 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: "/1",
+    path: "/",
     component: () => import("./page/applicationResults/index.vue"),
   },
   {
-    path: "/2",
-    component: () => import("./page/index.vue"),
+    path: "/applicationResults",
+    component: () => import("./page/applicationResults/index.vue"),
   },
   {
-    path: "/3",
+    path: "/applyActivities",
+    component: () => import("./page/applyActivities/index.vue"),
+  },
+  {
+    path: "/eventDetails",
     component: () => import("./page/eventDetails/index.vue"),
   },
 ];

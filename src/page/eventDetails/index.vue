@@ -1,44 +1,44 @@
 <style lang="less" scoped>
 .eventDetails {
   position: relative;
-  padding-top: 10px;
+  padding-top: 5px;
   display: flex;
   flex-direction: column;
   height: 100%;
 
   .activityState {
     background-color: #1677FF;
-    width: 690px;
+    width: 345px;
     margin: auto;
     color: #fff;
-    font-size: 36px;
+    font-size: 18px;
     font-weight: 600;
-    margin: 30px;
-    padding: 30px;
-    border-radius: 30px;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 15px;
     box-sizing: border-box;
   }
 
   .userInfo {
     margin: auto;
-    width: 690px;
-    height: 164px;
+    width: 345px;
+    height: 82px;
     background: #1677FF;
-    border-radius: 24px 24px 0px 0px;
+    border-radius: 12px 12px 0px 0px;
 
     color: #fff;
-    padding: 10px;
+    padding: 5px;
     box-sizing: border-box;
-    font-size: 32px;
+    font-size: 16px;
 
     p {
-      margin: 20px;
+      margin: 10px;
       position: relative;
 
       span {
         &:last-child {
           position: absolute;
-          left: 250px;
+          left: 125px;
         }
       }
     }
@@ -46,20 +46,20 @@
 
   .activityInfo {
     background-color: #fff;
-    padding: 30px;
-    border-radius: 24px 24px 0px 0px;
+    padding: 15px;
+    border-radius: 12px 12px 0px 0px;
     flex-grow: 1;
 
     h4,
     h5 {
-      padding: 0 30px 0;
+      padding: 0 15px 0;
       margin: 0;
-      font-size: 36px;
+      font-size: 18px;
       font-weight: 600;
     }
 
     h5 {
-      padding-top: 30px;
+      padding-top: 15px;
     }
   }
 }
@@ -86,7 +86,7 @@
         <van-field v-model="result" is-link readonly name="picker" label="选择器" placeholder="点击选择城市"
           @click="showPicker = true" />
         <van-popup v-model:show="showPicker" position="bottom">
-          <van-picker :columns="columns" @confirm="onConfirm" @cancel="showPicker = false" />
+          <van-picker :columns="columns"  @cancel="showPicker = false" />
         </van-popup>
 
         <h5>使用信息</h5>
@@ -96,13 +96,13 @@
         <van-field v-model="result" is-link readonly name="picker" label="选择器" placeholder="点击选择城市"
           @click="showPicker = true" />
         <van-popup v-model:show="showPicker" position="bottom">
-          <van-picker :columns="columns" @confirm="onConfirm" @cancel="showPicker = false" />
+          <van-picker :columns="columns"  @cancel="showPicker = false" />
         </van-popup>
         <van-field v-model="formData" name="" label="使用原因" placeholder="手机号"
           :rules="[{ required: true, message: '请填写密码' }]" />
         <van-field name="uploader" label="文件上传">
           <template #input>
-            <van-uploader v-model="value" />
+            <van-uploader />
           </template>
         </van-field>
         <van-field v-model="formData" name="" label="备注" placeholder="手机号"
@@ -118,7 +118,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-
-const showPicker = ref(false), uploader = ref(1), formData = ref(1), columns = ref(['1', '2', '3', '4']), onSubmit = () => { }
+const result=ref(1)
+const showPicker = ref(false), formData = ref(1), columns = ref(['1', '2', '3', '4']), onSubmit = () => { }
 
 </script>
