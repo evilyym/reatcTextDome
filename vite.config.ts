@@ -1,14 +1,12 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
-import { VantResolver } from 'unplugin-vue-components/resolvers'
 import NutUIResolver from '@nutui/nutui/dist/resolver'
-// import VitePluginCss from ''
-// https://vitejs.dev/config/
+import { VantResolver } from '@vant/auto-import-resolver';
+
 
 const buildConfig = {
-  outDir: 'dist/vvr_wap',
-  // outDir: 'dist',
+  outDir: 'dist/activitysupport_wap',
   terserOptions: {
     compress: {
       drop_console: true, // 生产环境移除console
@@ -18,14 +16,13 @@ const buildConfig = {
   rollupOptions: {
     output: {
       manualChunks: {
-        // echarts: ['echarts']
       }
     }
   }
 }
 
 export default defineConfig({
-  base: "/vvr_wap",
+  base: "/activitysupport_wap",
   build: { ...buildConfig},
   plugins: [vue(),
     Components({
@@ -37,10 +34,10 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      "/vvr_wap/api": {
+      "/activitysupport_wap/api": {
         target: "https://dev-zjnu-vvr.goliveplus.cn/vvr_api",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/vvr_wap\/api/, ""),
+        rewrite: (path) => path.replace(/^\/activitysupport_wap\/api/, ""),
       },
     },
   },

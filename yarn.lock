@@ -154,9 +154,9 @@
   integrity sha512-ekn6R9GNHWNUcV4pxdhQzrI1g1VhZ5zknklXoUJrCzt0RkRRLU0bUXX3ouWT0sl0U3MNJClnXAzZe7iPAvgPtw==
 
 "@nutui/nutui@^4.1.6":
-  version "4.1.7"
-  resolved "https://registry.yarnpkg.com/@nutui/nutui/-/nutui-4.1.7.tgz#45034f827658de6e193ffb9910ba34e7b5355627"
-  integrity sha512-EiCk+7nkQ8Zpo1CnINgtwvkACN/hjIrHNKJCFsRQeodxrRDTydOkxHSb7SjPZ3sEbx6IwYKWw5vOx4Qv1wt6Rw==
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@nutui/nutui/-/nutui-4.2.1.tgz#8ac406be17a5a5bbb0914ee7a7753f9ceb6d1921"
+  integrity sha512-YWZXN+X1Wv7yQV8E2BWW8Y4A9LyZKXezdCaep187FiaEOKDE+oCqCUUaK2noX582gKiz/MLnXs8tNW/YyAZkHw==
   dependencies:
     "@nutui/icons-vue" "^0.1.1"
     sass "^1.50.0"
@@ -174,6 +174,11 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.3.tgz#2be19e759a3dd18c79f9f436bd7363556c1a73dd"
   integrity sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==
+
+"@vant/auto-import-resolver@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@vant/auto-import-resolver/-/auto-import-resolver-1.0.2.tgz#6eeb5fc3976dc64b425c7cb4ca7c0ddc8469a4fb"
+  integrity sha512-5SYC1izl36KID+3F4pqFtYD8VFK6m1pdulft99sjSkUN4GBX9OslRnsJA0g7xS+0YrytjDuxxBk04YLYIxaYMg==
 
 "@vant/popperjs@^1.3.0":
   version "1.3.0"

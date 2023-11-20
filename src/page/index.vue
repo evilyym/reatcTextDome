@@ -87,7 +87,7 @@ const fromInf = ref({
   departure_time: nowDate.split(" ")[0] + " 23:59",
   car_image: null,
 
-  //   car_plate: "浙A111156",
+  // car_plate: "浙A111156",
   // departure_time: "2023-10-13 16:52",
   // id_card: "14223019960120271X",
   // phone: "13122221111",
@@ -101,22 +101,18 @@ const confirm = ({ selectedValue }: { selectedValue: any }) => {
   showPicker.value = false;
 };
 
-// let car_img = null;
-
 const afterRead = (file: any) => {
   const files = new FormData()
   files.append("img", file.file)
   fromInf.value.car_image = file.file
-  // car_img = file.file
 };
 const requestState = ref(false)
 
 const onSubmit = () => {
   let query = {
-    // car_image: car_img,
     ...fromInf.value
   }
-  // 
+  
   if (requestState.value) return
   requestState.value = true
   const hostname = location.hostname;
@@ -124,12 +120,11 @@ const onSubmit = () => {
   if (hostname.indexOf('dev') > -1 ) {
     bastUrl="https://dev-zjnu-vvr.goliveplus.cn/vvr_api/"
   } else if(hostname.indexOf('localhost') > -1|| hostname.indexOf('127.0.0.1') > -1){
-    bastUrl="/vvr_wap/api"
+    bastUrl="/activitysupport_wap/api"
   }else{
     bastUrl="https://zjnu-vvr.goliveplus.cn/vvr_api/"
   }
   axios
-    // .post("api/visit/create_visit_record/", query, {
     .post(bastUrl+'visit/create_visit_record/', query, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -153,7 +148,6 @@ const onSubmit = () => {
 
 const onFailed = (errorInfo: any) => {
   showToast.warn(errorInfo.errors[0].message)
-  // status.value = 2
 }
 </script>
 <style lang="less">

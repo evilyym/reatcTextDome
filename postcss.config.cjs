@@ -1,22 +1,11 @@
-// module.exports = () => {
-//     let rootValue = 75;
-//     if (file && file.dirname && file.dirname.indexOf('vant') > -1) {
-//         rootValue = 37.5;
-//     }
-//     return {
-//         plugins: {
-//             'postcss-pxtorem': {
-//                 rootValue: rootValue,
-//                 propList: ['*'],
-//             },
-//         },
-//     }
-// };
 
 module.exports = {
     plugins: {
         'postcss-px-to-viewport-8-plugin': {
             viewportWidth: 375,
+            unitPrecision: 1,
+            minPixelValue: 1,
+            // exclude: [/node_modules/],
         },
     },
 };
