@@ -5,12 +5,13 @@
 </script>
 <style>
 html,
-body {
+body,#app {
   margin: 0;
   padding: 0;
   background-color: #fff;
   color-scheme: unset;
   font-size: 14px;
+  height: 100%;
 }
 
 .blue {

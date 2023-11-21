@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import NutUIResolver from '@nutui/nutui/dist/resolver'
 import { VantResolver } from '@vant/auto-import-resolver';
+import path from 'path'
 
 
 const buildConfig = {
@@ -32,6 +33,11 @@ export default defineConfig({
       ,],
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  },
   server: {
     proxy: {
       "/activitysupport_wap/api": {

@@ -10,6 +10,7 @@
 
 .applicationResults {
   background-color: #EDEDED;
+  height: 100%;
 
   hr {
     font-size: 1px;
@@ -24,8 +25,12 @@
     background-color: #fff;
 
     .cirdBox {
-      padding: 15px;
+      padding: 15px 15px 0;
       position: relative;
+
+      hr {
+        margin-top: 15px;
+      }
 
       p,
       h4 {
@@ -86,37 +91,41 @@
 </style>
 <template>
   <div class="applicationResults">
-    <van-form ></van-form>
-    <van-tabs v-model="active" color="#EDEDED" background="#EDEDED" swipeable title-inactive-color="#666"
+    <van-tabs v-model:active="active" color="#EDEDED" style="" background="#EDEDED" title-inactive-color="#666"
       title-active-color="#111">
       <van-tab title="我服务的">
         <div class="listBox">
-          <div class="cirdBox" @click="initiateActivities">
-            <h4>校园书法大赛</h4>
-            <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
+          <div class="cirdBox" @click="initiateActivities(itme.id)" v-for="itme in ResultsList">
+            <h4>{{ itme.name }}</h4>
+            <p><span> <van-icon name="user" />{{ itme.leader_name }} </span> <span><van-icon name="phone" />{{
+              itme.leader_phone }} </span></p>
             <div class="rightArrow"></div>
+            <hr>
           </div>
-          <hr>
-          <div class="cirdBox">
+          <!-- <div class="cirdBox">
             <h4>校园书法大赛 </h4>
             <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
             <div class="rightArrow"></div>
-          </div>
-          <hr>
+            <hr>
+          </div> -->
         </div>
       </van-tab>
       <van-tab title="我审核的">
-        <div class="listBox" @click="eventCheckDetails">
-          <van-dropdown-menu active-color="#1677FF">
-            <van-dropdown-item v-model="value1" :options="option1" active-color="#1677FF" />
-            <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
+        <div class="listBox">
+          <van-dropdown-menu>
+            <van-dropdown-item v-model="value1" :options="option1" />
+            <van-dropdown-item v-model="value2" :options="option2" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox">
-            <h4>校园书法大赛 <span class="blue">未审核</span></h4>
-            <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
-            <p><van-icon name="friends" />计算机部门/AI技术研究开发组 </p>
-            <p><van-icon name="underway" />2023-11-12 12:12:12 </p>
+          <div class="cirdBox" @click="eventCheckDetails" v-for="itme in ResultsList">
+            <h4>{{ itme.activity?.name }} <span :class="{
+              blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
+            }">{{ showText(itme.audit_status) }}</span></h4>
+            <p><span> <van-icon name="user" />{{ itme.name }} </span> <span><van-icon name="phone" />{{ itme.phone }}
+              </span>
+            </p>
+            <p><van-icon name="friends" />{{ itme.department }} </p>
+            <p><van-icon name="underway" />{{ itme.created_at }} </p>
           </div>
           <hr>
         </div>
@@ -153,9 +162,9 @@
       </van-tab>
       <van-tab title="我报备的">
         <div class="listBox">
-          <van-dropdown-menu active-color="#1677FF">
-            <van-dropdown-item v-model="value1" :options="option1" active-color="#1677FF" />
-            <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
+          <van-dropdown-menu>
+            <van-dropdown-item v-model="value1" :options="option1" />
+            <van-dropdown-item v-model="value2" :options="option2" />
           </van-dropdown-menu>
           <hr>
           <div class="cirdBox">
@@ -173,27 +182,65 @@
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
+import { ref, onMounted, watch } from "vue";
+import { getRecordsList, getActivityList } from "@/api/index";
 
 const router = useRouter()
 
-const active = 2,
-  value1 = '',
-  value2 = '',
-  option1 = [
-    { text: '全部活动', value: '' },
-    { text: 'A活动', value: 1 },
-    { text: 'B活动', value: 2 },
-  ],
-  option2 = [
-    { text: '审核状态', value: '' },
-    { text: '未审核', value: 'b' },
-    { text: '审核驳回', value: 'c' },
-    { text: '审核通过', value: 'd' },
-  ],
-  initiateActivities = () => {
-    router.push('/applyActivities')
-  },
-  eventCheckDetails = () => {
-    router.push('/eventDetails')
+const active = ref(0);
+
+const value1 = ref();
+const value2 = ref('a');
+const option1 = [
+  { text: '全部商品', value: 0 },
+  { text: '新款商品', value: 1 },
+  { text: '活动商品', value: 2 },
+];
+const option2 = [
+  { text: '默认排序', value: 'a' },
+  { text: '好评排序', value: 'b' },
+  { text: '销量排序', value: 'c' },
+];
+const initiateActivities = (id) => {
+  router.push('/applyActivities?id=' + id)
+}
+const eventCheckDetails = () => {
+  router.push('/eventDetails')
+}
+
+const ResultsList = ref<any>({})
+const getList = async (val = 0) => {
+  const query = { type: active.value, perPage: 10, id: value1.value }
+  switch (val) {
+    case 0:
+      ResultsList.value = (await getActivityList({ type: 1, perPage: query.perPage })).data.data
+      break;
+    default:
+      ResultsList.value = (await getRecordsList(query)).data.data
+      break;
   }
+}
+
+watch(active, (val) => {
+  console.log(val);
+
+  getList(val)
+})
+const showText = (key) => {
+  switch (key) {
+    case 1:
+    return '待审核'
+    case 2:
+
+    return '审核通过'
+
+    default:
+
+    return '审核驳回'
+
+  }
+}
+onMounted(() => {
+  getList()
+})
 </script>
