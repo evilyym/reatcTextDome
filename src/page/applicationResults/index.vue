@@ -192,14 +192,13 @@ const active = ref(0);
 const value1 = ref();
 const value2 = ref('a');
 const option1 = [
-  { text: '全部商品', value: 0 },
-  { text: '新款商品', value: 1 },
-  { text: '活动商品', value: 2 },
+  { text: '全部活动', value: 1 },
 ];
 const option2 = [
-  { text: '默认排序', value: 'a' },
-  { text: '好评排序', value: 'b' },
-  { text: '销量排序', value: 'c' },
+  { text: '审核状态', value: 0 },
+  { text: '待审核', value: 1 },
+  { text: '审核通过', value: 2 },
+  { text: '审核驳回', value: 3 },
 ];
 const initiateActivities = (id) => {
   router.push('/applyActivities?id=' + id)
@@ -229,14 +228,14 @@ watch(active, (val) => {
 const showText = (key) => {
   switch (key) {
     case 1:
-    return '待审核'
+      return '待审核'
     case 2:
 
-    return '审核通过'
+      return '审核通过'
 
     default:
 
-    return '审核驳回'
+      return '审核驳回'
 
   }
 }
