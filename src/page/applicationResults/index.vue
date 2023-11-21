@@ -102,12 +102,6 @@
             <div class="rightArrow"></div>
             <hr>
           </div>
-          <!-- <div class="cirdBox">
-            <h4>校园书法大赛 </h4>
-            <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
-            <div class="rightArrow"></div>
-            <hr>
-          </div> -->
         </div>
       </van-tab>
       <van-tab title="我审核的">
@@ -126,8 +120,8 @@
             </p>
             <p><van-icon name="friends" />{{ itme.department }} </p>
             <p><van-icon name="underway" />{{ itme.created_at }} </p>
+            <hr>
           </div>
-          <hr>
         </div>
       </van-tab>
       <van-tab title="我发出的">
@@ -137,27 +131,17 @@
             <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox">
-            <h4>校园书法大赛 <span class="blue">未审核</span></h4>
-            <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
-            <p><van-icon name="friends" />计算机部门/AI技术研究开发组 </p>
-            <p><van-icon name="underway" />2023-11-12 12:12:12 </p>
+          <div class="cirdBox" @click="eventCheckDetails" v-for="itme in ResultsList">
+            <h4>{{ itme.activity?.name }} <span :class="{
+              blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
+            }">{{ showText(itme.audit_status) }}</span></h4>
+            <p><span> <van-icon name="user" />{{ itme.name }} </span> <span><van-icon name="phone" />{{ itme.phone }}
+              </span>
+            </p>
+            <p><van-icon name="friends" />{{ itme.department }} </p>
+            <p><van-icon name="underway" />{{ itme.created_at }} </p>
+            <hr>
           </div>
-          <hr>
-          <div class="cirdBox">
-            <h4>校园书法大赛 <span class="red">审核驳回</span></h4>
-            <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
-            <p><van-icon name="friends" />计算机部门/AI技术研究开发组 </p>
-            <p><van-icon name="underway" />2023-11-12 12:12:12 <span class="red">未确认</span></p>
-          </div>
-          <hr>
-          <div class="cirdBox">
-            <h4>校园书法大赛 <span class="green">审核通过</span></h4>
-            <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
-            <p><van-icon name="friends" />计算机部门/AI技术研究开发组 </p>
-            <p><van-icon name="underway" />2023-11-12 12:12:12 <span class="green">已确认</span></p>
-          </div>
-          <hr>
         </div>
       </van-tab>
       <van-tab title="我报备的">
@@ -167,13 +151,17 @@
             <van-dropdown-item v-model="value2" :options="option2" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox">
-            <h4>校园书法大赛 <span class="blue">未审核</span></h4>
-            <p><span> <van-icon name="user" />毕君秋 </span> <span><van-icon name="phone" />14962571994 </span></p>
-            <p><van-icon name="friends" />计算机部门/AI技术研究开发组 </p>
-            <p><van-icon name="underway" />2023-11-12 12:12:12 </p>
+          <div class="cirdBox" @click="eventCheckDetails" v-for="itme in ResultsList">
+            <h4>{{ itme.activity?.name }} <span :class="{
+              blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
+            }">{{ showText(itme.audit_status) }}</span></h4>
+            <p><span> <van-icon name="user" />{{ itme.name }} </span> <span><van-icon name="phone" />{{ itme.phone }}
+              </span>
+            </p>
+            <p><van-icon name="friends" />{{ itme.department }} </p>
+            <p><van-icon name="underway" />{{ itme.created_at }} </p>
+            <hr>
           </div>
-          <hr>
         </div>
       </van-tab>
     </van-tabs>

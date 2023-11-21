@@ -9,23 +9,5 @@ declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    VanButton: typeof import('vant/es')['Button']
-    VanCalendar: typeof import('vant/es')['Calendar']
-    VanCell: typeof import('vant/es')['Cell']
-    VanCellGroup: typeof import('vant/es')['CellGroup']
-    VanCheckbox: typeof import('vant/es')['Checkbox']
-    VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
-    VanDropdownItem: typeof import('vant/es')['DropdownItem']
-    VanDropdownMenu: typeof import('vant/es')['DropdownMenu']
-    VanField: typeof import('vant/es')['Field']
-    VanForm: typeof import('vant/es')['Form']
-    VanIcon: typeof import('vant/es')['Icon']
-    VanPicker: typeof import('vant/es')['Picker']
-    VanPopup: typeof import('vant/es')['Popup']
-    VanStepper: typeof import('vant/es')['Stepper']
-    VanSwipeCell: typeof import('vant/es')['SwipeCell']
-    VanTab: typeof import('vant/es')['Tab']
-    VanTabs: typeof import('vant/es')['Tabs']
-    VanUploader: typeof import('vant/es')['Uploader']
   }
 }
