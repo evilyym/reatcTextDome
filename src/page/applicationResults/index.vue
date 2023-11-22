@@ -111,7 +111,7 @@
             <van-dropdown-item v-model="value2" :options="option2" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox" @click="eventCheckDetails" v-for="itme in ResultsList">
+          <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
             <h4>{{ itme.activity?.name }} <span :class="{
               blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
             }">{{ showText(itme.audit_status) }}</span></h4>
@@ -131,7 +131,7 @@
             <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox" @click="eventCheckDetails" v-for="itme in ResultsList">
+          <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
             <h4>{{ itme.activity?.name }} <span :class="{
               blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
             }">{{ showText(itme.audit_status) }}</span></h4>
@@ -151,7 +151,7 @@
             <van-dropdown-item v-model="value2" :options="option2" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox" @click="eventCheckDetails" v-for="itme in ResultsList">
+          <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
             <h4>{{ itme.activity?.name }} <span :class="{
               blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
             }">{{ showText(itme.audit_status) }}</span></h4>
@@ -177,13 +177,13 @@ const router = useRouter()
 
 const active = ref(0);
 
-const value1 = ref();
-const value2 = ref('a');
-const option1 = [
-  { text: '全部活动', value: 1 },
-];
+const value1 = ref('');
+const value2 = ref('');
+const option1 = ref([
+  { text: '全部活动', value: '' },
+]);
 const option2 = [
-  { text: '审核状态', value: 0 },
+  { text: '审核状态', value: '' },
   { text: '待审核', value: 1 },
   { text: '审核通过', value: 2 },
   { text: '审核驳回', value: 3 },
@@ -191,11 +191,13 @@ const option2 = [
 const initiateActivities = (id) => {
   router.push('/applyActivities?id=' + id)
 }
-const eventCheckDetails = () => {
-  router.push('/eventDetails')
+const eventCheckDetails = (id) => {
+  router.push('/eventDetails?id=' + id)
 }
 
 const ResultsList = ref<any>({})
+const ResultsDetailList = ref<any>({})
+let option: any[] = []
 const getList = async (val = 0) => {
   const query = { type: active.value, perPage: 10, id: value1.value }
   switch (val) {
@@ -203,16 +205,30 @@ const getList = async (val = 0) => {
       ResultsList.value = (await getActivityList({ type: 1, perPage: query.perPage })).data.data
       break;
     default:
-      ResultsList.value = (await getRecordsList(query)).data.data
+      option = (await getActivityList(query)).data.data
+      option.forEach((itme) => {
+        itme.text = itme.name
+        itme.value = itme.id
+      })
+      option.unshift({ text: '全部活动', value: '' })
+      option1.value = option;
+      ResultsDetailList.value = (await getRecordsList(query)).data.data
       break;
   }
 }
 
 watch(active, (val) => {
-  console.log(val);
-
   getList(val)
 })
+watch(value1, async () => {
+  const query = { type: active.value, perPage: 10, id: value1.value }
+  ResultsDetailList.value = (await getRecordsList(query)).data.data
+})
+watch(value2, async () => {
+  const query = { type: active.value, perPage: 10, id: value1.value }
+  ResultsDetailList.value = (await getRecordsList(query)).data.data
+})
+
 const showText = (key) => {
   switch (key) {
     case 1:

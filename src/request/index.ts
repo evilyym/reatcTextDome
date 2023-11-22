@@ -1,5 +1,13 @@
 import axios from "axios";
 
+declare module "axios" {
+  interface AxiosResponse<T = any> {
+    code: number;
+    msg: string;
+  }
+  export function create(config?: AxiosRequestConfig): AxiosInstance;
+}
+
 let hostname = location.hostname;
 let configURL = { baseURL: "", saasURL: "" };
 if (
@@ -63,7 +71,7 @@ const statusCodeHandle = (code: number, msg: string) => {
     case 200:
       break;
     default:
-      console.log(msg);
+      console.error(msg);
       break;
   }
 };

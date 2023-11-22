@@ -93,30 +93,28 @@
     <div class="activityInfo">
       <h4>活动信息</h4>
       <van-form input-align="right">
-        <van-field v-model="formData.usage_location" name="" label="活动名称" readonly placeholder="活动名称"
-          :rules="[{ required: true, message: '请填写用户名' }]" />
-        <van-field v-model="formData.usage_location" name="" label="负责人" placeholder="负责人" readonly
-          :rules="[{ required: true, message: '请填写密码' }]" />
-        <van-field v-model="formData.usage_location" name="" label="手机号" placeholder="手机号" readonly
-          :rules="[{ required: true, message: '请填写密码' }]" />
+        <van-field v-model="activityInfo.name" name="" label="活动名称" readonly placeholder="活动名称" />
+        <van-field v-model="activityInfo.leader_name" name="" label="负责人" placeholder="负责人" readonly />
+        <van-field v-model="activityInfo.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
       </van-form>
       <van-form @submit="onSubmit" label-align="top">
         <h5>选择申请材料</h5>
         <van-swipe-cell right-width="60">
-
-          <van-field name="switch" label="222" label-align="left" input-align="right">
-            <template #input>
-              <van-stepper v-model="result" />
-            </template>
-          </van-field>
-          <view slot="right" class="van-swipe-cell__right">删除</view>
+          <div v-for="(item) in materialArr">
+            <van-field name="switch" :label="item.name" label-align="left" input-align="right">
+              <template #input>
+                <van-stepper v-model="item.addNumber" />
+              </template>
+            </van-field>
+            <view slot="right" class="van-swipe-cell__right">删除</view>
+          </div>
         </van-swipe-cell>
 
         <van-field is-link readonly name="picker" label="" placeholder="点击新增材料" @click="showPicker = true" />
 
         <van-popup v-model:show="showPicker" closeable position="bottom" class="dialog">
           <h4>材料选择</h4>
-          <van-checkbox-group v-model="checked">
+          <van-checkbox-group v-model="materialArr">
             <van-cell-group inset>
               <van-cell v-for="(item, index) in activitiesInfo" clickable :key="item" :title="`${item.name}`"
                 @click="toggle(index)">
@@ -130,18 +128,19 @@
         </van-popup>
         <h5>使用信息</h5>
         <van-field required v-model="formData.usage_location" name="" label="使用地点" placeholder="请输入地址"
-          :rules="[{ required: true, message: '请填写密码' }]" />
+          :rules="[{ required: true, message: '请输入地址' }]" />
 
-        <van-field required label="使用时间" v-model="formData.date" @click="showDate = true" placeholder="请选择使用时间" />
+        <van-field required label="使用时间" v-model="formData.date" @click="showDate = true" placeholder="请选择使用时间"
+          :rules="[{ required: true, message: '请选择使用时间' }]" />
         <van-calendar v-model:show="showDate" type="range" @confirm="onConfirm" />
 
         <van-field required autosize type="textarea" rows="2" maxlength="100" show-word-limit
           v-model="formData.usage_reason" name="" label="使用原因" placeholder="请输入使用原因"
-          :rules="[{ required: true, message: '请填写密码' }]" />
+          :rules="[{ required: true, message: '请输入使用原因' }]" />
 
-        <van-field name="uploader" label="文件上传">
+        <van-field required name="uploader" label="文件上传" :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
-            <van-uploader v-model="formData.uploader" />
+            <van-uploader v-model="formData.usage_images" :after-read="afterRead" multiple :max-count="3" />
           </template>
         </van-field>
         <van-field v-model="formData.remark" autosize type="textarea" rows="2" maxlength="144" show-word-limit label="备注"
@@ -157,29 +156,54 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { getActivityDetail, addActivity } from "@/api/index"
+import { getActivityDetail, addActivity, upload } from "@/api/index"
 import { useRouter } from "vue-router";
+import { showSuccessToast, showFailToast } from 'vant';
+
 const router = useRouter()
 
-const checked = ref([]);
+const materialArr = ref([]);
 const checkboxRefs = ref([]);
 const toggle = (index) => {
   checkboxRefs.value[index].toggle();
 };
 
-const result = ref()
+
 const showPicker = ref(false)
 const formData = ref<any>({
 })
 const onSubmit = async () => {
-  const query = {}
-  const code = (await addActivity(query)).data.code
-  if (code == 200) {
-    router.go(-1)
+  let materialsArr = []
+  materialArr.value.forEach(itme => {
+    materialsArr.push({
+      "id": itme.id,
+      "number": itme.addNumber
+    })
+  })
+  const usage_imagesArr = ref([])
+
+  formData.value.usage_images && formData.value.usage_images.forEach((itme) => {
+    usage_imagesArr.value.push(itme.url)
+  })
+  const query = {
+    ...formData.value,
+    id: activityInfo.value.id,
+    materials: materialsArr,
+    usage_images: usage_imagesArr.value,
+  }
+  const data = (await addActivity(query))
+  if (data.code == 200) {
+    showSuccessToast(data.msg)
+    setTimeout(() => {
+      router.go(-1)
+    }, 500);
+  } else {
+    showFailToast(data.msg);
   }
 }
 
 const userInfo = ref<any>({})
+const activityInfo = ref<any>({})
 const activitiesInfo = ref<any>([])
 
 const showDate = ref(false)
@@ -191,11 +215,25 @@ const onConfirm = (values) => {
   showDate.value = false;
   const date = `${formatDate(start)} 至 ${formatDate(end)}`;
   formData.value.date = date
+  formData.value.usage_start_time = formatDate(start);
+  formData.value.usage_end_time = formatDate(end)
 };
 
+const afterRead = async (e) => {
+  let file = e.file
+  /* eslint-disable no-undef */
+  let param = new FormData()  // 创建form对象
+  param.append('file', file, file.name)  // 通过append向form对象添加数据
+  param.append('type', '2') // 添加form表单中其他数据
+  const data = await upload(param)
+  formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+}
+
 onMounted(async () => {
-  const data = (await getActivityDetail({ id: 1 })).data
+
+  const data = (await getActivityDetail({ id: router.currentRoute.value.query.id })).data
   userInfo.value = data.user_info
+  activityInfo.value = data.activity
   activitiesInfo.value = data.materials
 })
 
