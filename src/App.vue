@@ -2,7 +2,7 @@
   <router-view></router-view>
 </template>
 <script lang="ts" setup>
-import 'vant/es/toast/style';
+import 'vant/es/toast/style'; //4.8 版本bug 按需引入对此组件失效
 
 import { ref, provide, watch } from "vue";
 

@@ -229,7 +229,7 @@ const ResultsList = ref<any>([])
 const ResultsDetailList = ref<any>({})
 let option: any[] = []
 const getList = async (val = 0) => {
-  const query = { type: active.value, perPage: 10, id: value1.value }
+  const query = { type: active.value, perPage: 10, id: value1.value, status: value2.value, report: value3.value }
   switch (val) {
     case 0:
       ResultsList.value = []
@@ -257,11 +257,15 @@ watch(active, (val) => {
   getList(val)
 })
 watch(value1, async () => {
-  const query = { type: active.value, perPage: 10, id: value1.value }
+  const query = { type: active.value, perPage: 10, id: value1.value, status: value2.value, report: value3.value }
   ResultsDetailList.value = (await getRecordsList(query)).data.data
 })
 watch(value2, async () => {
-  const query = { type: active.value, perPage: 10, id: value1.value }
+  const query = { type: active.value, perPage: 10, id: value1.value, status: value2.value }
+  ResultsDetailList.value = (await getRecordsList(query)).data.data
+})
+watch(value3, async () => {
+  const query = { type: active.value, perPage: 10, id: value1.value, report: value3.value }
   ResultsDetailList.value = (await getRecordsList(query)).data.data
 })
 
@@ -270,13 +274,9 @@ const showText = (key) => {
     case 1:
       return '待审核'
     case 2:
-
       return '审核通过'
-
-    default:
-
+    case 3:
       return '审核驳回'
-
   }
 }
 onMounted(() => {

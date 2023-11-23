@@ -137,7 +137,7 @@
       <van-icon v-if="activityInfo.audit_status == 1" name="clock"></van-icon>
       <van-icon v-if="activityInfo.audit_status == 3" name="clear"></van-icon>
       <van-icon v-if="activityInfo.audit_status == 2" name="checked"></van-icon>
-      {{ activityInfo.audit_status }}{{ activityInfo.report_status == 2 ? "，已确认" : "" }}
+      {{ showText(activityInfo.audit_status) }}{{ activityInfo.report_status == 2 ? "，已确认" : "" }}
       <p>{{ activityInfo.reason }}</p>
     </div>
 
@@ -187,9 +187,12 @@
         <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="2" maxlength="144"
           show-word-limit label="备注" placeholder="备注" />
 
-        <van-field readonly v-model="activityInfo.report_reason" show-word-limit label="报备理由" />
-        <van-field readonly v-model="activityInfo.report_amount" show-word-limit label="活动金额" />
-        <van-field readonly name="uploader" label="报备图片">
+        <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
+          v-model="activityInfo.report_reason" show-word-limit label="报备理由" />
+        <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
+          v-model="activityInfo.report_amount" show-word-limit label="活动金额" />
+        <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
+          label="报备图片">
           <template #input>
             <van-uploader readonly :deletable="false" v-model="activityInfo.report_image" :after-read="afterRead" multiple
               :max-count="3" />
@@ -202,10 +205,11 @@
             block>通过</van-button>
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
-          <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 2" @click="btnClick(4)" round
-            block>报备</van-button>
-          <van-button type="primary" v-if="active == 2 && activityInfo.report_status == 1" @click="btnConfirm" round
-            block>确认</van-button>
+          <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 2 && !activityInfo.report_reason"
+            @click="btnClick(4)" round block>报备</van-button>
+          <van-button type="primary"
+            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1" @click="btnConfirm"
+            round block>确认</van-button>
         </div>
       </van-form>
     </div>
@@ -340,13 +344,25 @@ const afterRead = async (e) => {
   auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
 }
 
+const showText = (key) => {
+  switch (key) {
+    case 1:
+      return '待审核'
+    case 2:
+      return '审核通过'
+    case 3:
+      return '审核驳回'
+
+  }
+}
+
 onMounted(async () => {
   const data: any = (await getRecordsDetail({ id: router.currentRoute.value.query.id })).data
   activityInfo.value = data
 
   activityInfo.value.attachment ? activityInfo.value.attachment.forEach((itme, index) => {
     activityInfo.value.attachment[index] = { url: itme }
-  }): activityInfo.value.attachment = []
+  }) : activityInfo.value.attachment = []
 
   activityInfo.value.report_image ? activityInfo.value.report_image.forEach((itme, index) => {
     itme && (activityInfo.value.report_image[index] = { url: itme })
