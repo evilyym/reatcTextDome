@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { showLoadingToast, closeToast } from "vant";
 declare module "axios" {
   interface AxiosResponse<T = any> {
     code: number;
@@ -28,6 +28,14 @@ const request = axios.create({
 
 request.interceptors.request.use(
   (config) => {
+
+    showLoadingToast({
+      message: "加载中...",
+      duration: 0,
+      forbidClick: true,
+      loadingType: "spinner",
+    });
+
     const userCode = localStorage.getItem("userCode");
     config.headers["Authorization"] = userCode;
     const { data, params, method } = config;
@@ -51,6 +59,7 @@ request.interceptors.request.use(
 //响应拦截器
 request.interceptors.response.use(
   (response) => {
+    closeToast();
     //成功
     const { data } = response;
 
@@ -65,8 +74,18 @@ request.interceptors.response.use(
 //状态码处理
 const statusCodeHandle = (code: number, msg: string) => {
   switch (code) {
-    case 401:
-      location.href = "https://zjtie.goliveplus.cn";
+    case 12000401:
+      sessionStorage.removeItem("go");
+      let point_url = localStorage.getItem("point_url");
+      point_url = point_url.replace(/%3A%2F%2F/, "://");
+      location.replace(
+        `${point_url}/?redirect_url=${location.origin + location.pathname}${
+          location.search.indexOf("name=") > -1
+            ? "?name=" + location.search.split("name=")[1].split("&")[0]
+            : ""
+        }`
+      );
+      // location.href = "https://zjtie.goliveplus.cn";
       break;
     case 200:
       break;

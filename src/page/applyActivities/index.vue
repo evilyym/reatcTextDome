@@ -158,7 +158,6 @@
 import { ref, onMounted } from "vue";
 import { getActivityDetail, addActivity, upload } from "@/api/index"
 import { useRouter } from "vue-router";
-import { showSuccessToast, showFailToast } from 'vant';
 
 const router = useRouter()
 
@@ -193,12 +192,9 @@ const onSubmit = async () => {
   }
   const data = (await addActivity(query))
   if (data.code == 200) {
-    showSuccessToast(data.msg)
     setTimeout(() => {
       router.go(-1)
     }, 500);
-  } else {
-    showFailToast(data.msg);
   }
 }
 

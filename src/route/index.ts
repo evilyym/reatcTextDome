@@ -8,7 +8,7 @@ const routes = [
     component: () => import("@/page/applicationResults/index.vue"),
   },
   {
-    path: "/applicationResults:id",
+    path: "/applicationResults",
     name: "applicationResults",
     component: () => import("@/page/applicationResults/index.vue"),
   },
@@ -57,8 +57,6 @@ router.beforeEach(async (to:any, from, next) => {
   }
   if (to.query.point_url) localStorage.setItem("point_url", to.query.point_url)
 
-  sessionStorage.setItem('saas_wap_token', to.query.saas_wap_token)
-
   var ua = navigator.userAgent.toLowerCase();//获取判断用的对象
 
   if (to.query.saas_wap_token&&!sessionStorage.getItem('go')) {
@@ -71,7 +69,7 @@ router.beforeEach(async (to:any, from, next) => {
       if (res.code == 200) {
         localStorage.setItem("userCode", res.data.token)
         sessionStorage.setItem('go','1')
-        next('/applicationResults:1')
+        next('/applicationResults')
       }
     })
   }
