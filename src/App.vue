@@ -11,7 +11,7 @@ const $active = ref(parseInt(sessionStorage.getItem('$active')) || 0);
 provide('$active', $active)
 
 watch($active, (val) => {
-  sessionStorage.setItem('$active', val)
+  sessionStorage.setItem('$active', val+'')
 })
 
 </script>

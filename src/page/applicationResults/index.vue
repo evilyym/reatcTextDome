@@ -12,6 +12,21 @@
   background-color: #EDEDED;
   height: 100%;
 
+  .van-tabs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    :deep(.van-tabs__content) {
+      flex-grow: 1;
+      height: 0;
+
+      .van-tab__panel {
+        height: 100%;
+      }
+    }
+  }
+
   hr {
     font-size: 1px;
     border: none;
@@ -21,8 +36,14 @@
 
   .listBox {
     border-radius: 15px 15px 0 0;
-    overflow: hidden;
+    // overflow: auto;
     background-color: #fff;
+    height: 100%;
+
+    .van-dropdown-menu {
+      border-radius: 15px 15px 0 0;
+      overflow: hidden;
+    }
 
     .cirdBox {
       padding: 15px 15px 0;
@@ -100,15 +121,17 @@
       title-active-color="#111">
       <van-tab title="我服务的">
         <div class="listBox">
-          <div class="cirdBox" @click="initiateActivities(itme.id)" v-for="itme in ResultsList">
-            <h4>{{ itme.name }}</h4>
-            <p>
-              <span><van-icon name="user" />{{ itme.leader_name }} </span>
-              <span class="auditStatus"><van-icon name="phone" />{{ itme.leader_phone }} </span>
-            </p>
-            <div class="rightArrow"></div>
-            <hr>
-          </div>
+          <template v-for="itme in ResultsList">
+            <div class="cirdBox" @click="initiateActivities(itme.id)" v-if="itme.leader_phone">
+              <h4>{{ itme.name }}</h4>
+              <p>
+                <span><van-icon name="user" />{{ itme.leader_name }} </span>
+                <span class="auditStatus"><van-icon name="phone" />{{ itme.leader_phone }} </span>
+              </p>
+              <div class="rightArrow"></div>
+              <hr>
+            </div>
+          </template>
         </div>
       </van-tab>
       <van-tab title="我审核的">
@@ -199,7 +222,7 @@ import { ref, onMounted, watch, inject } from "vue";
 import { getRecordsList, getActivityList } from "@/api/index";
 
 const router = useRouter()
-const active = inject("$active");
+const active: any = inject("$active");
 
 const value1 = ref('');
 const value2 = ref('');
@@ -230,30 +253,22 @@ const ResultsDetailList = ref<any>({})
 let option: any[] = []
 const getList = async (val = 0) => {
   const query = { type: active.value, perPage: 10, id: value1.value, status: value2.value, report: value3.value }
-  switch (val) {
-    case 0:
-      ResultsList.value = []
-      ResultsList.value = (await getActivityList({ type: 1, perPage: query.perPage })).data.data
-      break;
-    default:
-      if (ResultsList.value.length == 0) {
-        ResultsList.value = (await getActivityList(query)).data.data
-        option = ResultsList.value
-      } else {
-        option = ResultsList.value
-      }
-      option.forEach((itme) => {
-        itme.text = itme.name
-        itme.value = itme.id
-      })
-      option.unshift({ text: '全部活动', value: '' })
-      option1.value = option;
-      ResultsDetailList.value = (await getRecordsList(query)).data.data
-      break;
+  if (ResultsList.value.length == 0 || val == 0) {
+    option = (await getActivityList(query)).data.data
+    option.forEach((itme) => {
+      itme.text = itme.name
+      itme.value = itme.id
+    })
+    option.unshift({ text: '全部活动', value: '' })
+  } else {
+    option = ResultsList.value
   }
+  option1.value = option;
+  ResultsList.value = option
+  ResultsDetailList.value = (await getRecordsList(query)).data.data
 }
 
-watch(active, (val) => {
+watch(active, (val: any) => {
   getList(val)
 })
 watch(value1, async () => {

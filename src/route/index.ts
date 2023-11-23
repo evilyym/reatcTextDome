@@ -3,10 +3,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import { getInfoApi } from "../api/index.ts";
 
 const routes = [
-  {
-    path: "/",
-    component: () => import("@/page/applicationResults/index.vue"),
-  },
+  // {
+  //   path: "/",
+  //   component: () => import("@/page/applicationResults/index.vue"),
+  // },
   {
     path: "/applicationResults",
     name: "applicationResults",
