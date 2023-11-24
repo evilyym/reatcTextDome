@@ -37,6 +37,8 @@ router.beforeEach(async (to: any, from, next) => {
   // https://dev-zjtie.goliveplus.cn/activitysupport_wap/?code=1vD1bw5q
 
   console.log(from);
+  debugger
+
   if (to.query.code) {
     // if (!localStorage.getItem("tenantCode")) {
     //   let point_url = localStorage.getItem('point_url');
@@ -51,7 +53,7 @@ router.beforeEach(async (to: any, from, next) => {
     location.replace(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?activitysupporCode=${to.query.code}`
+      }?activitysupporCode=${to.query.code}&actType=22222`
     );
   }
 
@@ -60,13 +62,14 @@ router.beforeEach(async (to: any, from, next) => {
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?
     // redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=3user_type=1&
     // point_url=https://dev-zjtie.goliveplus.cn/saas_wap/
+    const point_url =
+      to.query.point_url && "https://dev-zjtie.goliveplus.cn/saas_wap/";
     location.replace(
-      `${to.query.point_url}analysis?redirect_url=${
+      `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?id=${to.query.id}&userType=${to.query.user_type}&actCode=1111&userT=22222&actType=333`
+      }?id=${to.query.id}&userType=${to.query.user_type}&aaaCode=1111`
     );
   }
-
   if (to.query.tenantCode) {
     localStorage.setItem("tenantCode", to.query.tenantCode);
     sessionStorage.setItem("tenantCode", to.query.tenantCode);
