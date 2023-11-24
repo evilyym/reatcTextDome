@@ -40,11 +40,15 @@ router.beforeEach(async (to:any, from, next) => {
   console.log(from)
 
   if (to.query.code) {
-    if (!localStorage.getItem("tenantCode")) {
-      let point_url = localStorage.getItem('point_url');
-      point_url = point_url.replace(/%3A%2F%2F/, '://')
-      location.replace(`${point_url}/?redirect_url=${location.origin+location.pathname}${location.search.indexOf('name=')>-1?'?name='+location.search.split('name=')[1].split('&')[0]:''}`)
-    }
+    // if (!localStorage.getItem("tenantCode")) {
+    //   let point_url = localStorage.getItem('point_url');
+    //   point_url = point_url.replace(/%3A%2F%2F/, '://')
+    //   location.replace(`${point_url}/?redirect_url=${location.origin+location.pathname}${location.search.indexOf('name=')>-1?'?name='+location.search.split('name=')[1].split('&')[0]:''}`)
+    // }
+  }
+  if (to.query.userType) {
+    debugger
+    console.log(to)
   }
 
   if (to.query.tenantCode) {

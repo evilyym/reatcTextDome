@@ -7,6 +7,7 @@ declare module "axios" {
   }
   export function create(config?: AxiosRequestConfig): AxiosInstance;
 }
+import Vconsole from 'vconsole'
 
 let hostname = location.hostname;
 let configURL = { baseURL: "", saasURL: "" };
@@ -17,6 +18,7 @@ if (
 ) {
   configURL.baseURL = "https://dev-zjtie.goliveplus.cn/activitysupport_api"; //测试服
   configURL.saasURL = "https://dev-zjtie.goliveplus.cn"; //测试服
+  new Vconsole()
 } else {
   configURL.baseURL = "https://zjtie.goliveplus.cn/activitysupport_api"; //正式服
   configURL.saasURL = "https://zjtie.goliveplus.cn"; //正式服
