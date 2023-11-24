@@ -241,10 +241,11 @@ import { ref, onMounted, inject } from "vue";
 import { getRecordsDetail, setAudit, upload, setReport, setConfirm, setCancel } from "@/api/index"
 import { useRouter } from "vue-router";
 import { showConfirmDialog } from "vant";
-
-const active = inject("$active");
-
 const router = useRouter()
+
+
+const active = router.currentRoute.value.query.userType || inject("$active");
+
 const showBottom = ref(false)
 
 const onSubmit = async () => {
@@ -294,6 +295,8 @@ const btnConfirm = async () => {
     setTimeout(() => {
       router.go(-1)
     }, 500);
+  } else {
+
   }
 }
 
@@ -327,7 +330,7 @@ const btnText = ref({
   placeholder: ''
 })
 const auditInfo = ref({
-  report_image:[]
+  report_image: []
 })
 
 const btnClick = (status) => {
@@ -358,6 +361,7 @@ const btnClick = (status) => {
       btnText.value = {
         label: '报备',
         status: status,
+        placeholder: ''
       }
       break;
   }

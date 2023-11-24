@@ -233,6 +233,10 @@ import { ref, onMounted, watch, inject } from "vue";
 import { getRecordsList, getActivityList } from "@/api/index";
 
 const router = useRouter()
+
+
+const codeType = ref(router.currentRoute.value.query.code)
+
 const active: any = inject("$active");
 
 const value1 = ref('');
@@ -276,7 +280,7 @@ const getList = async (val = 0, blue = true) => {
       query.report = value3.value
       break;
   }
-  const activityQuery = { type: 1, perPage: 99, code: '' }
+  const activityQuery = { type: 1, perPage: 99, code: codeType.value }
   if (ResultsList.value.length == 0 || val == 0) {
     option = (await getActivityList(activityQuery)).data.data
     option.forEach((itme) => {

@@ -44,17 +44,23 @@ router.beforeEach(async (to: any, from, next) => {
     //   point_url = point_url.replace(/%3A%2F%2F/, '://')
     //   location.replace(`${point_url}/?redirect_url=${location.origin+location.pathname}${location.search.indexOf('name=')>-1?'?name='+location.search.split('name=')[1].split('&')[0]:''}`)
     // }
+    location.replace(
+      `${to.query.point_url}analysis?redirect_url=${
+        location.origin + location.pathname
+      }?code=${to.query.code}`
+    );
   }
+
   if (to.query.user_type) {
     console.log(to);
-
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?
     // redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=3user_type=1&
     // point_url=https://dev-zjtie.goliveplus.cn/saas_wap/
     location.replace(
-      `${to.query.point_url}analysis?redirect_url=${location.pathname}&id=${to.query.id}&userType=${to.query.user_type}`
+      `${to.query.point_url}analysis?redirect_url=${
+        location.origin + location.pathname
+      }?id=${to.query.id}&userType=${to.query.user_type}`
     );
-
   }
 
   if (to.query.tenantCode) {

@@ -207,6 +207,8 @@ const submit = async () => {
     setTimeout(() => {
       router.go(-1)
     }, 500);
+  }else{
+    showToast(data.msg)
   }
 }
 
