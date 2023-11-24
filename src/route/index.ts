@@ -45,14 +45,14 @@ router.beforeEach(async (to: any, from, next) => {
     // }
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=16&userType=1
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/?code=0JALIIiG
-    
-    const point_url=to.query.point_url&&'https://dev-zjtie.goliveplus.cn/saas_wap/'
+
+    const point_url =
+      to.query.point_url && "https://dev-zjtie.goliveplus.cn/saas_wap/";
     location.replace(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
       }?activitysupporCode=${to.query.code}`
     );
-    
   }
 
   if (to.query.user_type) {
@@ -63,7 +63,7 @@ router.beforeEach(async (to: any, from, next) => {
     location.replace(
       `${to.query.point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?id=${to.query.id}&userType=${to.query.user_type}`
+      }?id=${to.query.id}&userType=${to.query.user_type}&actCode=1111`
     );
   }
 
@@ -90,7 +90,6 @@ router.beforeEach(async (to: any, from, next) => {
       saasWapToken: to.query.saas_wap_token,
     };
     await getInfoApi(params).then((res) => {
-      // next('/applicationResults?1')
       if (res.code == 200) {
         localStorage.setItem("userCode", res.data.token);
         sessionStorage.setItem("go", "1");
