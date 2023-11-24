@@ -226,7 +226,7 @@
         <van-field required name="uploader" label="上传图片" v-if="btnText.status == 4"
           :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
-            <van-uploader v-model="auditInfo.report_image" preview-image="false" :after-read="afterRead" multiple
+            <van-uploader v-model="auditInfo.report_image" :preview-image="false" :after-read="afterRead" multiple
               :max-count="3" />
           </template>
         </van-field>
@@ -244,7 +244,7 @@ import { showConfirmDialog } from "vant";
 const router = useRouter()
 
 
-const active = router.currentRoute.value.query.userType || inject("$active");
+const active:any = router.currentRoute.value.query.userType || inject("$active");
 
 const showBottom = ref(false)
 
@@ -329,7 +329,7 @@ const btnText = ref({
   status: null,
   placeholder: ''
 })
-const auditInfo = ref({
+const auditInfo:{[name:string]:any} = ref({
   report_image: []
 })
 

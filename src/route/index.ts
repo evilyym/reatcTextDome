@@ -37,7 +37,6 @@ router.beforeEach(async (to: any, from, next) => {
   // https://dev-zjtie.goliveplus.cn/activitysupport_wap/?code=1vD1bw5q
 
   console.log(from);
-  debugger
 
   if (to.query.code) {
     // if (!localStorage.getItem("tenantCode")) {
@@ -49,7 +48,7 @@ router.beforeEach(async (to: any, from, next) => {
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/?code=0JALIIiG
 
     const point_url =
-      to.query.point_url && "https://dev-zjtie.goliveplus.cn/saas_wap/";
+      to.query.point_url || "https://dev-zjtie.goliveplus.cn/saas_wap/";
     location.replace(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
@@ -63,7 +62,7 @@ router.beforeEach(async (to: any, from, next) => {
     // redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=3user_type=1&
     // point_url=https://dev-zjtie.goliveplus.cn/saas_wap/
     const point_url =
-      to.query.point_url && "https://dev-zjtie.goliveplus.cn/saas_wap/";
+      to.query.point_url || "https://dev-zjtie.goliveplus.cn/saas_wap/";
     location.replace(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
