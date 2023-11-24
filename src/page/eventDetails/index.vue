@@ -238,8 +238,9 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, inject } from "vue";
-import { getRecordsDetail, setAudit, upload, setReport, setConfirm } from "@/api/index"
+import { getRecordsDetail, setAudit, upload, setReport, setConfirm, setCancel } from "@/api/index"
 import { useRouter } from "vue-router";
+import { showConfirmDialog } from "vant";
 
 const active = inject("$active");
 
@@ -287,7 +288,7 @@ const btnConfirm = async () => {
     id: router.currentRoute.value.query.id,
   }
 
-  const data = (await setConfirm(query)).data
+  const data = (await setConfirm(query))
 
   if (data.code == 200) {
     setTimeout(() => {
@@ -296,17 +297,48 @@ const btnConfirm = async () => {
   }
 }
 
+const btnCancel = () => {
+
+  showConfirmDialog({
+    message: '确定要撤销申请?',
+  }).then(() => {
+    cancel()
+  }).catch(() => {
+  });
+}
+
+const cancel = async () => {
+  const query = {
+    id: router.currentRoute.value.query.id,
+  }
+
+  const data = (await setCancel(query))
+
+  if (data.code == 200) {
+    setTimeout(() => {
+      router.go(-1)
+    }, 300);
+  }
+}
+
 const btnText = ref({
   label: '',
   status: null,
   placeholder: ''
 })
-const auditInfo = ref({})
+const auditInfo = ref({
+  report_image:[]
+})
 
 const btnClick = (status) => {
   showBottom.value = true
   // 同意驳回理由
   switch (status) {
+    case 1:
+      showBottom.value = false
+      btnCancel()
+      break;
+
     case 2:
       btnText.value = {
         label: '同意',

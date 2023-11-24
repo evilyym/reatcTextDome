@@ -132,6 +132,7 @@
               <hr>
             </div>
           </template>
+          <van-empty v-if="ResultsList.length == 0" description="暂无数据"></van-empty>
         </div>
       </van-tab>
       <van-tab title="我审核的">
@@ -141,23 +142,27 @@
             <van-dropdown-item v-model="value2" :options="option2" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-            <h4>{{ itme.activity?.name }} <span :class="{
-              blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
-            }">{{ showText(itme.audit_status) }}</span></h4>
-            <p>
-              <span> <van-icon name="user" />{{ itme.name }} </span>
-              <span class="auditStatus"><van-icon name="phone" />{{ itme.phone }} </span>
-            </p>
-            <p><van-icon name="friends" />{{ itme.department }} </p>
-            <p>
-              <van-icon name="underway" />{{ itme.created_at }}
-              <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
-                green: itme.report_status == 2, red: itme.report_status == 1
-              }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
-            </p>
-            <hr>
-          </div>
+          <van-list v-model:loading="loading" offset="15" :finished="finished"
+            :finished-text="ResultsDetailList.length > 0 && '没有更多了'" @load="onLoad">
+            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
+              <h4>{{ itme.activity?.name }} <span :class="{
+                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
+              }">{{ showText(itme.audit_status) }}</span></h4>
+              <p>
+                <span> <van-icon name="user" />{{ itme.name }} </span>
+                <span class="auditStatus"><van-icon name="phone" />{{ itme.phone }} </span>
+              </p>
+              <p><van-icon name="friends" />{{ itme.department }} </p>
+              <p>
+                <van-icon name="underway" />{{ itme.created_at }}
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
+                  green: itme.report_status == 2, red: itme.report_status == 1
+                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
+              </p>
+              <hr>
+            </div>
+            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
+          </van-list>
         </div>
       </van-tab>
       <van-tab title="我发出的">
@@ -167,23 +172,26 @@
             <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-            <h4>{{ itme.activity?.name }} <span :class="{
-              blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
-            }">{{ showText(itme.audit_status) }}</span></h4>
-            <p>
-              <span> <van-icon name="user" />{{ itme.name }} </span>
-              <span class="auditStatus"><van-icon name="phone" />{{ itme.phone }} </span>
-            </p>
-            <p><van-icon name="friends" />{{ itme.department }} </p>
-            <p>
-              <van-icon name="underway" />{{ itme.created_at }}
-              <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
-                green: itme.report_status == 2, red: itme.report_status == 1
-              }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
-            </p>
-            <hr>
-          </div>
+          <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
+              <h4>{{ itme.activity?.name }} <span :class="{
+                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
+              }">{{ showText(itme.audit_status) }}</span></h4>
+              <p>
+                <span> <van-icon name="user" />{{ itme.name }} </span>
+                <span class="auditStatus"><van-icon name="phone" />{{ itme.phone }} </span>
+              </p>
+              <p><van-icon name="friends" />{{ itme.department }} </p>
+              <p>
+                <van-icon name="underway" />{{ itme.created_at }}
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
+                  green: itme.report_status == 2, red: itme.report_status == 1
+                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
+              </p>
+              <hr>
+            </div>
+            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
+          </van-list>
         </div>
       </van-tab>
       <van-tab title="我报备的">
@@ -193,23 +201,26 @@
             <van-dropdown-item v-model="value3" :options="option3" />
           </van-dropdown-menu>
           <hr>
-          <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-            <h4>{{ itme.activity?.name }} <span :class="{
-              blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
-            }">{{ showText(itme.audit_status) }}</span></h4>
-            <p>
-              <span> <van-icon name="user" />{{ itme.name }} </span>
-              <span class="auditStatus"><van-icon name="phone" />{{ itme.phone }} </span>
-            </p>
-            <p><van-icon name="friends" />{{ itme.department }} </p>
-            <p>
-              <van-icon name="underway" />{{ itme.created_at }}
-              <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
-                green: itme.report_status == 2, red: itme.report_status == 1
-              }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
-            </p>
-            <hr>
-          </div>
+          <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
+              <h4>{{ itme.activity?.name }} <span :class="{
+                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
+              }">{{ showText(itme.audit_status) }}</span></h4>
+              <p>
+                <span> <van-icon name="user" />{{ itme.name }} </span>
+                <span class="auditStatus"><van-icon name="phone" />{{ itme.phone }} </span>
+              </p>
+              <p><van-icon name="friends" />{{ itme.department }} </p>
+              <p>
+                <van-icon name="underway" />{{ itme.created_at }}
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
+                  green: itme.report_status == 2, red: itme.report_status == 1
+                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
+              </p>
+              <hr>
+            </div>
+            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
+          </van-list>
         </div>
       </van-tab>
     </van-tabs>
@@ -249,12 +260,25 @@ const eventCheckDetails = (id) => {
 }
 
 const ResultsList = ref<any>([])
-const ResultsDetailList = ref<any>({})
+const ResultsDetailList = ref<any>([])
 let option: any[] = []
-const getList = async (val = 0) => {
-  const query = { type: active.value, perPage: 10, id: value1.value, status: value2.value, report: value3.value }
+const toPage = ref(0);
+
+const getList = async (val = 0, blue = true) => {
+  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, }
+  switch (active.value) {
+    case 1:
+    case 2:
+      query.status = value2.value
+      break;
+
+    case 3:
+      query.report = value3.value
+      break;
+  }
+  const activityQuery = { type: 1, perPage: 99, code: '' }
   if (ResultsList.value.length == 0 || val == 0) {
-    option = (await getActivityList(query)).data.data
+    option = (await getActivityList(activityQuery)).data.data
     option.forEach((itme) => {
       itme.text = itme.name
       itme.value = itme.id
@@ -264,23 +288,38 @@ const getList = async (val = 0) => {
     option = ResultsList.value
   }
   option1.value = option;
-  ResultsList.value = option
-  ResultsDetailList.value = (await getRecordsList(query)).data.data
+  ResultsList.value = option;
+  if (blue) {
+    (active.value > 0) && (ResultsDetailList.value = (await getRecordsList(query)).data.data)
+  }
 }
 
 watch(active, (val: any) => {
+  toPage.value = 0;
+  loading.value = false;
+  finished.value = false;
   getList(val)
 })
 watch(value1, async () => {
-  const query = { type: active.value, perPage: 10, id: value1.value, status: value2.value, report: value3.value }
+  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, }
+  switch (active.value) {
+    case 1:
+    case 2:
+      query.status = value2.value
+      break;
+
+    case 3:
+      query.report = value3.value
+      break;
+  }
   ResultsDetailList.value = (await getRecordsList(query)).data.data
 })
 watch(value2, async () => {
-  const query = { type: active.value, perPage: 10, id: value1.value, status: value2.value }
+  const query = { type: active.value, perPage: 5, id: value1.value, status: value2.value }
   ResultsDetailList.value = (await getRecordsList(query)).data.data
 })
 watch(value3, async () => {
-  const query = { type: active.value, perPage: 10, id: value1.value, report: value3.value }
+  const query = { type: active.value, perPage: 5, id: value1.value, report: value3.value }
   ResultsDetailList.value = (await getRecordsList(query)).data.data
 })
 
@@ -294,7 +333,41 @@ const showText = (key) => {
       return '审核驳回'
   }
 }
+const loading = ref(false);
+const finished = ref(false);
+
+const onLoad = async () => {
+  toPage.value++
+  const query = {
+    type: active.value, perPage: 5, page: toPage.value, id: value1.value,
+  };
+  switch (active.value) {
+    case 1:
+    case 2:
+      query.status = value2.value
+      break;
+
+    case 3:
+      query.report = value3.value
+      break;
+  }
+  const data = (await getRecordsList(query)).data;
+  console.log(ResultsDetailList.value);
+  if (toPage.value > 1) {
+    ResultsDetailList.value = ResultsDetailList.value.concat(data.data)
+  } else {
+    ResultsDetailList.value = (data.data)
+  }
+  loading.value = false;
+  if (data.last_page <= toPage.value) {
+    finished.value = true;
+  }
+};
+
 onMounted(() => {
-  getList(active.value)
+  toPage.value = 0;
+  loading.value = false;
+  finished.value = false;
+  getList(active.value, false)
 })
 </script>

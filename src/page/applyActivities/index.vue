@@ -70,17 +70,19 @@
   }
 }
 
+
 .van-swipe-cell__right {
+  top: 5px;
   width: 60px;
-  height: 44px;
+  height: 32px;
   background: #FF3141;
   font-size: 15px;
   font-family: PingFangSC, PingFang SC;
   font-weight: 500;
   color: #FFFFFF;
-  line-height: 44px;
+  line-height: 33px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 </style>
 <template>
@@ -99,32 +101,31 @@
       </van-form>
       <van-form @submit="onSubmit" label-align="top">
         <h5>选择申请材料</h5>
-        <van-swipe-cell right-width="60">
-          <div v-for="(item) in materialArr">
-            <van-field name="switch" :label="item.name" label-align="left" input-align="right">
-              <template #input>
-                <van-stepper v-model="item.addNumber" />
-              </template>
-            </van-field>
-            <view slot="right" class="van-swipe-cell__right">删除</view>
-          </div>
+        <van-swipe-cell right-width="60" v-for="(item) in materialArr">
+          <van-field :label="item.name" label-align="left" input-align="right">
+            <template #input>
+              <van-stepper v-model="item.addNumber" />
+            </template>
+          </van-field>
+          <view slot="right" class="van-swipe-cell__right" @click="delMateria(item.index)">删除</view>
         </van-swipe-cell>
 
-        <van-field is-link readonly name="picker" label="" placeholder="点击新增材料" @click="showPicker = true" />
+        <van-field is-link readonly name="picker" label="" placeholder="点击新增材料"
+          @click="(activitiesInfo.length > 0) ? (showPicker = true) : (showToast('没有可用材料'))" />
 
         <van-popup v-model:show="showPicker" closeable position="bottom" class="dialog">
           <h4>材料选择</h4>
           <van-checkbox-group v-model="materialArr">
             <van-cell-group inset>
               <van-cell v-for="(item, index) in activitiesInfo" clickable :key="item" :title="`${item.name}`"
-                @click="toggle(index)">
+                :dataSet="item.index = index" @click="toggle(index)">
                 <template #right-icon>
                   <van-checkbox :name="item" :ref="el => checkboxRefs[index] = el" @click.stop />
                 </template>
               </van-cell>
             </van-cell-group>
           </van-checkbox-group>
-          <van-button type="primary" round block>确定</van-button>
+          <van-button type="primary" round block @click="showPicker = false">确定</van-button>
         </van-popup>
         <h5>使用信息</h5>
         <van-field required v-model="formData.usage_location" name="" label="使用地点" placeholder="请输入地址"
@@ -158,6 +159,7 @@
 import { ref, onMounted } from "vue";
 import { getActivityDetail, addActivity, upload } from "@/api/index"
 import { useRouter } from "vue-router";
+import { showToast, showConfirmDialog  } from 'vant';
 
 const router = useRouter()
 
@@ -171,7 +173,17 @@ const toggle = (index) => {
 const showPicker = ref(false)
 const formData = ref<any>({
 })
-const onSubmit = async () => {
+const onSubmit = () => {
+
+  showConfirmDialog ({
+    message: '确定要提交申请?',
+  }).then(() => {
+    submit()
+  }).catch(() => {
+  });
+}
+
+const submit = async () => {
   let materialsArr = []
   materialArr.value.forEach(itme => {
     materialsArr.push({
@@ -217,16 +229,18 @@ const onConfirm = (values) => {
 
 const afterRead = async (e) => {
   let file = e.file
-  /* eslint-disable no-undef */
-  let param = new FormData()  // 创建form对象
-  param.append('file', file, file.name)  // 通过append向form对象添加数据
-  param.append('type', '2') // 添加form表单中其他数据
+  let param = new FormData()
+  param.append('file', file, file.name)
+  param.append('type', '2')
   const data = await upload(param)
   formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
 }
 
-onMounted(async () => {
+const delMateria = (index) => {
+  checkboxRefs.value[index].toggle();
+}
 
+onMounted(async () => {
   const data = (await getActivityDetail({ id: router.currentRoute.value.query.id })).data
   userInfo.value = data.user_info
   activityInfo.value = data.activity
