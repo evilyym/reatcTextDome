@@ -234,8 +234,7 @@ import { getRecordsList, getActivityList } from "@/api/index";
 
 const router = useRouter()
 
-
-const codeType = ref(router.currentRoute.value.query.code)
+const codeType = router.currentRoute.value.query.activitysupporCode
 
 const active: any = inject("$active");
 
@@ -269,7 +268,7 @@ let option: any[] = []
 const toPage = ref(0);
 
 const getList = async (val = 0, blue = true) => {
-  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, }
+  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, status: '', report: '' }
   switch (active.value) {
     case 1:
     case 2:
@@ -280,7 +279,7 @@ const getList = async (val = 0, blue = true) => {
       query.report = value3.value
       break;
   }
-  const activityQuery = { type: 1, perPage: 99, code: codeType.value }
+  const activityQuery = { type: 1, perPage: 99, code: codeType }
   if (ResultsList.value.length == 0 || val == 0) {
     option = (await getActivityList(activityQuery)).data.data
     option.forEach((itme) => {
@@ -305,7 +304,7 @@ watch(active, (val: any) => {
   getList(val)
 })
 watch(value1, async () => {
-  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, }
+  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, status: '', report: '' }
   switch (active.value) {
     case 1:
     case 2:
@@ -343,7 +342,7 @@ const finished = ref(false);
 const onLoad = async () => {
   toPage.value++
   const query = {
-    type: active.value, perPage: 5, page: toPage.value, id: value1.value,
+    type: active.value, perPage: 5, page: toPage.value, id: value1.value, status: '', report: ''
   };
   switch (active.value) {
     case 1:
@@ -369,6 +368,8 @@ const onLoad = async () => {
 };
 
 onMounted(() => {
+  console.log(codeType);
+
   toPage.value = 0;
   loading.value = false;
   finished.value = false;

@@ -37,18 +37,22 @@ router.beforeEach(async (to: any, from, next) => {
   // https://dev-zjtie.goliveplus.cn/activitysupport_wap/?code=1vD1bw5q
 
   console.log(from);
-
   if (to.query.code) {
     // if (!localStorage.getItem("tenantCode")) {
     //   let point_url = localStorage.getItem('point_url');
     //   point_url = point_url.replace(/%3A%2F%2F/, '://')
     //   location.replace(`${point_url}/?redirect_url=${location.origin+location.pathname}${location.search.indexOf('name=')>-1?'?name='+location.search.split('name=')[1].split('&')[0]:''}`)
     // }
+    // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=16&userType=1
+    // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/?code=0JALIIiG
+    
+    const point_url=to.query.point_url&&'https://dev-zjtie.goliveplus.cn/saas_wap/'
     location.replace(
-      `${to.query.point_url}analysis?redirect_url=${
+      `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?code=${to.query.code}`
+      }?activitysupporCode=${to.query.code}`
     );
+    
   }
 
   if (to.query.user_type) {
