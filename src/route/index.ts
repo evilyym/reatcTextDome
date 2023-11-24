@@ -63,7 +63,7 @@ router.beforeEach(async (to: any, from, next) => {
     location.replace(
       `${to.query.point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?id=${to.query.id}&userType=${to.query.user_type}&actCode=1111`
+      }?id=${to.query.id}&userType=${to.query.user_type}&actCode=1111&userT=22222&actType=333`
     );
   }
 
