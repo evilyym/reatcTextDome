@@ -170,7 +170,7 @@
 
         <van-field readonly label="使用时间" placeholder="请选择使用时间" :rules="[{ required: true, message: '请选择使用时间' }]">
           <template #input>
-            {{ activityInfo.usage_start_time }} 至 {{ activityInfo.usage_start_time }}
+            {{ activityInfo.usage_start_time }} 至 {{ activityInfo.usage_end_time }}
           </template>
         </van-field>
 
