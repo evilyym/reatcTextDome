@@ -220,9 +220,10 @@
           maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder" />
 
         <van-field required v-model="auditInfo.report_reason" v-if="btnText.status == 4" autosize type="textarea" rows="3"
-          maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由" />
-        <van-field required v-model="auditInfo.report_amount" v-if="btnText.status == 4" show-word-limit label="报备金额"
-          placeholder="请输入报备金额" />
+          maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由" 
+          :rules="[{ required: true, message: '请输入报备理由' }]"/>
+        <van-field required v-model="auditInfo.report_amount" type="number" v-if="btnText.status == 4" show-word-limit label="报备金额"
+          placeholder="请输入报备金额" :rules="[{ required: true, message: '请输入报备金额' }]" />
         <van-field required name="uploader" label="上传图片" v-if="btnText.status == 4"
           :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
@@ -330,7 +331,7 @@ const btnText = ref({
   placeholder: ''
 })
 const auditInfo: { [name: string]: any } = ref({
-  report_image: [{url:'111'},{url:'111'}]
+  report_image: []
 })
 
 const btnClick = (status) => {
