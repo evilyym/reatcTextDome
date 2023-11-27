@@ -13,7 +13,7 @@ const $active = ref(parseInt(sessionStorage.getItem('$active')) || 0);
 provide('$active', $active)
 
 watch($active, (val) => {
-  sessionStorage.setItem('$active', val+'')
+  sessionStorage.setItem('$active', val + '')
 })
 
 </script>
@@ -46,5 +46,10 @@ body,
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+</style>
+<style lang="scss">
+:root {
+  --nut-primary-color: #1e80ff;
 }
 </style>

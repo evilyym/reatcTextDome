@@ -57,7 +57,6 @@ router.beforeEach(async (to: any, from, next) => {
   }
 
   if (to.query.user_type) {
-    console.log(to);
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?
     // redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=3user_type=1&
     // point_url=https://dev-zjtie.goliveplus.cn/saas_wap/
@@ -116,11 +115,11 @@ router.beforeEach(async (to: any, from, next) => {
   }
   // */
 
-  // if (location.hostname.indexOf('localhost') > -1||location.hostname.indexOf('127.0.0') > -1) {
-  //   to.path=='/' && next({path:'/applicationResults',query:''})
-  //   localStorage.setItem("userCode", 'ougEN0r1ShXEYLgmHnNKzxflgD48')
-  //   localStorage.setItem("tenantCode", 'S10296')
-  // }
+  if (location.hostname.indexOf('localhost') > -1||location.hostname.indexOf('127.0.0') > -1) {
+    to.path=='/' && next('/applicationResults')
+    localStorage.setItem("userCode", 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMTA0OTkwOCwiZXhwIjoxNzAxMDY3OTA4LCJuYmYiOjE3MDEwNDk5MDgsImp0aSI6Im9xb3dEWHhZZW9pSU1EY2QiLCJzdWIiOiIyIiwicHJ2IjoiNDFkZjg4MzRmMWI5OGY3MGVmYTYwYWFlZGVmNDIzNDEzNzAwNjkwYyJ9.rxTQBGsqa-w2skDeL-NKG1Gx1mjnGeDO7xXl3tS8on0')
+    localStorage.setItem("tenantCode", 'S10296')
+  }
   next();
 });
 export default router;

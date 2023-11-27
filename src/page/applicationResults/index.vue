@@ -368,8 +368,6 @@ const onLoad = async () => {
 };
 
 onMounted(() => {
-  console.log(codeType);
-
   toPage.value = 0;
   loading.value = false;
   finished.value = false;
