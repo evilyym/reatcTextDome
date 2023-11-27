@@ -1,5 +1,5 @@
 import axios from "axios";
-import { showLoadingToast, closeToast } from "vant";
+import { showLoadingToast, closeToast, showFailToast } from "vant";
 declare module "axios" {
   interface AxiosResponse<T = any> {
     code: number;
@@ -92,6 +92,7 @@ const statusCodeHandle = (code: number, msg: string) => {
     case 200:
       break;
     default:
+      showFailToast(msg);
       console.error(msg);
       break;
   }

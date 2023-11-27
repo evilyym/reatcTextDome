@@ -208,12 +208,12 @@
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 2 && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
-            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1" @click="btnConfirm"
-            round block>确认</van-button>
+            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
+            @click="btnConfirm" round block>确认</van-button>
         </div>
       </van-form>
     </div>
-    <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable :style="{ height: '40%' }">
+    <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable :style="{ height: '70%' }">
       <h4>{{ btnText.label }}</h4>
       <van-form label-align="top" @submit="onSubmit">
         <van-field required v-model="auditInfo.reason" v-if="btnText.status != 4" autosize type="textarea" rows="3"
@@ -226,7 +226,7 @@
         <van-field required name="uploader" label="上传图片" v-if="btnText.status == 4"
           :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
-            <van-uploader v-model="auditInfo.report_image" :preview-image="false" :after-read="afterRead" multiple
+            <van-uploader v-model="auditInfo.report_image" :after-read="afterRead" multiple
               :max-count="3" />
           </template>
         </van-field>
@@ -244,7 +244,7 @@ import { showConfirmDialog } from "vant";
 const router = useRouter()
 
 
-const active:any = router.currentRoute.value.query.userType || inject("$active");
+const active: any = router.currentRoute.value.query.userType || inject("$active");
 
 const showBottom = ref(false)
 
@@ -329,8 +329,8 @@ const btnText = ref({
   status: null,
   placeholder: ''
 })
-const auditInfo:{[name:string]:any} = ref({
-  report_image: []
+const auditInfo: { [name: string]: any } = ref({
+  report_image: [{url:'111'},{url:'111'}]
 })
 
 const btnClick = (status) => {

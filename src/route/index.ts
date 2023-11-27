@@ -117,9 +117,12 @@ router.beforeEach(async (to: any, from, next) => {
 
   if (location.hostname.indexOf('localhost') > -1||location.hostname.indexOf('127.0.0') > -1) {
     to.path=='/' && next('/applicationResults')
-    localStorage.setItem("userCode", 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMTA0OTkwOCwiZXhwIjoxNzAxMDY3OTA4LCJuYmYiOjE3MDEwNDk5MDgsImp0aSI6Im9xb3dEWHhZZW9pSU1EY2QiLCJzdWIiOiIyIiwicHJ2IjoiNDFkZjg4MzRmMWI5OGY3MGVmYTYwYWFlZGVmNDIzNDEzNzAwNjkwYyJ9.rxTQBGsqa-w2skDeL-NKG1Gx1mjnGeDO7xXl3tS8on0')
+    localStorage.setItem("userCode", `
+    bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMTA2NjA2OCwiZXhwIjoxNzAxMDg0MDY4LCJuYmYiOjE3MDEwNjYwNjgsImp0aSI6ImxOdDJaMFVWYkJCQTREMW4iLCJzdWIiOiIyIiwicHJ2IjoiNDFkZjg4MzRmMWI5OGY3MGVmYTYwYWFlZGVmNDIzNDEzNzAwNjkwYyJ9.KbYCgupqnVkMWJ0Yn9QQYyL9ouK4otEjWamI9k2TbF0
+    `)
     localStorage.setItem("tenantCode", 'S10296')
   }
+
   next();
 });
 export default router;
