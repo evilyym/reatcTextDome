@@ -213,22 +213,23 @@
         </div>
       </van-form>
     </div>
-    <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable :style="{ height: '70%' }">
+    <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable
+      :style="{ height: btnText.height }">
       <h4>{{ btnText.label }}</h4>
       <van-form label-align="top" @submit="onSubmit">
         <van-field required v-model="auditInfo.reason" v-if="btnText.status != 4" autosize type="textarea" rows="3"
-          maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder" />
+          maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder"
+          :rules="[{ required: true, message: '理由必须输入'}]" />
 
         <van-field required v-model="auditInfo.report_reason" v-if="btnText.status == 4" autosize type="textarea" rows="3"
-          maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由" 
-          :rules="[{ required: true, message: '请输入报备理由' }]"/>
-        <van-field required v-model="auditInfo.report_amount" type="number" v-if="btnText.status == 4" show-word-limit label="报备金额"
-          placeholder="请输入报备金额" :rules="[{ required: true, message: '请输入报备金额' }]" />
+          maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由"
+          :rules="[{ required: true, message: '请输入报备理由' }]" />
+        <van-field required v-model="auditInfo.report_amount" type="number" v-if="btnText.status == 4" show-word-limit
+          label="报备金额" placeholder="请输入报备金额" :rules="[{ required: true, message: '请输入报备金额' }]" />
         <van-field required name="uploader" label="上传图片" v-if="btnText.status == 4"
           :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
-            <van-uploader v-model="auditInfo.report_image" :after-read="afterRead" multiple
-              :max-count="3" />
+            <van-uploader v-model="auditInfo.report_image" :after-read="afterRead" multiple :max-count="3" />
           </template>
         </van-field>
         <van-button type="primary" round block native-type="submit">确定</van-button>
@@ -328,7 +329,8 @@ const cancel = async () => {
 const btnText = ref({
   label: '',
   status: null,
-  placeholder: ''
+  placeholder: '',
+  height: '40%',
 })
 const auditInfo: { [name: string]: any } = ref({
   report_image: []
@@ -347,7 +349,8 @@ const btnClick = (status) => {
       btnText.value = {
         label: '同意',
         status: status,
-        placeholder: '同意理由'
+        placeholder: '同意理由',
+        height: '40%',
       }
       break;
 
@@ -355,14 +358,16 @@ const btnClick = (status) => {
       btnText.value = {
         label: '驳回',
         status: status,
-        placeholder: '驳回理由'
+        placeholder: '驳回理由',
+        height: '40%',
       }
       break;
     case 4:
       btnText.value = {
         label: '报备',
         status: status,
-        placeholder: ''
+        placeholder: '',
+        height: '70%',
       }
       break;
   }
