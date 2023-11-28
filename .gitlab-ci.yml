@@ -1,0 +1,38 @@
+stages:
+  - develop
+  - master
+  - sonarqube-check
+
+variables:
+  GIT_CLEAN_FLAGS: none
+
+master:
+  stage: master
+  only:
+    - master
+  tags:
+    - zjjhq
+  script:
+    - if [ ! -d "/home/wwwroot/$CI_PROJECT_NAME" ];then ln -s $CI_PROJECT_DIR /home/wwwroot; echo "目录已创建！"; else echo "目录已存在！";fi
+  environment:
+    name: production
+  when: manual
+
+sonarqube-check:
+  stage: sonarqube-check
+  tags:
+    - sonarqube-check
+  script: 
+    - sonar-scanner -Dsonar.projectKey=zjtie_zjtie_activitysupport_wap_AYwU_D8H3Iv7fQhy86OH
+  allow_failure: true
+  only:
+    - develop
+
+develop:
+  stage: develop 
+  only:
+    - develop
+  tags:
+    - golive-test
+  script:
+    - if [ ! -d "/home/wwwroot/$CI_PROJECT_NAME" ];then ln -s $CI_PROJECT_DIR /home/wwwroot; echo "目录已创建！"; else echo "目录已存在！";fi
