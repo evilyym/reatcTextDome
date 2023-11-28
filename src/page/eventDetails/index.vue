@@ -281,7 +281,7 @@ const onSubmit = async () => {
   showBottom.value = false
   if (data.code == 200) {
     setTimeout(() => {
-      router.go(-1)
+      router.go(router.currentRoute.value.query.userType? 0 : -1)
     }, 500);
   }
 }
@@ -295,10 +295,8 @@ const btnConfirm = async () => {
 
   if (data.code == 200) {
     setTimeout(() => {
-      router.go(-1)
+      router.go(router.currentRoute.value.query.userType? 0 : -1)
     }, 500);
-  } else {
-
   }
 }
 
