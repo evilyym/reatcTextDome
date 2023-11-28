@@ -1,9 +1,22 @@
 stages:
   - v3Dev
+  - master
   - sonarqube-check
 
 variables:
   GIT_CLEAN_FLAGS: none
+
+master:
+  stage: master
+  only:
+    - master
+  tags:
+    - zjjhq
+  script:
+    - if [ ! -d "/home/wwwroot/$CI_PROJECT_NAME" ];then ln -s $CI_PROJECT_DIR /home/wwwroot; echo "目录已创建！"; else echo "目录已存在！";fi
+  environment:
+    name: production
+  when: manual
 
 develop:
   stage: v3Dev
