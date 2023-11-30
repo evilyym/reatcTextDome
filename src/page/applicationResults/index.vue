@@ -194,7 +194,7 @@
           </van-list>
         </div>
       </van-tab>
-      <van-tab title="我报备的">
+      <van-tab title="我的报备">
         <div class="listBox">
           <van-dropdown-menu>
             <van-dropdown-item v-model="value1" :options="option1" />

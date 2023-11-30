@@ -11,8 +11,8 @@ if (
   configURL.saasURL = "https://dev-zjtie.goliveplus.cn/saas_wap/"; //测试服
   new Vconsole()
 } else {
-  configURL.baseURL = "https://zjtie.goliveplus.cn/activitysupport_api"; //正式服
-  configURL.saasURL = "https://zjtie.goliveplus.cn/saas_wap/"; //正式服
+  configURL.baseURL = "https://zhhq-zjtie-edu-cn-s.zjtie.edu.cn:443/activitysupport_api"; //正式服
+  configURL.saasURL = "https://zhhq-zjtie-edu-cn-s.zjtie.edu.cn:443"; //正式服
 }
 
 export default configURL;

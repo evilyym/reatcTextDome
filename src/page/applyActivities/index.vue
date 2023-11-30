@@ -142,6 +142,7 @@
 
         <van-field required name="uploader" label="文件上传" :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
+            <!-- :max-size="30 * 1024* 1024"  @oversize="onOversize" -->
             <van-uploader v-model="formData.usage_images" :after-read="afterRead" multiple :max-count="3" />
           </template>
         </van-field>
@@ -182,6 +183,9 @@ const toggle = (index) => {
   checkboxRefs.value[index].toggle();
 };
 
+// const onOversize = () => {
+//   showToast('文件大小不能超过 30 MB');
+// };
 
 const showPicker = ref(false)
 const formData = ref<any>({

@@ -174,7 +174,7 @@
           </template>
         </van-field>
 
-        <van-field readonly autosize type="textarea" rows="2" maxlength="100" show-word-limit
+        <van-field readonly autosize type="textarea" rows="2" maxlength="100"
           v-model="activityInfo.usage_reason" name="" label="使用原因" placeholder="请输入使用原因"
           :rules="[{ required: true, message: '请输入使用原因' }]" />
 
@@ -185,12 +185,12 @@
           </template>
         </van-field>
         <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="2" maxlength="144"
-          show-word-limit label="备注" placeholder="备注" />
+          label="备注" placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_reason" show-word-limit label="报备理由" />
+          v-model="activityInfo.report_reason" label="报备理由" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_amount" show-word-limit label="活动金额" />
+          v-model="activityInfo.report_amount" label="活动金额" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
           label="报备图片">
           <template #input>
