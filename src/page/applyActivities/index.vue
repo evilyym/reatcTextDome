@@ -269,13 +269,13 @@ const confirm = ({ selectedValue }: { selectedValue: any }) => {
 
 const afterRead = async (e) => {
   if (e instanceof Array) {
-    for (const iterator of e) {
-      let file = iterator.file
+    for (let index = 0; index < e.length; index++) {
+      let file = e[index].file
       let param = new FormData()
       param.append('file', file, file.name)
       param.append('type', '2')
       const data = await upload(param)
-      formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+      formData.value.usage_images[index].url = data.data.url;
     }
   } else {
     let file = e.file
