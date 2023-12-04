@@ -268,12 +268,23 @@ const confirm = ({ selectedValue }: { selectedValue: any }) => {
 };
 
 const afterRead = async (e) => {
-  let file = e.file
-  let param = new FormData()
-  param.append('file', file, file.name)
-  param.append('type', '2')
-  const data = await upload(param)
-  formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+  if (e instanceof Array) {
+    for (const iterator of e) {
+      let file = iterator.file
+      let param = new FormData()
+      param.append('file', file, file.name)
+      param.append('type', '2')
+      const data = await upload(param)
+      formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+    }
+  } else {
+    let file = e.file
+    let param = new FormData()
+    param.append('file', file, file.name)
+    param.append('type', '2')
+    const data = await upload(param)
+    formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+  }
 }
 
 const delMateria = (index) => {
