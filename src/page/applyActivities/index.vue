@@ -205,7 +205,9 @@ const submit = async () => {
   materialArr.value.forEach(itme => {
     materialsArr.push({
       "id": itme.id,
-      "number": itme.addNumber
+      "number": itme.addNumber,
+      "unit": itme.unit,
+      "name": itme.name,
     })
   })
   const usage_imagesArr = ref([])
