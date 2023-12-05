@@ -145,7 +145,7 @@
           <van-list v-model:loading="loading" offset="15" :finished="finished"
             :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity?.name }} <span :class="{
+              <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
@@ -174,7 +174,7 @@
           <hr>
           <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity?.name }} <span :class="{
+              <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
@@ -203,7 +203,7 @@
           <hr>
           <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity?.name }} <span :class="{
+              <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>

@@ -174,9 +174,8 @@
           </template>
         </van-field>
 
-        <van-field readonly autosize type="textarea" rows="2" maxlength="100"
-          v-model="activityInfo.usage_reason" name="" label="使用原因" placeholder="请输入使用原因"
-          :rules="[{ required: true, message: '请输入使用原因' }]" />
+        <van-field readonly autosize type="textarea" rows="2" maxlength="100" v-model="activityInfo.usage_reason" name=""
+          label="使用原因" placeholder="请输入使用原因" :rules="[{ required: true, message: '请输入使用原因' }]" />
 
         <van-field readonly name="uploader" label="上传图片">
           <template #input>
@@ -184,8 +183,8 @@
               :max-count="3" />
           </template>
         </van-field>
-        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="2" maxlength="144"
-          label="备注" placeholder="备注" />
+        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="2" maxlength="144" label="备注"
+          placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
           v-model="activityInfo.report_reason" label="报备理由" />
@@ -205,7 +204,8 @@
             block>通过</van-button>
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
-          <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.activity.reporter_phone && !activityInfo.report_reason"
+          <van-button type="primary"
+            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.activity.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
             v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
@@ -219,7 +219,7 @@
       <van-form label-align="top" @submit="onSubmit">
         <van-field required v-model="auditInfo.reason" v-if="btnText.status != 4" autosize type="textarea" rows="3"
           maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder"
-          :rules="[{ required: true, message: '理由必须输入'}]" />
+          :rules="[{ required: true, message: '理由必须输入' }]" />
 
         <van-field required v-model="auditInfo.report_reason" v-if="btnText.status == 4" autosize type="textarea" rows="3"
           maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由"
@@ -281,7 +281,7 @@ const onSubmit = async () => {
   showBottom.value = false
   if (data.code == 200) {
     setTimeout(() => {
-      router.go(router.currentRoute.value.query.userType? 0 : -1)
+      router.go(router.currentRoute.value.query.userType ? 0 : -1)
     }, 500);
   }
 }
@@ -295,7 +295,7 @@ const btnConfirm = async () => {
 
   if (data.code == 200) {
     setTimeout(() => {
-      router.go(router.currentRoute.value.query.userType? 0 : -1)
+      router.go(router.currentRoute.value.query.userType ? 0 : -1)
     }, 500);
   }
 }
@@ -376,12 +376,23 @@ const activityInfo = ref<any>({
 })
 
 const afterRead = async (e) => {
-  let file = e.file
-  let param = new FormData()
-  param.append('file', file, file.name)
-  param.append('type', '2')
-  const data = await upload(param)
-  auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
+  if (e instanceof Array) {
+    for (let index = 0; index < e.length; index++) {
+      let file = e[index].file
+      let param = new FormData()
+      param.append('file', file, file.name)
+      param.append('type', '2')
+      const data = await upload(param)
+      auditInfo.value.usage_images[index].url = data.data.url;
+    }
+  } else {
+    let file = e.file
+    let param = new FormData()
+    param.append('file', file, file.name)
+    param.append('type', '2')
+    const data = await upload(param)
+    auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
+  }
 }
 
 const showText = (key) => {
