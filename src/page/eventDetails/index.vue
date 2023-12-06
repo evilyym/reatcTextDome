@@ -205,7 +205,7 @@
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
           <van-button type="primary"
-            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
+            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.activity.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
             v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
@@ -383,7 +383,7 @@ const afterRead = async (e) => {
       param.append('file', file, file.name)
       param.append('type', '2')
       const data = await upload(param)
-      auditInfo.value.usage_images[index].url = data.data.url;
+      auditInfo.value.report_image[index].url = data.data.url;
     }
   } else {
     let file = e.file
