@@ -150,9 +150,9 @@
     <div class="activityInfo">
       <h4>活动信息</h4>
       <van-form input-align="right">
-        <van-field v-model="activityInfo.activity.name" name="" label="活动名称" readonly placeholder="活动名称" />
-        <van-field v-model="activityInfo.activity.leader_name" name="" label="负责人" placeholder="负责人" readonly />
-        <van-field v-model="activityInfo.activity.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
+        <van-field v-model="activityInfo.activity_name" name="" label="活动名称" readonly placeholder="活动名称" />
+        <van-field v-model="activityInfo.leader_name" name="" label="负责人" placeholder="负责人" readonly />
+        <van-field v-model="activityInfo.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
       </van-form>
       <van-form label-align="top">
         <h5>申请材料</h5>
@@ -205,7 +205,7 @@
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
           <van-button type="primary"
-            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.activity.reporter_phone && !activityInfo.report_reason"
+            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
             v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"

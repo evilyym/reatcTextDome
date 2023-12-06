@@ -118,7 +118,7 @@ router.beforeEach(async (to: any, from, next) => {
   if (location.hostname.indexOf('localhost') > -1||location.hostname.indexOf('127.0.0') > -1) {
     to.path=='/' && next('/applicationResults')
     localStorage.setItem("userCode", `
-      bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMTc1MDg2MywiZXhwIjoxNzAxNzY4ODYzLCJuYmYiOjE3MDE3NTA4NjMsImp0aSI6InhhcDJlb3BjU2RCWG1Bb2MiLCJzdWIiOiIxMiIsInBydiI6IjQxZGY4ODM0ZjFiOThmNzBlZmE2MGFhZWRlZjQyMzQxMzcwMDY5MGMifQ.SlVFxHXHJjaEKJg88TAnvuDYaeoOrOfZd4FckrBKi8k
+    bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMTgyOTEyOCwiZXhwIjoxNzAxODQ3MTI4LCJuYmYiOjE3MDE4MjkxMjgsImp0aSI6IjBHRU10UGI3OHI4ZWhwUTUiLCJzdWIiOiIxMiIsInBydiI6IjQxZGY4ODM0ZjFiOThmNzBlZmE2MGFhZWRlZjQyMzQxMzcwMDY5MGMifQ.TcbpzOauXETiVPnPGIfPpXDsuaVolKSmbmDGFtjWPCg
     `)
     localStorage.setItem("tenantCode", 'S10296')
   }
