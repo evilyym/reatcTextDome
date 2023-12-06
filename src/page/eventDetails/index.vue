@@ -165,8 +165,8 @@
         </van-field>
 
         <h5>使用信息</h5>
-        <van-field readonly v-model="activityInfo.usage_location" name="" label="使用地点" placeholder="请输入地址"
-          :rules="[{ required: true, message: '请输入地址' }]" />
+        <van-field readonly v-model="activityInfo.usage_location" name="" label="使用地点" placeholder="请输入地点"
+          :rules="[{ required: true, message: '请输入地点' }]" />
 
         <van-field readonly label="使用时间" placeholder="请选择使用时间" :rules="[{ required: true, message: '请选择使用时间' }]">
           <template #input>

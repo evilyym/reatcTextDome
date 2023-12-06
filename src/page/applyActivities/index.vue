@@ -128,8 +128,8 @@
           <van-button type="primary" round block @click="showPicker = false">确定</van-button>
         </van-popup>
         <h5>使用信息</h5>
-        <van-field required v-model="formData.usage_location" name="" label="使用地点" placeholder="请输入地址"
-          :rules="[{ required: true, message: '请输入地址' }]" />
+        <van-field required v-model="formData.usage_location" name="" label="使用地点" placeholder="请输入地点"
+          :rules="[{ required: true, message: '请输入地点' }]" />
 
         <van-field required is-link readonly label="使用开始时间" v-model="formData.usage_start_time" @click="showDate = true"
           placeholder="请选择使用开始时间" :rules="[{ required: true, message: '请选择使用开始时间' }]" />
