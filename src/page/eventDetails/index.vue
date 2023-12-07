@@ -183,11 +183,11 @@
               :max-count="3" />
           </template>
         </van-field>
-        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="3" maxlength="144" label="备注"
+        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" maxlength="144" label="备注"
           placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_reason" label="报备理由" autosize type="textarea" rows="3"/>
+          v-model="activityInfo.report_reason" label="报备理由" autosize type="textarea"/>
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
           v-model="activityInfo.report_amount" label="活动金额" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
@@ -205,7 +205,7 @@
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
           <van-button type="primary"
-            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.activity.reporter_phone && !activityInfo.report_reason"
+            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
             v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
