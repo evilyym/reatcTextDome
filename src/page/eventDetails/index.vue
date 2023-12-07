@@ -183,11 +183,11 @@
               :max-count="3" />
           </template>
         </van-field>
-        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="2" maxlength="144" label="备注"
+        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="3" maxlength="144" label="备注"
           placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_reason" label="报备理由" />
+          v-model="activityInfo.report_reason" label="报备理由" autosize type="textarea" rows="3"/>
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
           v-model="activityInfo.report_amount" label="活动金额" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
