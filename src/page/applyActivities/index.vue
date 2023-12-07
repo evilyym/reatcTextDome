@@ -128,12 +128,13 @@
           <van-button type="primary" round block @click="showPicker = false">确定</van-button>
         </van-popup>
         <h5>使用信息</h5>
-        <van-field required v-model="formData.usage_location" name="" label="使用地点" placeholder="请输入地址"
-          :rules="[{ required: true, message: '请输入地址' }]" />
+        <van-field required v-model="formData.usage_location" name="" label="使用地点" placeholder="请输入地点"
+          :rules="[{ required: true, message: '请输入地点' }]" />
 
-        <van-field required label="使用时间" v-model="formData.date" @click="showDate = true" placeholder="请选择使用时间"
-          :rules="[{ required: true, message: '请选择使用时间' }]" />
-        <van-calendar v-model:show="showDate" type="range" @confirm="onConfirm" />
+        <van-field required is-link readonly label="使用开始时间" v-model="formData.usage_start_time" @click="showDate = true"
+          placeholder="请选择使用开始时间" :rules="[{ required: true, message: '请选择使用开始时间' }]" />
+        <van-field required is-link readonly label="使用完成时间" v-model="formData.usage_end_time" @click="showEndDate = true"
+          placeholder="请选择使用完成时间" :rules="[{ required: true, message: '请选择使用完成时间' }]" />
 
         <van-field required autosize type="textarea" rows="2" maxlength="100" show-word-limit
           v-model="formData.usage_reason" name="" label="使用原因" placeholder="请输入使用原因"
@@ -141,6 +142,7 @@
 
         <van-field required name="uploader" label="文件上传" :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
+            <!-- :max-size="30 * 1024* 1024"  @oversize="onOversize" -->
             <van-uploader v-model="formData.usage_images" :after-read="afterRead" multiple :max-count="3" />
           </template>
         </van-field>
@@ -152,6 +154,16 @@
         </div>
       </van-form>
     </div>
+    <!-- <van-calendar v-model:show="showDate" type="range" @confirm="" /> -->
+    <van-popup v-model:show="showDate" position="bottom">
+      <nut-date-picker v-model="startDate" is-show-chinese title="开始日期时间选择" type="datetime" :min-date="minDate"
+        :max-date="formData.usage_end_time ? endDate : maxDate" @cancel="showDate = false"
+        @confirm="onConfirm"></nut-date-picker>
+    </van-popup>
+    <van-popup v-model:show="showEndDate" position="bottom">
+      <nut-date-picker v-model="endDate" is-show-chinese title="完成日期时间选择" type="datetime" :min-date="startDate || minDate"
+        :max-date="maxEndDate" @cancel="showEndDate = false" @confirm="confirm"></nut-date-picker>
+    </van-popup>
   </div>
 </template>
 
@@ -159,7 +171,9 @@
 import { ref, onMounted } from "vue";
 import { getActivityDetail, addActivity, upload } from "@/api/index"
 import { useRouter } from "vue-router";
-import { showToast, showConfirmDialog  } from 'vant';
+import { showToast, showConfirmDialog } from 'vant';
+import '@nutui/nutui/dist/packages/toast/style';
+
 
 const router = useRouter()
 
@@ -169,13 +183,16 @@ const toggle = (index) => {
   checkboxRefs.value[index].toggle();
 };
 
+// const onOversize = () => {
+//   showToast('文件大小不能超过 30 MB');
+// };
 
 const showPicker = ref(false)
 const formData = ref<any>({
 })
 const onSubmit = () => {
 
-  showConfirmDialog ({
+  showConfirmDialog({
     message: '确定要提交申请?',
   }).then(() => {
     submit()
@@ -188,7 +205,9 @@ const submit = async () => {
   materialArr.value.forEach(itme => {
     materialsArr.push({
       "id": itme.id,
-      "number": itme.addNumber
+      "number": itme.addNumber,
+      "unit": itme.unit,
+      "name": itme.name,
     })
   })
   const usage_imagesArr = ref([])
@@ -207,7 +226,7 @@ const submit = async () => {
     setTimeout(() => {
       router.go(-1)
     }, 500);
-  }else{
+  } else {
     showToast(data.msg)
   }
 }
@@ -217,25 +236,55 @@ const activityInfo = ref<any>({})
 const activitiesInfo = ref<any>([])
 
 const showDate = ref(false)
+const showEndDate = ref(false)
 
-const formatDate = (date) => `${date.getFullYear()}-${date.getMonth() + 1 > 9 ? '' : 0}${date.getMonth() + 1}-${date.getDate() > 9 ? '' : 0}${date.getDate()}`;
+// const formatDate = (date) => `${date.getFullYear()}-${date.getMonth() + 1 > 9 ? '' : 0}${date.getMonth() + 1}-${date.getDate() > 9 ? '' : 0}${date.getDate()}`;
 
-const onConfirm = (values) => {
-  const [start, end] = values;
+const onConfirm = ({ selectedValue }: { selectedValue: any }) => {
+  // const [start, end] = values;
   showDate.value = false;
-  const date = `${formatDate(start)} 至 ${formatDate(end)}`;
-  formData.value.date = date
-  formData.value.usage_start_time = formatDate(start);
-  formData.value.usage_end_time = formatDate(end)
+  // const date = `${formatDate(start)} 至 ${formatDate(end)}`;
+  // formData.value.date = date
+  // formData.value.usage_start_time = formatDate(start);
+  // formData.value.usage_end_time = formatDate(end)
+
+  const date = selectedValue.slice(0, 3).join("-");
+  const time = selectedValue.slice(3).join(":");
+  formData.value.usage_start_time = date + " " + time;
+  showDate.value = false;
+};
+
+const minDate = new Date();
+const maxDate = new Date(minDate.getFullYear() + 2, minDate.getMonth(), minDate.getDay());
+const maxEndDate = new Date(minDate.getFullYear() + 3, minDate.getMonth(), minDate.getDay());
+const startDate = new Date();
+const endDate = new Date();
+
+const confirm = ({ selectedValue }: { selectedValue: any }) => {
+  const date = selectedValue.slice(0, 3).join("-");
+  const time = selectedValue.slice(3).join(":");
+  formData.value.usage_end_time = date + " " + time;
+  showEndDate.value = false;
 };
 
 const afterRead = async (e) => {
-  let file = e.file
-  let param = new FormData()
-  param.append('file', file, file.name)
-  param.append('type', '2')
-  const data = await upload(param)
-  formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+  if (e instanceof Array) {
+    for (let index = 0; index < e.length; index++) {
+      let file = e[index].file
+      let param = new FormData()
+      param.append('file', file, file.name)
+      param.append('type', '2')
+      const data = await upload(param)
+      formData.value.usage_images[index].url = data.data.url;
+    }
+  } else {
+    let file = e.file
+    let param = new FormData()
+    param.append('file', file, file.name)
+    param.append('type', '2')
+    const data = await upload(param)
+    formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+  }
 }
 
 const delMateria = (index) => {

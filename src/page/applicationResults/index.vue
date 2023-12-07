@@ -143,9 +143,9 @@
           </van-dropdown-menu>
           <hr>
           <van-list v-model:loading="loading" offset="15" :finished="finished"
-            :finished-text="ResultsDetailList.length > 0 && '没有更多了'" @load="onLoad">
+            :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity?.name }} <span :class="{
+              <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
@@ -155,7 +155,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -174,7 +174,7 @@
           <hr>
           <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity?.name }} <span :class="{
+              <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
@@ -184,7 +184,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -194,7 +194,7 @@
           </van-list>
         </div>
       </van-tab>
-      <van-tab title="我报备的">
+      <van-tab title="报备我的">
         <div class="listBox">
           <van-dropdown-menu>
             <van-dropdown-item v-model="value1" :options="option1" />
@@ -203,7 +203,7 @@
           <hr>
           <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity?.name }} <span :class="{
+              <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
@@ -213,7 +213,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -368,8 +368,6 @@ const onLoad = async () => {
 };
 
 onMounted(() => {
-  console.log(codeType);
-
   toPage.value = 0;
   loading.value = false;
   finished.value = false;

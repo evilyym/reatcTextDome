@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { getInfoApi } from "../api/index.ts";
-
+import configURL from "../request/http";
 const routes = [
   {
     path: "/",
@@ -48,25 +48,24 @@ router.beforeEach(async (to: any, from, next) => {
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/?code=0JALIIiG
 
     const point_url =
-      to.query.point_url || "https://dev-zjtie.goliveplus.cn/saas_wap/";
+      to.query.point_url || configURL.saasURL;
     location.replace(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?activitysupporCode=${to.query.code}&actType=22222`
+      }?activitysupporCode=${to.query.code}`
     );
   }
 
   if (to.query.user_type) {
-    console.log(to);
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?
     // redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=3user_type=1&
     // point_url=https://dev-zjtie.goliveplus.cn/saas_wap/
     const point_url =
-      to.query.point_url || "https://dev-zjtie.goliveplus.cn/saas_wap/";
+      to.query.point_url || configURL.saasURL;
     location.replace(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?id=${to.query.id}&userType=${to.query.user_type}&aaaCode=1111`
+      }?id=${to.query.id}&userType=${to.query.user_type}`
     );
   }
   if (to.query.tenantCode) {
@@ -116,11 +115,14 @@ router.beforeEach(async (to: any, from, next) => {
   }
   // */
 
-  // if (location.hostname.indexOf('localhost') > -1||location.hostname.indexOf('127.0.0') > -1) {
-  //   to.path=='/' && next({path:'/applicationResults',query:''})
-  //   localStorage.setItem("userCode", 'ougEN0r1ShXEYLgmHnNKzxflgD48')
-  //   localStorage.setItem("tenantCode", 'S10296')
-  // }
+  if (location.hostname.indexOf('localhost') > -1||location.hostname.indexOf('127.0.0') > -1) {
+    to.path=='/' && next('/applicationResults')
+    localStorage.setItem("userCode", `
+    bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMTkxMjUyOCwiZXhwIjoxNzAxOTMwNTI4LCJuYmYiOjE3MDE5MTI1MjgsImp0aSI6IjZDeEppSU9HTzBnQkV2ZWEiLCJzdWIiOiIxMiIsInBydiI6IjQxZGY4ODM0ZjFiOThmNzBlZmE2MGFhZWRlZjQyMzQxMzcwMDY5MGMifQ.-G8AyqDUvMMrznud8BiTR6u4C_LKEK0leXFDPSfcS4Q
+        `)
+    localStorage.setItem("tenantCode", 'S10296')
+  }
+
   next();
 });
 export default router;

@@ -150,9 +150,9 @@
     <div class="activityInfo">
       <h4>活动信息</h4>
       <van-form input-align="right">
-        <van-field v-model="activityInfo.activity.name" name="" label="活动名称" readonly placeholder="活动名称" />
-        <van-field v-model="activityInfo.activity.leader_name" name="" label="负责人" placeholder="负责人" readonly />
-        <van-field v-model="activityInfo.activity.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
+        <van-field v-model="activityInfo.activity_name" name="" label="活动名称" readonly placeholder="活动名称" />
+        <van-field v-model="activityInfo.leader_name" name="" label="负责人" placeholder="负责人" readonly />
+        <van-field v-model="activityInfo.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
       </van-form>
       <van-form label-align="top">
         <h5>申请材料</h5>
@@ -165,18 +165,17 @@
         </van-field>
 
         <h5>使用信息</h5>
-        <van-field readonly v-model="activityInfo.usage_location" name="" label="使用地点" placeholder="请输入地址"
-          :rules="[{ required: true, message: '请输入地址' }]" />
+        <van-field readonly v-model="activityInfo.usage_location" name="" label="使用地点" placeholder="请输入地点"
+          :rules="[{ required: true, message: '请输入地点' }]" />
 
         <van-field readonly label="使用时间" placeholder="请选择使用时间" :rules="[{ required: true, message: '请选择使用时间' }]">
           <template #input>
-            {{ activityInfo.usage_start_time }} 至 {{ activityInfo.usage_start_time }}
+            {{ activityInfo.usage_start_time }} 至 {{ activityInfo.usage_end_time }}
           </template>
         </van-field>
 
-        <van-field readonly autosize type="textarea" rows="2" maxlength="100" show-word-limit
-          v-model="activityInfo.usage_reason" name="" label="使用原因" placeholder="请输入使用原因"
-          :rules="[{ required: true, message: '请输入使用原因' }]" />
+        <van-field readonly autosize type="textarea" rows="2" maxlength="100" v-model="activityInfo.usage_reason" name=""
+          label="使用原因" placeholder="请输入使用原因" :rules="[{ required: true, message: '请输入使用原因' }]" />
 
         <van-field readonly name="uploader" label="上传图片">
           <template #input>
@@ -184,13 +183,13 @@
               :max-count="3" />
           </template>
         </van-field>
-        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" rows="2" maxlength="144"
-          show-word-limit label="备注" placeholder="备注" />
+        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" maxlength="144" label="备注"
+          placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_reason" show-word-limit label="报备理由" />
+          v-model="activityInfo.report_reason" label="报备理由" autosize type="textarea"/>
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_amount" show-word-limit label="活动金额" />
+          v-model="activityInfo.report_amount" label="活动金额" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
           label="报备图片">
           <template #input>
@@ -205,29 +204,32 @@
             block>通过</van-button>
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
-          <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 2 && !activityInfo.report_reason"
+          <van-button type="primary"
+            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
-            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1" @click="btnConfirm"
-            round block>确认</van-button>
+            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
+            @click="btnConfirm" round block>确认</van-button>
         </div>
       </van-form>
     </div>
-    <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable :style="{ height: '40%' }">
+    <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable
+      :style="{ height: btnText.height }">
       <h4>{{ btnText.label }}</h4>
       <van-form label-align="top" @submit="onSubmit">
         <van-field required v-model="auditInfo.reason" v-if="btnText.status != 4" autosize type="textarea" rows="3"
-          maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder" />
+          maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder"
+          :rules="[{ required: true, message: '理由必须输入' }]" />
 
         <van-field required v-model="auditInfo.report_reason" v-if="btnText.status == 4" autosize type="textarea" rows="3"
-          maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由" />
-        <van-field required v-model="auditInfo.report_amount" v-if="btnText.status == 4" show-word-limit label="报备金额"
-          placeholder="请输入报备金额" />
+          maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由"
+          :rules="[{ required: true, message: '请输入报备理由' }]" />
+        <van-field required v-model="auditInfo.report_amount" type="number" v-if="btnText.status == 4" show-word-limit
+          label="报备金额" placeholder="请输入报备金额" :rules="[{ required: true, message: '请输入报备金额' }]" />
         <van-field required name="uploader" label="上传图片" v-if="btnText.status == 4"
           :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
-            <van-uploader v-model="auditInfo.report_image" :preview-image="false" :after-read="afterRead" multiple
-              :max-count="3" />
+            <van-uploader v-model="auditInfo.report_image" :after-read="afterRead" multiple :max-count="3" />
           </template>
         </van-field>
         <van-button type="primary" round block native-type="submit">确定</van-button>
@@ -244,7 +246,7 @@ import { showConfirmDialog } from "vant";
 const router = useRouter()
 
 
-const active:any = router.currentRoute.value.query.userType || inject("$active");
+const active: any = router.currentRoute.value.query.userType || inject("$active");
 
 const showBottom = ref(false)
 
@@ -279,7 +281,7 @@ const onSubmit = async () => {
   showBottom.value = false
   if (data.code == 200) {
     setTimeout(() => {
-      router.go(-1)
+      router.go(router.currentRoute.value.query.userType ? 0 : -1)
     }, 500);
   }
 }
@@ -293,10 +295,8 @@ const btnConfirm = async () => {
 
   if (data.code == 200) {
     setTimeout(() => {
-      router.go(-1)
+      router.go(router.currentRoute.value.query.userType ? 0 : -1)
     }, 500);
-  } else {
-
   }
 }
 
@@ -327,9 +327,10 @@ const cancel = async () => {
 const btnText = ref({
   label: '',
   status: null,
-  placeholder: ''
+  placeholder: '',
+  height: '40%',
 })
-const auditInfo:{[name:string]:any} = ref({
+const auditInfo: { [name: string]: any } = ref({
   report_image: []
 })
 
@@ -346,7 +347,8 @@ const btnClick = (status) => {
       btnText.value = {
         label: '同意',
         status: status,
-        placeholder: '同意理由'
+        placeholder: '同意理由',
+        height: '40%',
       }
       break;
 
@@ -354,14 +356,16 @@ const btnClick = (status) => {
       btnText.value = {
         label: '驳回',
         status: status,
-        placeholder: '驳回理由'
+        placeholder: '驳回理由',
+        height: '40%',
       }
       break;
     case 4:
       btnText.value = {
         label: '报备',
         status: status,
-        placeholder: ''
+        placeholder: '',
+        height: '70%',
       }
       break;
   }
@@ -372,12 +376,23 @@ const activityInfo = ref<any>({
 })
 
 const afterRead = async (e) => {
-  let file = e.file
-  let param = new FormData()
-  param.append('file', file, file.name)
-  param.append('type', '2')
-  const data = await upload(param)
-  auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
+  if (e instanceof Array) {
+    for (let index = 0; index < e.length; index++) {
+      let file = e[index].file
+      let param = new FormData()
+      param.append('file', file, file.name)
+      param.append('type', '2')
+      const data = await upload(param)
+      auditInfo.value.report_image[index].url = data.data.url;
+    }
+  } else {
+    let file = e.file
+    let param = new FormData()
+    param.append('file', file, file.name)
+    param.append('type', '2')
+    const data = await upload(param)
+    auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
+  }
 }
 
 const showText = (key) => {
