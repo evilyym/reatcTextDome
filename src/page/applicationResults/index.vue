@@ -132,7 +132,7 @@
               <hr>
             </div>
           </template>
-          <van-empty v-if="ResultsList.length == 0" description="暂无数据"></van-empty>
+          <van-empty v-if="ResultsList.length == 1" description="暂无数据"></van-empty>
         </div>
       </van-tab>
       <van-tab title="我审核的">
@@ -172,7 +172,8 @@
             <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
           </van-dropdown-menu>
           <hr>
-          <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-list v-model:loading="loading" offset="15" :finished="finished" 
+          :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
               <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
@@ -201,7 +202,8 @@
             <van-dropdown-item v-model="value3" :options="option3" />
           </van-dropdown-menu>
           <hr>
-          <van-list v-model:loading="loading" offset="15" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-list v-model:loading="loading" offset="15" :finished="finished" 
+          :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
               <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
