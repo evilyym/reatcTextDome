@@ -13,6 +13,7 @@ if (
 } else {
   configURL.baseURL = "https://zhhq.zjtie.edu.cn/activitysupport_api"; //正式服
   configURL.saasURL = "https://zhhq.zjtie.edu.cn/saas_wap/"; //正式服
+  new Vconsole()
 }
 
 export default configURL;
