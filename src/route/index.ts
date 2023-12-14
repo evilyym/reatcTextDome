@@ -81,7 +81,7 @@ router.beforeEach(async (to: any, from, next) => {
     localStorage.removeItem("userCode");
     localStorage.removeItem("tenantCode");
   }
-  if (to.query.point_url) localStorage.setItem("point_url", to.query.point_url);
+  to.query.point_url ? localStorage.setItem("point_url", to.query.point_url) : localStorage.setItem("point_url", configURL.saasURL);
 
   var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
 
