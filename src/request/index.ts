@@ -77,19 +77,19 @@ const statusCodeHandle = (code: number, data: any, msg: string) => {
       // location.href = "https://zjtie.goliveplus.cn";
       break;
     case 501:
-      const codeType = router.currentRoute.value?.query;
-      if (codeType.activitysupporCode) {
+      // const codeType = router.currentRoute.value?.query;
+      // if (codeType.activitysupporCode) {
         location.replace(
           data.register_url
           // +`?activitysupporCode=${codeType.activitysupporCode}`
         );
-      }
-      if (codeType.id) {
-        location.replace(
-          data.register_url 
-          // + `?id=${codeType.id}&userType=${codeType.user_type}`
-        );
-      }
+      // }
+      // if (codeType.id) {
+      //   location.replace(
+      //     data.register_url 
+      //     // + `?id=${codeType.id}&userType=${codeType.user_type}`
+      //   );
+      // }
       break;
     case 200:
       break;
