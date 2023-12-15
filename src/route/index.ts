@@ -28,7 +28,7 @@ const router = createRouter({
   history: createWebHistory("/activitysupport_wap/"),
   routes,
 });
-
+const routerQuery = { code: "", id: "", user_type: "" };
 router.beforeEach(async (to: any, from, next) => {
   // https://dev-zjtie.goliveplus.cn/activitysupport_wap/?
   // saas_wap_token=S102964ES1MMGwAaMEVWSlgMk-0
@@ -46,32 +46,35 @@ router.beforeEach(async (to: any, from, next) => {
     // }
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=16&userType=1
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/?code=0JALIIiG
+    routerQuery.code = to.query.code;
+    const point_url = to.query.point_url || configURL.saasURL;
+    console.log(
+      `${point_url}analysis?redirect_url=${
+        location.origin + location.pathname
+      }?activitysupporCode=${to.query.code}`
+    );
 
-    const point_url =
-      to.query.point_url || configURL.saasURL;
-      console.log(
-        `${point_url}analysis?redirect_url=${
-              location.origin + location.pathname
-            }?activitysupporCode=${to.query.code}`
-      );
-      
-    // location.replace(
-    //   `${point_url}analysis?redirect_url=${
-    //     location.origin + location.pathname
-    //   }?activitysupporCode=${to.query.code}`
-    // );
+    location.replace(
+      `${point_url}analysis?redirect_url=${
+        location.origin + location.pathname
+      }?activitysupporCode=${to.query.code}&time=${new Date().getTime()}`
+    );
   }
 
   if (to.query.user_type) {
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?
     // redirect_url=http://127.0.0.1:5173/activitysupport_wap/eventDetails?id=3user_type=1&
     // point_url=https://dev-zjtie.goliveplus.cn/saas_wap/
-    const point_url =
-      to.query.point_url || configURL.saasURL;
+    const point_url = to.query.point_url || configURL.saasURL;
+    routerQuery.user_type = to.query.user_type;
+    routerQuery.id = to.query.id;
+
     location.replace(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?id=${to.query.id}&userType=${to.query.user_type}`
+      }?id=${to.query.id}&userType=${
+        to.query.user_type
+      }&time=${new Date().getTime()}`
     );
   }
   if (to.query.tenantCode) {
@@ -87,7 +90,9 @@ router.beforeEach(async (to: any, from, next) => {
     localStorage.removeItem("userCode");
     localStorage.removeItem("tenantCode");
   }
-  to.query.point_url ? localStorage.setItem("point_url", to.query.point_url) : localStorage.setItem("point_url", configURL.saasURL);
+  to.query.point_url
+    ? localStorage.setItem("point_url", to.query.point_url)
+    : localStorage.setItem("point_url", configURL.saasURL);
 
   var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
 
@@ -121,14 +126,22 @@ router.beforeEach(async (to: any, from, next) => {
   }
   // */
 
-  if (location.hostname.indexOf('localhost') > -1||location.hostname.indexOf('127.0.0') > -1) {
-    to.path=='/' && next('/applicationResults')
-    localStorage.setItem("userCode", `
+  if (
+    location.hostname.indexOf("localhost") > -1 ||
+    location.hostname.indexOf("127.0.0") > -1
+  ) {
+    to.path == "/" && next("/applicationResults");
+    localStorage.setItem(
+      "userCode",
+      `
     bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMjYwMzY0OSwiZXhwIjoxNzAyNjIxNjQ5LCJuYmYiOjE3MDI2MDM2NDksImp0aSI6Iks2MFpyemRjNTB3NmdKc0kiLCJzdWIiOiIxOSIsInBydiI6IjQxZGY4ODM0ZjFiOThmNzBlZmE2MGFhZWRlZjQyMzQxMzcwMDY5MGMifQ.nGqbtVIL-c6CGkAnPE9Z5czAk66RzvhwRPrRUFJQ9-A
-    `)
-    localStorage.setItem("tenantCode", 'S10296')
+    `
+    );
+    localStorage.setItem("tenantCode", "S10296");
   }
 
   next();
 });
+export { routerQuery };
+
 export default router;

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { showLoadingToast, closeToast, showFailToast } from "vant";
-// import { useRouter } from "vue-router";
-// const router = useRouter();
+import { routerQuery } from "../route/index";
 
 declare module "axios" {
   interface AxiosResponse<T = any> {
@@ -77,19 +76,26 @@ const statusCodeHandle = (code: number, data: any, msg: string) => {
       // location.href = "https://zjtie.goliveplus.cn";
       break;
     case 501:
-      // const codeType = router.currentRoute.value?.query;
-      // if (codeType.activitysupporCode) {
+      const codeType = routerQuery;
+      if (codeType.code) {
         location.replace(
-          data.register_url
-          // +`?activitysupporCode=${codeType.activitysupporCode}`
+          data.register_url`?redirect_url=${
+            location.origin + location.pathname
+          }?activitysupporCode=${codeType.code}&time=${new Date().getTime()}`
         );
-      // }
-      // if (codeType.id) {
-      //   location.replace(
-      //     data.register_url 
-      //     // + `?id=${codeType.id}&userType=${codeType.user_type}`
-      //   );
-      // }
+      } else if (codeType.id) {
+        location.replace(
+          data.register_url +
+            `?redirect_url=${location.origin + location.pathname}?id=${
+              codeType.id
+            }&userType=${codeType.user_type}&time=${new Date().getTime()}`
+        );
+      } else {
+        location.replace(
+          data.register_url +
+            `?redirect_url=${location.origin + location.pathname}`
+        );
+      }
       break;
     case 200:
       break;
