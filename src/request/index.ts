@@ -76,6 +76,7 @@ const statusCodeHandle = (code: number, data: any, msg: string) => {
       // location.href = "https://zjtie.goliveplus.cn";
       break;
     case 501:
+    case 502:
       const codeType = routerQuery;
       if (codeType.code) {
         location.replace(
