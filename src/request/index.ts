@@ -77,17 +77,17 @@ const statusCodeHandle = (code: number, data: any, msg: string) => {
       // location.href = "https://zjtie.goliveplus.cn";
       break;
     case 501:
-      const codeType = router.currentRoute.value.query;
+      const codeType = router.currentRoute.value?.query;
       if (codeType.activitysupporCode) {
         location.replace(
-          data.register_url +
-            `?activitysupporCode=${codeType.activitysupporCode}`
+          data.register_url
+          // +`?activitysupporCode=${codeType.activitysupporCode}`
         );
       }
       if (codeType.id) {
         location.replace(
-          data.register_url +
-            `?id=${codeType.id}&userType=${codeType.user_type}`
+          data.register_url 
+          // + `?id=${codeType.id}&userType=${codeType.user_type}`
         );
       }
       break;
