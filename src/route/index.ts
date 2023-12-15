@@ -49,11 +49,17 @@ router.beforeEach(async (to: any, from, next) => {
 
     const point_url =
       to.query.point_url || configURL.saasURL;
-    location.replace(
-      `${point_url}analysis?redirect_url=${
-        location.origin + location.pathname
-      }?activitysupporCode=${to.query.code}`
-    );
+      console.log(
+        `${point_url}analysis?redirect_url=${
+              location.origin + location.pathname
+            }?activitysupporCode=${to.query.code}`
+      );
+      
+    // location.replace(
+    //   `${point_url}analysis?redirect_url=${
+    //     location.origin + location.pathname
+    //   }?activitysupporCode=${to.query.code}`
+    // );
   }
 
   if (to.query.user_type) {

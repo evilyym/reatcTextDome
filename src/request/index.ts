@@ -1,7 +1,7 @@
 import axios from "axios";
 import { showLoadingToast, closeToast, showFailToast } from "vant";
-import { useRouter } from "vue-router";
-const router = useRouter();
+// import { useRouter } from "vue-router";
+// const router = useRouter();
 
 declare module "axios" {
   interface AxiosResponse<T = any> {
