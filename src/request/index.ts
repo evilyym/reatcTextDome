@@ -63,7 +63,6 @@ request.interceptors.response.use(
 const statusCodeHandle = (code: number, data: any, msg: string) => {
   switch (code) {
     case 12000401:
-      alert(msg)
       sessionStorage.removeItem("go");
       let point_url = localStorage.getItem("point_url");
       point_url = point_url.replace(/%3A%2F%2F/, "://");

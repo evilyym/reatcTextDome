@@ -37,6 +37,8 @@ router.beforeEach(async (to: any, from, next) => {
   // https://dev-zjtie.goliveplus.cn/activitysupport_wap/?code=1vD1bw5q
 
   console.log(from);
+  console.log(to)
+  alert(to)
 
   if (to.query.code) {
     // if (!localStorage.getItem("tenantCode")) {
@@ -54,11 +56,11 @@ router.beforeEach(async (to: any, from, next) => {
       }?activitysupporCode=${to.query.code}&time=${new Date().getTime()}`
     );
 
-    location.replace(
-      `${point_url}analysis?redirect_url=${
-        location.origin + location.pathname
-      }?activitysupporCode=${to.query.code}&time=${new Date().getTime()}`
-    );
+    // location.replace(
+    //   `${point_url}analysis?redirect_url=${
+    //     location.origin + location.pathname
+    //   }?activitysupporCode=${to.query.code}&time=${new Date().getTime()}`
+    // );
   }
 
   if (to.query.user_type) {
