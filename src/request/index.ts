@@ -1,5 +1,8 @@
 import axios from "axios";
 import { showLoadingToast, closeToast, showFailToast } from "vant";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 declare module "axios" {
   interface AxiosResponse<T = any> {
     code: number;
@@ -15,7 +18,6 @@ const request = axios.create({
 
 request.interceptors.request.use(
   (config) => {
-
     showLoadingToast({
       message: "加载中...",
       duration: 0,
@@ -50,7 +52,7 @@ request.interceptors.response.use(
     //成功
     const { data } = response;
 
-    statusCodeHandle(data.code, data.msg);
+    statusCodeHandle(data.code, data.data, data.msg);
     // return { data: data.data, msg: data.msg, code: data.code };
     return response.data;
   },
@@ -59,7 +61,7 @@ request.interceptors.response.use(
   }
 );
 //状态码处理
-const statusCodeHandle = (code: number, msg: string) => {
+const statusCodeHandle = (code: number, data: any, msg: string) => {
   switch (code) {
     case 12000401:
       sessionStorage.removeItem("go");
@@ -75,7 +77,19 @@ const statusCodeHandle = (code: number, msg: string) => {
       // location.href = "https://zjtie.goliveplus.cn";
       break;
     case 501:
-      location.replace(localStorage.getItem("point_url"));
+      const codeType = router.currentRoute.value.query;
+      if (codeType.activitysupporCode) {
+        location.replace(
+          data.register_url +
+            `?activitysupporCode=${codeType.activitysupporCode}`
+        );
+      }
+      if (codeType.id) {
+        location.replace(
+          data.register_url +
+            `?id=${codeType.id}&userType=${codeType.user_type}`
+        );
+      }
       break;
     case 200:
       break;
