@@ -32,18 +32,17 @@ const routerQuery = { code: "", id: "", user_type: "" };
 router.beforeEach(async (to: any, from, next) => {
 
   console.log(from);
-  console.log(JSON.stringify( to))
-  alert(JSON.stringify(to))
+  // alert(JSON.stringify(to))
 
   if (to.query.code) {
 
   routerQuery.code = to.query.code;
     const point_url = to.query.point_url || configURL.saasURL;
-    alert(
-      `${point_url}analysis?redirect_url=${
-        location.origin + location.pathname
-      }?activitysupporCode=${to.query.code}&time=${new Date().getTime()}`
-    );
+    // alert(
+    //   `${point_url}analysis?redirect_url=${
+    //     location.origin + location.pathname
+    //   }?activitysupporCode=${to.query.code}&time=${new Date().getTime()}`
+    // );
 
     location.replace(
       `${point_url}analysis?redirect_url=${
@@ -72,15 +71,15 @@ router.beforeEach(async (to: any, from, next) => {
     localStorage.setItem("tenantCode", to.query.tenantCode);
     sessionStorage.setItem("tenantCode", to.query.tenantCode);
   }
-  if (
-    to.query.point_url &&
-    localStorage.getItem("point_url") &&
-    localStorage.getItem("point_url") !== to.query.point_url
-  ) {
-    //判断缓存的租户信息和当前访问的租户信息是否一致
-    localStorage.removeItem("userCode");
-    localStorage.removeItem("tenantCode");
-  }
+  // if (
+  //   to.query.point_url &&
+  //   localStorage.getItem("point_url") &&
+  //   localStorage.getItem("point_url") !== to.query.point_url
+  // ) {
+  //   //判断缓存的租户信息和当前访问的租户信息是否一致
+  //   localStorage.removeItem("userCode");
+  //   localStorage.removeItem("tenantCode");
+  // }
   to.query.point_url
     ? localStorage.setItem("point_url", to.query.point_url)
     : localStorage.setItem("point_url", configURL.saasURL);
