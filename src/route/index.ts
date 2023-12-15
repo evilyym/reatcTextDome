@@ -48,10 +48,10 @@ router.beforeEach(async (to: any, from, next) => {
     // https://dev-zjtie.goliveplus.cn/saas_wap/analysis?redirect_url=http://127.0.0.1:5173/activitysupport_wap/?code=0JALIIiG
     routerQuery.code = to.query.code;
     const point_url = to.query.point_url || configURL.saasURL;
-    console.log(
+    alert(
       `${point_url}analysis?redirect_url=${
         location.origin + location.pathname
-      }?activitysupporCode=${to.query.code}`
+      }?activitysupporCode=${to.query.code}&time=${new Date().getTime()}`
     );
 
     location.replace(
