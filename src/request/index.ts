@@ -62,7 +62,6 @@ request.interceptors.response.use(
 const statusCodeHandle = (code: number, msg: string) => {
   switch (code) {
     case 12000401:
-    case 501:
       sessionStorage.removeItem("go");
       let point_url = localStorage.getItem("point_url");
       point_url = point_url.replace(/%3A%2F%2F/, "://");
@@ -74,6 +73,9 @@ const statusCodeHandle = (code: number, msg: string) => {
         }`
       );
       // location.href = "https://zjtie.goliveplus.cn";
+      break;
+    case 501:
+      location.replace(localStorage.getItem("point_url"));
       break;
     case 200:
       break;
