@@ -140,7 +140,7 @@
           v-model="formData.usage_reason" name="" label="使用原因" placeholder="请输入使用原因"
           :rules="[{ required: true, message: '请输入使用原因' }]" />
 
-        <van-field required name="uploader" label="文件上传" :rules="[{ required: true, message: '必须上传图片' }]">
+        <van-field required name="uploader" label="上传图片" :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
             <!-- :max-size="30 * 1024* 1024"  @oversize="onOversize" -->
             <van-uploader v-model="formData.usage_images" :after-read="afterRead" multiple :max-count="3" />
