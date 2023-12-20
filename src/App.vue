@@ -27,6 +27,8 @@ body,
   color-scheme: unset;
   font-size: 14px;
   height: 100%;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 .blue {
