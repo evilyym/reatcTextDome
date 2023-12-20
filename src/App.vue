@@ -31,7 +31,10 @@ body,
   overflow-x: hidden;
   overscroll-behavior: none;
 }
-
+html,
+body{
+  overflow: hidden;
+}
 .blue {
   color: #1677FF;
 }
