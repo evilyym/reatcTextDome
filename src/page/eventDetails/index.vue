@@ -90,6 +90,8 @@
     padding: 15px;
     border-radius: 12px 12px 0px 0px;
     flex-grow: 1;
+    width: 100%;
+    box-sizing: border-box;
 
     h4,
     h5 {
