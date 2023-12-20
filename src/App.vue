@@ -28,7 +28,8 @@ body,
   font-size: 14px;
   height: 100%;
   width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .blue {
