@@ -27,13 +27,14 @@ body,
   color-scheme: unset;
   font-size: 14px;
   height: 100%;
-  width: 100vw;
-  overflow-x: hidden;
+  width: 100%;
+  /* overflow-x: hidden; */
   overscroll-behavior: none;
 }
 html,
 body{
   overflow: hidden;
+  overscroll-behavior: none;
 }
 .blue {
   color: #1677FF;
