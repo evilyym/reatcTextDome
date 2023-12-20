@@ -28,7 +28,7 @@ body,
   font-size: 14px;
   height: 100%;
   width: 100vw;
-  overflow: hidden;
+  overflow-x: hidden;
   overscroll-behavior: none;
 }
 
