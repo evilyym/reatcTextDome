@@ -152,7 +152,7 @@
     <div class="activityInfo">
       <h4>活动信息</h4>
       <van-form input-align="right">
-        <van-field v-model="activityInfo.activity_name" name="" label="活动名称" readonly placeholder="活动名称" />
+        <van-field v-model="activityInfo.activity_name" name="" label="服务内容" readonly placeholder="服务内容" />
         <van-field v-model="activityInfo.leader_name" name="" label="负责人" placeholder="负责人" readonly />
         <van-field v-model="activityInfo.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
       </van-form>
@@ -167,17 +167,17 @@
         </van-field>
 
         <h5>使用信息</h5>
-        <van-field readonly v-model="activityInfo.usage_location" name="" label="使用地点" placeholder="请输入地点"
+        <van-field readonly v-model="activityInfo.usage_location" name="" label="地点" placeholder="请输入地点"
           :rules="[{ required: true, message: '请输入地点' }]" />
 
-        <van-field readonly label="使用时间" placeholder="请选择使用时间" :rules="[{ required: true, message: '请选择使用时间' }]">
+        <van-field readonly label="时间" placeholder="请选择使用时间" :rules="[{ required: true, message: '请选择使用时间' }]">
           <template #input>
             {{ activityInfo.usage_start_time }} 至 {{ activityInfo.usage_end_time }}
           </template>
         </van-field>
 
         <van-field readonly autosize type="textarea" rows="2" maxlength="100" v-model="activityInfo.usage_reason" name=""
-          label="使用原因" placeholder="请输入使用原因" :rules="[{ required: true, message: '请输入使用原因' }]" />
+          label="原因" placeholder="请输入使用原因" :rules="[{ required: true, message: '请输入使用原因' }]" />
 
         <van-field readonly name="uploader" label="上传图片">
           <template #input>

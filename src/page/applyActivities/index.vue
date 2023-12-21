@@ -97,12 +97,12 @@
     <div class="activityInfo">
       <h4>活动信息</h4>
       <van-form input-align="right">
-        <van-field v-model="activityInfo.name" name="" label="活动名称" readonly placeholder="活动名称" />
+        <van-field v-model="activityInfo.name" name="" label="服务内容" readonly placeholder="服务内容" />
         <van-field v-model="activityInfo.leader_name" name="" label="负责人" placeholder="负责人" readonly />
         <van-field v-model="activityInfo.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
       </van-form>
       <van-form @submit="onSubmit" label-align="top">
-        <h5>选择申请材料</h5>
+        <h5>申请材料</h5>
         <van-swipe-cell right-width="60" v-for="(item) in materialArr">
           <van-field :label="item.name" label-align="left" input-align="right">
             <template #input>
@@ -130,16 +130,16 @@
           <van-button type="primary" round block @click="showPicker = false">确定</van-button>
         </van-popup>
         <h5>使用信息</h5>
-        <van-field required v-model="formData.usage_location" name="" label="使用地点" placeholder="请输入地点"
+        <van-field required v-model="formData.usage_location" name="" label="地点" placeholder="请输入地点"
           :rules="[{ required: true, message: '请输入地点' }]" />
 
-        <van-field required is-link readonly label="使用开始时间" v-model="formData.usage_start_time" @click="showDate = true"
+        <van-field required is-link readonly label="开始时间" v-model="formData.usage_start_time" @click="showDate = true"
           placeholder="请选择使用开始时间" :rules="[{ required: true, message: '请选择使用开始时间' }]" />
-        <van-field required is-link readonly label="使用完成时间" v-model="formData.usage_end_time" @click="showEndDate = true"
+        <van-field required is-link readonly label="完成时间" v-model="formData.usage_end_time" @click="showEndDate = true"
           placeholder="请选择使用完成时间" :rules="[{ required: true, message: '请选择使用完成时间' }]" />
 
         <van-field required autosize type="textarea" rows="2" maxlength="100" show-word-limit
-          v-model="formData.usage_reason" name="" label="使用原因" placeholder="请输入使用原因"
+          v-model="formData.usage_reason" name="" label="原因" placeholder="请输入使用原因"
           :rules="[{ required: true, message: '请输入使用原因' }]" />
 
         <van-field required name="uploader" label="上传图片" :rules="[{ required: true, message: '必须上传图片' }]">
