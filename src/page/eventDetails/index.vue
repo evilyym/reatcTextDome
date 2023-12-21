@@ -152,9 +152,9 @@
     <div class="activityInfo">
       <h4>活动信息</h4>
       <van-form input-align="right">
-        <van-field v-model="activityInfo.activity_name" name="" label="服务内容" readonly placeholder="服务内容" />
-        <van-field v-model="activityInfo.leader_name" name="" label="负责人" placeholder="负责人" readonly />
-        <van-field v-model="activityInfo.leader_phone" name="" label="手机号" placeholder="手机号" readonly />
+        <van-field v-model="activityInfo.activity_name" name="" label="服务内容:" readonly placeholder="服务内容" />
+        <van-field v-model="activityInfo.leader_name" name="" label="负责人:" placeholder="负责人" readonly />
+        <van-field v-model="activityInfo.leader_phone" name="" label="手机号:" placeholder="手机号" readonly />
       </van-form>
       <van-form label-align="top">
         <h5>申请材料</h5>
@@ -167,33 +167,33 @@
         </van-field>
 
         <h5>使用信息</h5>
-        <van-field readonly v-model="activityInfo.usage_location" name="" label="地点" placeholder="请输入地点"
+        <van-field readonly v-model="activityInfo.usage_location" name="" label="地点:" placeholder="请输入地点"
           :rules="[{ required: true, message: '请输入地点' }]" />
 
-        <van-field readonly label="时间" placeholder="请选择使用时间" :rules="[{ required: true, message: '请选择使用时间' }]">
+        <van-field readonly label="时间:" placeholder="请选择使用时间" :rules="[{ required: true, message: '请选择使用时间' }]">
           <template #input>
             {{ activityInfo.usage_start_time }} 至 {{ activityInfo.usage_end_time }}
           </template>
         </van-field>
 
         <van-field readonly autosize type="textarea" rows="2" maxlength="100" v-model="activityInfo.usage_reason" name=""
-          label="原因" placeholder="请输入使用原因" :rules="[{ required: true, message: '请输入使用原因' }]" />
+          label="原因:" placeholder="请输入使用原因" :rules="[{ required: true, message: '请输入使用原因' }]" />
 
-        <van-field readonly name="uploader" label="上传图片">
+        <van-field readonly name="uploader" label="上传图片:">
           <template #input>
             <van-uploader readonly :deletable="false" v-model="activityInfo.attachment" :after-read="afterRead" multiple
               :max-count="3" />
           </template>
         </van-field>
-        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" maxlength="144" label="备注"
+        <van-field readonly v-model="activityInfo.remark" autosize type="textarea" maxlength="144" label="备注:"
           placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_reason" label="报备理由" autosize type="textarea"/>
+          v-model="activityInfo.report_reason" label="报备理由:" autosize type="textarea"/>
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_amount" label="活动金额" />
+          v-model="activityInfo.report_amount" label="活动金额:" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
-          label="报备图片">
+          label="报备图片:">
           <template #input>
             <van-uploader readonly :deletable="false" v-model="activityInfo.report_image" :after-read="afterRead" multiple
               :max-count="3" />
@@ -224,11 +224,11 @@
           :rules="[{ required: true, message: '理由必须输入' }]" />
 
         <van-field required v-model="auditInfo.report_reason" v-if="btnText.status == 4" autosize type="textarea" rows="3"
-          maxlength="144" show-word-limit label="报备理由" placeholder="请输入报备理由"
+          maxlength="144" show-word-limit label="报备理由:" placeholder="请输入报备理由"
           :rules="[{ required: true, message: '请输入报备理由' }]" />
         <van-field required v-model="auditInfo.report_amount" type="number" v-if="btnText.status == 4" show-word-limit
-          label="报备金额" placeholder="请输入报备金额" :rules="[{ required: true, message: '请输入报备金额' }]" />
-        <van-field required name="uploader" label="上传图片" v-if="btnText.status == 4"
+          label="报备金额:" placeholder="请输入报备金额" :rules="[{ required: true, message: '请输入报备金额' }]" />
+        <van-field required name="uploader" label="上传图片:" v-if="btnText.status == 4"
           :rules="[{ required: true, message: '必须上传图片' }]">
           <template #input>
             <van-uploader v-model="auditInfo.report_image" :after-read="afterRead" multiple :max-count="3" />
@@ -349,7 +349,7 @@ const btnClick = (status) => {
       btnText.value = {
         label: '同意',
         status: status,
-        placeholder: '同意理由',
+        placeholder: '同意理由:',
         height: '40%',
       }
       break;
@@ -358,7 +358,7 @@ const btnClick = (status) => {
       btnText.value = {
         label: '驳回',
         status: status,
-        placeholder: '驳回理由',
+        placeholder: '驳回理由:',
         height: '40%',
       }
       break;
