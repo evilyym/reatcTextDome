@@ -133,9 +133,9 @@
         <van-field required v-model="formData.usage_location" name="" label="地点:" placeholder="请输入地点"
           :rules="[{ required: true, message: '请输入地点' }]" />
 
-        <van-field required is-link readonly label="开始时间" v-model="formData.usage_start_time" @click="showDate = true"
+        <van-field required is-link readonly label="开始时间:" v-model="formData.usage_start_time" @click="showDate = true"
           placeholder="请选择使用开始时间" :rules="[{ required: true, message: '请选择使用开始时间' }]" />
-        <van-field required is-link readonly label="完成时间" v-model="formData.usage_end_time" @click="showEndDate = true"
+        <van-field required is-link readonly label="完成时间:" v-model="formData.usage_end_time" @click="showEndDate = true"
           placeholder="请选择使用完成时间" :rules="[{ required: true, message: '请选择使用完成时间' }]" />
 
         <van-field required autosize type="textarea" rows="2" maxlength="100" show-word-limit
