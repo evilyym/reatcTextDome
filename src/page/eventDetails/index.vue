@@ -297,7 +297,7 @@ const onSubmit = async () => {
         ...auditInfo.value,
         id: router.currentRoute.value.query.id,
         report_image: report_imageArr.value,
-        file: reportFileArr.value
+        file: reportFileArr.value.length > 0 ? reportFileArr.value[0] : null,
       }
       data = await setReport(query)
 

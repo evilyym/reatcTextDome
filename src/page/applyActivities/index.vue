@@ -236,7 +236,7 @@ const submit = async () => {
     id: activityInfo.value.id,
     materials: materialsArr,
     usage_images: usage_imagesArr.value,
-    file: usage_fileArr.value,
+    file: usage_fileArr.value.length > 0 ? usage_fileArr.value[0] : null,
   }
   const data = (await addActivity(query))
   if (data.code == 200) {
