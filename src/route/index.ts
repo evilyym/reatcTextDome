@@ -124,8 +124,8 @@ router.beforeEach(async (to: any, from, next) => {
     localStorage.setItem(
       "userCode",
       `
-    bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMzA0OTk2OCwiZXhwIjoxNzAzMDY3OTY4LCJuYmYiOjE3MDMwNDk5NjgsImp0aSI6IndieFozRGdJZ2NxaERuVkgiLCJzdWIiOiIxMiIsInBydiI6IjQxZGY4ODM0ZjFiOThmNzBlZmE2MGFhZWRlZjQyMzQxMzcwMDY5MGMifQ.lROCYdOadb6fnLioVC0oaFZL1vU64PeJGeiKYmxaAJ8
-    `
+      bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6MTExMjlcL2FwaVwvd2FwXC9nZXQtdXNlciIsImlhdCI6MTcwMzgyMDQxNSwiZXhwIjoxNzAzODM4NDE1LCJuYmYiOjE3MDM4MjA0MTUsImp0aSI6Ikxua2dLVE9OR2NDQ1p2REUiLCJzdWIiOiIxMiIsInBydiI6IjQxZGY4ODM0ZjFiOThmNzBlZmE2MGFhZWRlZjQyMzQxMzcwMDY5MGMifQ.LwjiM-8YO0qQDmyKMk-XChWFFW9ltxWo1ddcb_ddYrU
+      `
     );
     localStorage.setItem("tenantCode", "S10296");
   }

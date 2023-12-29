@@ -122,7 +122,7 @@
       <van-tab title="我服务的">
         <div class="listBox">
           <template v-for="itme in ResultsList">
-            <div class="cirdBox" @click="initiateActivities(itme.id)" v-if="itme.leader_phone">
+            <div class="cirdBox" @click="initiateActivities(itme)" v-if="itme.leader_phone">
               <h4>{{ itme.name }}</h4>
               <p>
                 <span><van-icon name="user" />{{ itme.leader_name }} </span>
@@ -233,6 +233,7 @@
 import { useRouter } from "vue-router";
 import { ref, onMounted, watch, inject } from "vue";
 import { getRecordsList, getActivityList } from "@/api/index";
+import { showToast } from 'vant';
 
 const router = useRouter()
 
@@ -257,8 +258,12 @@ const option3 = [
   { text: '未报备', value: 1 },
   { text: '已报备', value: 2 },
 ];
-const initiateActivities = (id) => {
-  router.push('/applyActivities?id=' + id)
+const initiateActivities = (item) => {
+  if (item.type==1) {
+  router.push('/applyActivities?id=' + item.id)
+  }else{
+    showToast(item.clue);
+  }
 }
 const eventCheckDetails = (id) => {
   router.push('/eventDetails?id=' + id)
@@ -281,7 +286,7 @@ const getList = async (val = 0, blue = true) => {
       query.report = value3.value
       break;
   }
-  const activityQuery = { type: 1, perPage: 99, code: codeType }
+  const activityQuery = { type: 1, perPage: 999, code: codeType }
   if (ResultsList.value.length == 0 || val == 0) {
     option = (await getActivityList(activityQuery)).data.data
     option.forEach((itme) => {

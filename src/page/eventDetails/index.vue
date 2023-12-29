@@ -185,11 +185,17 @@
               :max-count="3" />
           </template>
         </van-field>
+        <van-field readonly name="uploader" label="上传文件:">
+          <template #input>
+            <a :download="activityInfo.file[0]?.name" :href="activityInfo.file[0]?.url ">{{ activityInfo.file[0]?.name }}</a>
+            <!-- <van-uploader readonly :deletable="false" v-model="activityInfo.file" :after-read="afterRead" :max-count="1" /> -->
+          </template>
+        </van-field>
         <van-field readonly v-model="activityInfo.remark" autosize type="textarea" maxlength="144" label="备注:"
           placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_reason" label="报备理由:" autosize type="textarea"/>
+          v-model="activityInfo.report_reason" label="报备理由:" autosize type="textarea" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
           v-model="activityInfo.report_amount" label="活动金额:" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
@@ -374,7 +380,8 @@ const btnClick = (status) => {
 
 }
 const activityInfo = ref<any>({
-  activity: {}
+  activity: {},
+  file: [],
 })
 
 const afterRead = async (e) => {
@@ -411,6 +418,7 @@ const showText = (key) => {
 
 onMounted(async () => {
   const data: any = (await getRecordsDetail({ id: router.currentRoute.value.query.id })).data
+  data.file = JSON.parse(data.file)
   activityInfo.value = data
 
   activityInfo.value.attachment ? activityInfo.value.attachment.forEach((itme, index) => {

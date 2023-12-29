@@ -142,10 +142,19 @@
           v-model="formData.usage_reason" name="" label="原因:" placeholder="请输入使用原因"
           :rules="[{ required: true, message: '请输入使用原因' }]" />
 
-        <van-field required name="uploader" label="上传图片:" :rules="[{ required: true, message: '必须上传图片' }]">
+        <van-field name="uploader" label="上传图片:" :rules="[{ message: '只能上传图片' }]">
           <template #input>
             <!-- :max-size="30 * 1024* 1024"  @oversize="onOversize" -->
-            <van-uploader v-model="formData.usage_images" :after-read="afterRead" multiple :max-count="3" />
+            <van-uploader v-model="formData.usage_images" accept="image/*" :after-read="afterRead" multiple
+              :max-count="3" />
+          </template>
+        </van-field>
+        <van-field name="uploader" label="上传附件:" :rules="[{ message: '只能上传PDF,TXT,XLS,DOC文件' }]">
+          <template #input>
+            <van-uploader :max-count="1" v-model="formData.file" :after-read="afterRead"
+              accept="text/plain, application/vnd.ms-excel, application/vnd.ms-works, application/msword, application/pdf">
+              <van-button icon="plus" size="small" type="primary">上传文件</van-button>
+            </van-uploader>
           </template>
         </van-field>
         <van-field v-model="formData.remark" autosize type="textarea" rows="2" maxlength="144" show-word-limit label="备注:"
@@ -191,6 +200,7 @@ const toggle = (index) => {
 
 const showPicker = ref(false)
 const formData = ref<any>({
+  file: []
 })
 const onSubmit = () => {
 
@@ -213,15 +223,20 @@ const submit = async () => {
     })
   })
   const usage_imagesArr = ref([])
+  const usage_fileArr = ref([])
 
   formData.value.usage_images && formData.value.usage_images.forEach((itme) => {
     usage_imagesArr.value.push(itme.url)
+  })
+  formData.value.file && formData.value.file.forEach((itme) => {
+    usage_fileArr.value.push({ url: itme.url, type: itme.type, name: itme.name })
   })
   const query = {
     ...formData.value,
     id: activityInfo.value.id,
     materials: materialsArr,
     usage_images: usage_imagesArr.value,
+    file: usage_fileArr.value,
   }
   const data = (await addActivity(query))
   if (data.code == 200) {
@@ -283,9 +298,19 @@ const afterRead = async (e) => {
     let file = e.file
     let param = new FormData()
     param.append('file', file, file.name)
-    param.append('type', '2')
-    const data = await upload(param)
-    formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+    if (/image/.test(file.type)) {
+      param.append('type', '2')
+      const data = await upload(param)
+      formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
+    } else {
+      param.append('type', '1')
+      const data = await upload(param)
+      formData.value.file[formData.value.file.length - 1].url = data.data.url;
+      formData.value.file[formData.value.file.length - 1].name = file.name;
+      formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
+      console.log(formData.value.file);
+    }
+
   }
 }
 
