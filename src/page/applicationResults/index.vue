@@ -78,10 +78,15 @@
         font-weight: 400;
         font-size: 14px;
         position: relative;
-
+        display: flex;
+        width: 100%;
+        gap: 20px;
+        span{
+          width: 35%;
+        }
         & span.auditStatus {
-          position: absolute;
           left: 125px;
+          flex-grow: 1;
           font-size: 14px;
         }
 
@@ -124,7 +129,7 @@
           <template v-for="itme in ResultsList">
             <div class="cirdBox" @click="initiateActivities(itme)" v-if="itme.leader_phone">
               <h4>{{ itme.name }}</h4>
-              <p>
+              <p style="display: flex;">
                 <span><van-icon name="user" />{{ itme.leader_name }} </span>
                 <span class="auditStatus"><van-icon name="phone" />{{ itme.leader_phone }} </span>
               </p>
