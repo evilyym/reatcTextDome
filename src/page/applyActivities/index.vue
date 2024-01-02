@@ -311,8 +311,6 @@ const afterRead = async (e) => {
       param.append('type', '2')
       const data = await upload(param)
       formData.value.usage_images[index].url = data.data.url;
-      delete formData.value[formData.value.length - 1].objectUrl
-
     }
   } else {
     let file = e.file
@@ -335,7 +333,8 @@ const afterFileRead = async (e) => {
       formData.value.file[formData.value.file.length - 1].url = data.data.url;
       formData.value.file[formData.value.file.length - 1].name = file.name;
       formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
-      delete formData.value.file[formData.value.length - 1].objectUrl
+      delete formData.value.file[formData.value.file.length - 1]?.objectUrl
+      delete formData.value.file[formData.value.file.length - 1]?.content
     }
   } else {
     let file = e.file
@@ -346,7 +345,8 @@ const afterFileRead = async (e) => {
     formData.value.file[formData.value.file.length - 1].url = data.data.url;
     formData.value.file[formData.value.file.length - 1].name = file.name;
     formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
-    delete formData.value.file[formData.value.length - 1].objectUrl
+    delete formData.value.file[formData.value.file.length - 1]?.objectUrl
+    delete formData.value.file[formData.value.file.length - 1]?.content
   }
 }
 const delMateria = (index) => {

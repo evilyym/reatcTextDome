@@ -454,6 +454,7 @@ const afterFileRead = async (e) => {
       reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
       reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
       delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+      delete reportFileArr.value[reportFileArr.value.length - 1].content
     }
   } else {
     let file = e.file
@@ -465,6 +466,7 @@ const afterFileRead = async (e) => {
     reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
     reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
     delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+    delete reportFileArr.value[reportFileArr.value.length - 1].content
   }
 }
 
