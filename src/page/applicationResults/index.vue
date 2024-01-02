@@ -95,6 +95,7 @@
           right: 5px;
           font-size: 14px;
           font-weight: 600;
+          text-align: right;
         }
       }
 

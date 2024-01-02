@@ -153,7 +153,7 @@
           <template #input>
             <van-uploader :max-count="1" v-model="formData.file" :after-read="afterRead"
               accept="text/plain, application/vnd.ms-excel, application/vnd.ms-works, application/msword, application/pdf">
-              <van-button icon="plus" size="small" type="primary">上传附件</van-button>
+              <van-button icon="plus" style="width: 100px" size="small" type="primary">上传附件</van-button>
             </van-uploader>
           </template>
         </van-field>

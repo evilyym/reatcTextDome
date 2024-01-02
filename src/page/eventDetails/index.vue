@@ -221,7 +221,7 @@
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
           <van-button type="primary"
-            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
+            v-if="1|| active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
             v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
@@ -252,7 +252,7 @@
           <template #input>
             <van-uploader :max-count="1" v-model="reportFileArr" :after-read="afterRead"
               accept="text/plain, application/vnd.ms-excel, application/vnd.ms-works, application/msword, application/pdf">
-              <van-button icon="plus" size="small" type="primary">报备附件</van-button>
+              <van-button icon="plus" style="width: 100px;" size="small" type="primary">报备附件</van-button>
             </van-uploader>
           </template>
         </van-field>
@@ -453,8 +453,8 @@ const showText = (key) => {
 
 onMounted(async () => {
   const data: any = (await getRecordsDetail({ id: router.currentRoute.value.query.id })).data
-  data.file = data.file && Array.isArray(JSON.parse(data.file)) ? JSON.parse(data.file) : []
-  data.report_file = data.report_file && Array.isArray(JSON.parse(data.report_file)) ? JSON.parse(data.report_file) : []
+  data.file = data.file ? [data.file] : []
+  data.report_file = data.report_file ? [data.report_file] : []
   activityInfo.value = data
 
   activityInfo.value.attachment ? activityInfo.value.attachment.forEach((itme, index) => {

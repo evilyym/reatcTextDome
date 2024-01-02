@@ -32,7 +32,7 @@ request.interceptors.request.use(
     if (obj) {
       const empty = ["", null, undefined, NaN];
       for (let item in obj) {
-        if (empty.includes(obj[item])) {
+        if (empty.includes(obj[item]) || obj[item].length == 0) {
           delete obj[item];
         }
       }
