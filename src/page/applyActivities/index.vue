@@ -151,7 +151,7 @@
         </van-field>
         <van-field name="uploader" label="上传附件:" :rules="[{ message: '只能上传PDF,TXT,XLS,DOC文件' }]">
           <template #input>
-            <van-uploader :max-count="1" v-model="formData.file" :after-read="afterRead"
+            <van-uploader :max-count="1" v-model="formData.file" :after-read="afterFileRead" :before-read="beforeFilrRead"
               accept="text/plain, application/vnd.ms-excel, application/vnd.ms-works, application/msword, application/pdf">
               <van-button icon="plus" style="width: 100px" size="small" type="primary">上传附件</van-button>
             </van-uploader>
@@ -284,6 +284,15 @@ const confirm = ({ selectedValue }: { selectedValue: any }) => {
   showEndDate.value = false;
 };
 
+const beforeFilrRead = (file) => {
+  const fileType = ['pdf', 'docx', 'doc', 'txt', 'xlsx', 'xls']
+  if (fileType.indexOf(file.name.split('.').reverse()[0]) == -1) {
+    showToast('只能上传' + fileType.join() + '文件')
+    return false;
+  }
+  return true;
+};
+
 const afterRead = async (e) => {
   if (e instanceof Array) {
     for (let index = 0; index < e.length; index++) {
@@ -293,26 +302,30 @@ const afterRead = async (e) => {
       param.append('type', '2')
       const data = await upload(param)
       formData.value.usage_images[index].url = data.data.url;
+      delete formData.value[formData.value.length - 1].objectUrl
+
     }
   } else {
     let file = e.file
     let param = new FormData()
     param.append('file', file, file.name)
-    if (/image/.test(file.type)) {
-      param.append('type', '2')
-      const data = await upload(param)
-      formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
-    } else {
-      param.append('type', '1')
-      const data = await upload(param)
-      formData.value.file[formData.value.file.length - 1].url = data.data.url;
-      formData.value.file[formData.value.file.length - 1].name = file.name;
-      formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
-      console.log(formData.value.file);
-    }
+    param.append('type', '2')
+    const data = await upload(param)
+    formData.value.usage_images[formData.value.usage_images.length - 1].url = data.data.url;
   }
 }
 
+const afterFileRead = async (e) => {
+  let file = e.file
+  let param = new FormData()
+  param.append('file', file, file.name)
+  param.append('type', '1')
+  const data = await upload(param)
+  formData.value.file[formData.value.file.length - 1].url = data.data.url;
+  formData.value.file[formData.value.file.length - 1].name = file.name;
+  formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
+  delete formData.value.file[formData.value.length - 1].objectUrl
+}
 const delMateria = (index) => {
   checkboxRefs.value[index].toggle();
 }

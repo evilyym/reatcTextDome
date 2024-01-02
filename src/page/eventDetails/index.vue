@@ -221,7 +221,7 @@
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(3)" round
             block>驳回</van-button>
           <van-button type="primary"
-            v-if="1|| active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
+            v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
             v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
@@ -250,7 +250,7 @@
         <van-field name="uploader" label="报备附件:" :rules="[{ message: '只能上传PDF,TXT,XLS,DOC文件' }]"
           v-if="btnText.status == 4">
           <template #input>
-            <van-uploader :max-count="1" v-model="reportFileArr" :after-read="afterRead"
+            <van-uploader :max-count="1" v-model="reportFileArr" :after-read="afterFileRead" :before-read="beforeFilrRead"
               accept="text/plain, application/vnd.ms-excel, application/vnd.ms-works, application/msword, application/pdf">
               <van-button icon="plus" style="width: 100px;" size="small" type="primary">报备附件</van-button>
             </van-uploader>
@@ -266,7 +266,8 @@
 import { ref, onMounted, inject } from "vue";
 import { getRecordsDetail, setAudit, upload, setReport, setConfirm, setCancel } from "@/api/index"
 import { useRouter } from "vue-router";
-import { showConfirmDialog } from "vant";
+import { showToast, showConfirmDialog } from 'vant';
+
 const router = useRouter()
 
 
@@ -403,6 +404,15 @@ const activityInfo = ref<any>({
   file: [],
 })
 
+const beforeFilrRead = (file) => {
+  const fileType = ['pdf', 'docx', 'doc', 'txt', 'xlsx', 'xls']
+  if (fileType.indexOf(file.name.split('.').reverse()[0]) == -1) {
+    showToast('只能上传' + fileType.join() + '文件')
+    return false;
+  }
+  return true;
+};
+
 const afterRead = async (e) => {
   if (e instanceof Array) {
     for (let index = 0; index < e.length; index++) {
@@ -414,29 +424,26 @@ const afterRead = async (e) => {
       auditInfo.value.report_image[index].url = data.data.url;
     }
   } else {
-    // let file = e.file
-    // let param = new FormData()
-    // param.append('file', file, file.name)
-    // param.append('type', '2')
-    // const data = await upload(param)
-    // auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
-
     let file = e.file
     let param = new FormData()
     param.append('file', file, file.name)
-    if (/image/.test(file.type)) {
-      param.append('type', '2')
-      const data = await upload(param)
-      auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
-    } else {
-      param.append('type', '1')
-      const data = await upload(param)
-      reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
-      reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
-      reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
-      delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
-    }
+    param.append('type', '2')
+    const data = await upload(param)
+    auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
   }
+}
+
+const afterFileRead = async (e) => {
+
+  let file = e.file
+  let param = new FormData()
+  param.append('file', file, file.name)
+  param.append('type', '1')
+  const data = await upload(param)
+  reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
+  reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
+  reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
+  delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
 }
 
 const showText = (key) => {
