@@ -406,11 +406,20 @@ const activityInfo = ref<any>({
 
 const beforeFilrRead = (file) => {
   const fileType = ['pdf', 'docx', 'doc', 'txt', 'xlsx', 'xls']
-  if (fileType.indexOf(file.name.split('.').reverse()[0]) == -1) {
-    showToast('只能上传' + fileType.join() + '文件')
-    return false;
+  if (file instanceof Array) {
+    for (let index = 0; index < file.length; index++) {
+      if (fileType.indexOf(file[index].name.split('.').reverse()[0]) == -1) {
+        showToast('只能上传' + fileType.join() + '文件')
+        return false;
+      }
+    }
+  } else {
+    if (fileType.indexOf(file.name.split('.').reverse()[0]) == -1) {
+      showToast('只能上传' + fileType.join() + '文件')
+      return false;
+    }
+    return true;
   }
-  return true;
 };
 
 const afterRead = async (e) => {
