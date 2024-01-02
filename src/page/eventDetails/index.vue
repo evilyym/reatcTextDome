@@ -128,14 +128,15 @@
     display: flex;
     gap: 10px;
   }
-  .subBtn{
-      position: fixed;
-      bottom: 10px;
-      left: 0;
-      width: 100%;
-      padding: 0 30px;
-      box-sizing: border-box;
-    }
+
+  .subBtn {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    padding: 0 30px;
+    box-sizing: border-box;
+  }
 }
 </style>
 <template>
@@ -241,7 +242,7 @@
     <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable
       :style="{ height: btnText.height }">
       <h4>{{ btnText.label }}</h4>
-      <van-form label-align="top" @submit="onSubmit">
+      <van-form label-align="top" @submit="onSubmit" :style="{ height: btnText.status == 4 ? '500px' : '150px' }">
         <van-field required v-model="auditInfo.reason" v-if="btnText.status != 4" autosize type="textarea" rows="3"
           maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder"
           :rules="[{ required: true, message: '理由必须输入' }]" />
@@ -365,7 +366,7 @@ const btnText = ref({
   label: '',
   status: null,
   placeholder: '',
-  height: '40%',
+  height: '260px',
 })
 const auditInfo: { [name: string]: any } = ref({
   report_image: []
@@ -385,7 +386,7 @@ const btnClick = (status) => {
         label: '同意',
         status: status,
         placeholder: '同意理由:',
-        height: '40%',
+        height: '260px',
       }
       break;
 
@@ -394,7 +395,7 @@ const btnClick = (status) => {
         label: '驳回',
         status: status,
         placeholder: '驳回理由:',
-        height: '40%',
+        height: '260px',
       }
       break;
     case 4:
