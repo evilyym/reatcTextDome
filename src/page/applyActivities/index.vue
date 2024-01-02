@@ -39,6 +39,15 @@
     flex-grow: 1;
     width: 100%;
     box-sizing: border-box;
+    padding-bottom: 65px;
+    .subBtn{
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      padding: 0 30px;
+      box-sizing: border-box;
+    }
 
     h4,
     h5 {
@@ -160,7 +169,7 @@
         <van-field v-model="formData.remark" autosize type="textarea" rows="2" maxlength="144" show-word-limit label="备注:"
           placeholder="备注" />
 
-        <div style="margin: 16px;">
+        <div class="subBtn">
           <van-button type="primary" round block native-type="submit">提交</van-button>
         </div>
       </van-form>

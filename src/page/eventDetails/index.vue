@@ -92,6 +92,7 @@
     flex-grow: 1;
     width: 100%;
     box-sizing: border-box;
+    padding-bottom: 65px;
 
     h4,
     h5 {
@@ -127,6 +128,14 @@
     display: flex;
     gap: 10px;
   }
+  .subBtn{
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      padding: 0 30px;
+      box-sizing: border-box;
+    }
 }
 </style>
 <template>
@@ -213,7 +222,7 @@
               activityInfo.report_file[0]?.name }}</a>
           </template>
         </van-field>
-        <div style="margin: 16px;" class="btnBox">
+        <div class="btnBox subBtn">
           <van-button type="primary" v-if="active == 2 && activityInfo.audit_status == 1" @click="btnClick(1)" round
             block>撤销</van-button>
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(2)" round
@@ -256,7 +265,7 @@
             </van-uploader>
           </template>
         </van-field>
-        <van-button type="primary" round block native-type="submit">确定</van-button>
+        <van-button class="subBtn" style="margin: 0 15px;" type="primary" round block native-type="submit">确定</van-button>
       </van-form>
     </van-popup>
   </div>
