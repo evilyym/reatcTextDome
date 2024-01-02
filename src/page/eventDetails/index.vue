@@ -434,16 +434,29 @@ const afterRead = async (e) => {
 }
 
 const afterFileRead = async (e) => {
-
-  let file = e.file
-  let param = new FormData()
-  param.append('file', file, file.name)
-  param.append('type', '1')
-  const data = await upload(param)
-  reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
-  reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
-  reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
-  delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+  if (e instanceof Array) {
+    for (let index = 0; index < e.length; index++) {
+      let file = e[index].file
+      let param = new FormData()
+      param.append('file', file, file.name)
+      param.append('type', '1')
+      const data = await upload(param)
+      reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
+      reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
+      reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
+      delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+    }
+  } else {
+    let file = e.file
+    let param = new FormData()
+    param.append('file', file, file.name)
+    param.append('type', '1')
+    const data = await upload(param)
+    reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
+    reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
+    reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
+    delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+  }
 }
 
 const showText = (key) => {

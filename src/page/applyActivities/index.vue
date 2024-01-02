@@ -316,15 +316,29 @@ const afterRead = async (e) => {
 }
 
 const afterFileRead = async (e) => {
-  let file = e.file
-  let param = new FormData()
-  param.append('file', file, file.name)
-  param.append('type', '1')
-  const data = await upload(param)
-  formData.value.file[formData.value.file.length - 1].url = data.data.url;
-  formData.value.file[formData.value.file.length - 1].name = file.name;
-  formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
-  delete formData.value.file[formData.value.length - 1].objectUrl
+  if (e instanceof Array) {
+    for (let index = 0; index < e.length; index++) {
+      let file = e[index].file
+      let param = new FormData()
+      param.append('file', file, file.name)
+      param.append('type', '1')
+      const data = await upload(param)
+      formData.value.file[formData.value.file.length - 1].url = data.data.url;
+      formData.value.file[formData.value.file.length - 1].name = file.name;
+      formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
+      delete formData.value.file[formData.value.length - 1].objectUrl
+    }
+  } else {
+    let file = e.file
+    let param = new FormData()
+    param.append('file', file, file.name)
+    param.append('type', '1')
+    const data = await upload(param)
+    formData.value.file[formData.value.file.length - 1].url = data.data.url;
+    formData.value.file[formData.value.file.length - 1].name = file.name;
+    formData.value.file[formData.value.file.length - 1].file_tpye = file.type;
+    delete formData.value.file[formData.value.length - 1].objectUrl
+  }
 }
 const delMateria = (index) => {
   checkboxRefs.value[index].toggle();
