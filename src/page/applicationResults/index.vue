@@ -161,7 +161,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -191,7 +191,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -221,7 +221,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>

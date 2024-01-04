@@ -234,7 +234,7 @@
             v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
-            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
+            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1"
             @click="btnConfirm" round block>确认</van-button>
         </div>
       </van-form>
