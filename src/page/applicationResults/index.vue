@@ -78,10 +78,15 @@
         font-weight: 400;
         font-size: 14px;
         position: relative;
-
+        display: flex;
+        width: 100%;
+        gap: 20px;
+        span{
+          width: 35%;
+        }
         & span.auditStatus {
-          position: absolute;
           left: 125px;
+          flex-grow: 1;
           font-size: 14px;
         }
 
@@ -90,6 +95,7 @@
           right: 5px;
           font-size: 14px;
           font-weight: 600;
+          text-align: right;
         }
       }
 
@@ -122,9 +128,9 @@
       <van-tab title="我服务的">
         <div class="listBox">
           <template v-for="itme in ResultsList">
-            <div class="cirdBox" @click="initiateActivities(itme.id)" v-if="itme.leader_phone">
+            <div class="cirdBox" @click="initiateActivities(itme)" v-if="itme.leader_phone">
               <h4>{{ itme.name }}</h4>
-              <p>
+              <p style="display: flex;">
                 <span><van-icon name="user" />{{ itme.leader_name }} </span>
                 <span class="auditStatus"><van-icon name="phone" />{{ itme.leader_phone }} </span>
               </p>
@@ -155,7 +161,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -185,7 +191,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -215,7 +221,7 @@
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
                 <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2 && itme.reporter_phone" :class="{
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
                   green: itme.report_status == 2, red: itme.report_status == 1
                 }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
               </p>
@@ -233,6 +239,7 @@
 import { useRouter } from "vue-router";
 import { ref, onMounted, watch, inject } from "vue";
 import { getRecordsList, getActivityList } from "@/api/index";
+import { showToast } from 'vant';
 
 const router = useRouter()
 
@@ -257,8 +264,12 @@ const option3 = [
   { text: '未报备', value: 1 },
   { text: '已报备', value: 2 },
 ];
-const initiateActivities = (id) => {
-  router.push('/applyActivities?id=' + id)
+const initiateActivities = (item) => {
+  if (item.type==1) {
+  router.push('/applyActivities?id=' + item.id)
+  }else{
+    showToast(item.clue);
+  }
 }
 const eventCheckDetails = (id) => {
   router.push('/eventDetails?id=' + id)
@@ -281,7 +292,7 @@ const getList = async (val = 0, blue = true) => {
       query.report = value3.value
       break;
   }
-  const activityQuery = { type: 1, perPage: 99, code: codeType }
+  const activityQuery = { type: 1, perPage: 999, code: codeType }
   if (ResultsList.value.length == 0 || val == 0) {
     option = (await getActivityList(activityQuery)).data.data
     option.forEach((itme) => {

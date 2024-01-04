@@ -92,6 +92,7 @@
     flex-grow: 1;
     width: 100%;
     box-sizing: border-box;
+    padding-bottom: 65px;
 
     h4,
     h5 {
@@ -126,6 +127,15 @@
   .btnBox {
     display: flex;
     gap: 10px;
+  }
+
+  .subBtn {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    padding: 0 30px;
+    box-sizing: border-box;
   }
 }
 </style>
@@ -185,11 +195,18 @@
               :max-count="3" />
           </template>
         </van-field>
+        <van-field readonly name="uploader" label="上传文件:">
+          <template #input>
+            <a :download="activityInfo.file[0]?.name" :href="activityInfo.file[0]?.url">{{ activityInfo.file[0]?.name
+            }}</a>
+            <!-- <van-uploader readonly :deletable="false" v-model="activityInfo.file" :after-read="afterRead" :max-count="1" /> -->
+          </template>
+        </van-field>
         <van-field readonly v-model="activityInfo.remark" autosize type="textarea" maxlength="144" label="备注:"
           placeholder="备注" />
 
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
-          v-model="activityInfo.report_reason" label="报备理由:" autosize type="textarea"/>
+          v-model="activityInfo.report_reason" label="报备理由:" autosize type="textarea" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly
           v-model="activityInfo.report_amount" label="活动金额:" />
         <van-field v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" readonly name="uploader"
@@ -199,7 +216,14 @@
               :max-count="3" />
           </template>
         </van-field>
-        <div style="margin: 16px;" class="btnBox">
+        <van-field readonly v-if="activityInfo.audit_status == 2 && activityInfo.report_reason" name="uploader"
+          label="报备文件:">
+          <template #input>
+            <a :download="activityInfo.report_file[0]?.name" :href="activityInfo.report_file[0]?.url">{{
+              activityInfo.report_file[0]?.name }}</a>
+          </template>
+        </van-field>
+        <div class="btnBox subBtn">
           <van-button type="primary" v-if="active == 2 && activityInfo.audit_status == 1" @click="btnClick(1)" round
             block>撤销</van-button>
           <van-button type="primary" v-if="active == 1 && activityInfo.audit_status == 1" @click="btnClick(2)" round
@@ -210,7 +234,7 @@
             v-if="active == 1 && activityInfo.audit_status == 2 && activityInfo.reporter_phone && !activityInfo.report_reason"
             @click="btnClick(4)" round block>报备</van-button>
           <van-button type="primary"
-            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1 && activityInfo.report_reason"
+            v-if="active == 2 && activityInfo.audit_status == 2 && activityInfo.report_status == 1"
             @click="btnConfirm" round block>确认</van-button>
         </div>
       </van-form>
@@ -218,7 +242,7 @@
     <van-popup v-model:show="showBottom" round position="bottom" class="dialog" closeable
       :style="{ height: btnText.height }">
       <h4>{{ btnText.label }}</h4>
-      <van-form label-align="top" @submit="onSubmit">
+      <van-form label-align="top" @submit="onSubmit" :style="{ height: btnText.status == 4 ? '500px' : '150px' }">
         <van-field required v-model="auditInfo.reason" v-if="btnText.status != 4" autosize type="textarea" rows="3"
           maxlength="144" show-word-limit :label="btnText.placeholder" :placeholder="btnText.placeholder"
           :rules="[{ required: true, message: '理由必须输入' }]" />
@@ -228,13 +252,21 @@
           :rules="[{ required: true, message: '请输入报备理由' }]" />
         <van-field required v-model="auditInfo.report_amount" type="number" v-if="btnText.status == 4" show-word-limit
           label="报备金额:" placeholder="请输入报备金额" :rules="[{ required: true, message: '请输入报备金额' }]" />
-        <van-field required name="uploader" label="上传图片:" v-if="btnText.status == 4"
-          :rules="[{ required: true, message: '必须上传图片' }]">
+        <van-field name="uploader" label="上传图片:" v-if="btnText.status == 4" :rules="[{ message: '必须上传图片' }]">
           <template #input>
             <van-uploader v-model="auditInfo.report_image" :after-read="afterRead" multiple :max-count="3" />
           </template>
         </van-field>
-        <van-button type="primary" round block native-type="submit">确定</van-button>
+        <van-field name="uploader" label="报备附件:" :rules="[{ message: '只能上传PDF,TXT,XLS,DOC文件' }]"
+          v-if="btnText.status == 4">
+          <template #input>
+            <van-uploader :max-count="1" v-model="reportFileArr" :after-read="afterFileRead" :before-read="beforeFilrRead"
+              accept="text/plain, application/vnd.ms-excel, application/vnd.ms-works, application/msword, application/pdf">
+              <van-button icon="plus" style="width: 100px;" size="small" type="primary">报备附件</van-button>
+            </van-uploader>
+          </template>
+        </van-field>
+        <van-button class="subBtn" style="margin: 0 15px;" type="primary" round block native-type="submit">确定</van-button>
       </van-form>
     </van-popup>
   </div>
@@ -244,7 +276,8 @@
 import { ref, onMounted, inject } from "vue";
 import { getRecordsDetail, setAudit, upload, setReport, setConfirm, setCancel } from "@/api/index"
 import { useRouter } from "vue-router";
-import { showConfirmDialog } from "vant";
+import { showToast, showConfirmDialog } from 'vant';
+
 const router = useRouter()
 
 
@@ -275,6 +308,7 @@ const onSubmit = async () => {
         ...auditInfo.value,
         id: router.currentRoute.value.query.id,
         report_image: report_imageArr.value,
+        file: reportFileArr.value.length > 0 ? reportFileArr.value[0] : null,
       }
       data = await setReport(query)
 
@@ -312,6 +346,8 @@ const btnCancel = () => {
   });
 }
 
+const reportFileArr = ref([])
+
 const cancel = async () => {
   const query = {
     id: router.currentRoute.value.query.id,
@@ -330,7 +366,7 @@ const btnText = ref({
   label: '',
   status: null,
   placeholder: '',
-  height: '40%',
+  height: '260px',
 })
 const auditInfo: { [name: string]: any } = ref({
   report_image: []
@@ -350,7 +386,7 @@ const btnClick = (status) => {
         label: '同意',
         status: status,
         placeholder: '同意理由:',
-        height: '40%',
+        height: '260px',
       }
       break;
 
@@ -359,7 +395,7 @@ const btnClick = (status) => {
         label: '驳回',
         status: status,
         placeholder: '驳回理由:',
-        height: '40%',
+        height: '260px',
       }
       break;
     case 4:
@@ -374,8 +410,27 @@ const btnClick = (status) => {
 
 }
 const activityInfo = ref<any>({
-  activity: {}
+  activity: {},
+  file: [],
 })
+
+const beforeFilrRead = (file) => {
+  const fileType = ['pdf', 'docx', 'doc', 'txt', 'xlsx', 'xls']
+  if (file instanceof Array) {
+    for (let index = 0; index < file.length; index++) {
+      if (fileType.indexOf(file[index].name.split('.').reverse()[0]) == -1) {
+        showToast('只能上传' + fileType.join() + '文件')
+        return false;
+      }
+    }
+  } else {
+    if (fileType.indexOf(file.name.split('.').reverse()[0]) == -1) {
+      showToast('只能上传' + fileType.join() + '文件')
+      return false;
+    }
+    return true;
+  }
+};
 
 const afterRead = async (e) => {
   if (e instanceof Array) {
@@ -397,6 +452,34 @@ const afterRead = async (e) => {
   }
 }
 
+const afterFileRead = async (e) => {
+  if (e instanceof Array) {
+    for (let index = 0; index < e.length; index++) {
+      let file = e[index].file
+      let param = new FormData()
+      param.append('file', file, file.name)
+      param.append('type', '1')
+      const data = await upload(param)
+      reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
+      reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
+      reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
+      delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+      delete reportFileArr.value[reportFileArr.value.length - 1].content
+    }
+  } else {
+    let file = e.file
+    let param = new FormData()
+    param.append('file', file, file.name)
+    param.append('type', '1')
+    const data = await upload(param)
+    reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
+    reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
+    reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
+    delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+    delete reportFileArr.value[reportFileArr.value.length - 1].content
+  }
+}
+
 const showText = (key) => {
   switch (key) {
     case 1:
@@ -411,6 +494,8 @@ const showText = (key) => {
 
 onMounted(async () => {
   const data: any = (await getRecordsDetail({ id: router.currentRoute.value.query.id })).data
+  data.file = data.file ? [data.file] : []
+  data.report_file = data.report_file ? [data.report_file] : []
   activityInfo.value = data
 
   activityInfo.value.attachment ? activityInfo.value.attachment.forEach((itme, index) => {
