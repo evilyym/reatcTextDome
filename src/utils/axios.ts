@@ -5,7 +5,8 @@ import axios from 'axios';
  * 与后端服务通信
  */
 const HttpClient = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  // baseURL: process.env.VITE_APP_BASE_URL,
 });
 
 /**
@@ -14,8 +15,8 @@ const HttpClient = axios.create({
  */
 HttpClient.interceptors.request.use(
   (config) => {
-    const token = '222';
-    config.headers.authorization = 'Bearer ' + token;
+    // const token = '222';
+    // config.headers.authorization = 'Bearer ' + token;
     return config;
   },
   (error) => {

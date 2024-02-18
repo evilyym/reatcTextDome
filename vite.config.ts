@@ -7,7 +7,7 @@ import viteCompression from 'vite-plugin-compression';
 // https://vitejs.dev/config/
 
 export default ({ mode }) => {
-  console.log('mode', loadEnv(mode, process.cwd()).VITE_BASE_URL); //127.0.0.1:9000/api
+  console.log('mode', loadEnv(mode, process.cwd())); //127.0.0.1:9000/api
   return defineConfig({
     plugins: [
       react(),
@@ -42,8 +42,9 @@ export default ({ mode }) => {
         },
       },
     },
+    // define: { 'process.env': {} },
     base: '/',
-    server: {
+/*     server: {
       host: '0.0.0.0',
       port: 8080,
       open: true,
@@ -55,6 +56,6 @@ export default ({ mode }) => {
           rewrite: (path: string) => path.replace(/^\/api/, ''),
         },
       },
-    },
+    }, */
   });
 };

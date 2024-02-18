@@ -9,6 +9,7 @@ const User = lazy(() => import('../pages/user'));
 const Manage = lazy(() => import('../pages/manage'));
 const File = lazy(() => import('../pages/file'));
 const Info = lazy(() => import('../pages/info'));
+const ErrorPage = lazy(() => import('../pages/errorBoundary'));
 
 const routes = [
   {
@@ -39,7 +40,8 @@ const routes = [
   },
   {
     path: '*',
-    element: <div>404</div>,
+    // element: <div>404</div>,
+    element: <ErrorPage />,
   },
 ];
 
