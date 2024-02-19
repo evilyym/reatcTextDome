@@ -91,6 +91,7 @@ const Login: React.FC = () => (
 //   );
 // };
 const Wrapper = styled.div`
+  
   .basic {
     height: 60px;
     border: 1px solid;
