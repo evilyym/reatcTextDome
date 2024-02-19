@@ -30,7 +30,7 @@ type FieldType = {
 };
 
 const Login: React.FC = () => (
-  <Wrapper>
+  <Wrapper className='main'>
   <Form
     name="basic"
     className='basic'
@@ -91,10 +91,11 @@ const Login: React.FC = () => (
 //   );
 // };
 const Wrapper = styled.div`
-  
+  .main{
+    background: red;
+  }
   .basic {
     height: 60px;
-    border: 1px solid;
   }
   .main {
     height: calc(100vh - 60px);
