@@ -1,3 +1,8 @@
+/*
+ * @Author: yym
+ * @Date: 2024-01-26 01:29:24
+ * @LastEditTime: 2024-02-23 09:13:46
+ */
 import path from 'path'; //这个path用到了上面安装的@types/node
 
 import react from '@vitejs/plugin-react';
@@ -44,18 +49,18 @@ export default ({ mode }) => {
     },
     // define: { 'process.env': {} },
     base: '/',
-/*     server: {
+    server: {
       host: '0.0.0.0',
-      port: 8080,
+      port: 9527,
       open: true,
-      proxy: {
-        '/api': {
-          target: '要代理的地址',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path: string) => path.replace(/^\/api/, ''),
-        },
-      },
-    }, */
+      // proxy: {
+      //   '/api': {
+      //     target: '要代理的地址',
+      //     changeOrigin: true,
+      //     ws: true,
+      //     rewrite: (path: string) => path.replace(/^\/api/, ''),
+      //   },
+      // },
+    },
   });
 };

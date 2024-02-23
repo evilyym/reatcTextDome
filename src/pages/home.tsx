@@ -1,12 +1,19 @@
+/*
+ * @Author: yym
+ * @Date: 2024-01-26 01:29:24
+ * @LastEditTime: 2024-02-23 15:24:23
+ */
 import { Suspense } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-
+import Ai from './ai'
 import styled from 'styled-components';
 
 const Home = () => {
   return (
     <Wrapper>
-      <div className="header"></div>
+      <div className="header">
+        <Ai />
+      </div>
       <div className="main">
         <aside>
           <div className="menu_item">
@@ -54,7 +61,7 @@ const Wrapper = styled.div`
       width: 260px;
       border: 1px solid;
       .active {
-        color: red;
+        // color: red;
       }
     }
     section {

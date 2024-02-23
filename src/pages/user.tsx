@@ -1,15 +1,14 @@
+/*
+ * @Author: yym
+ * @Date: 2024-01-26 01:29:24
+ * @LastEditTime: 2024-02-23 14:01:28
+ */
 import { useNavigate } from 'react-router-dom';
-
-// const obj: any = {
-//   a: '2',
-// };
 
 const User = () => {
   const navigation = useNavigate();
   return (
     <div>
-      {/* 报错：因为取不到c属性 */}
-      {/* {obj.b.c} */}
       user
       <button onClick={() => navigation('/manage')}>manage</button>
     </div>

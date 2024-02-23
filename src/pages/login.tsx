@@ -91,9 +91,6 @@ const Login: React.FC = () => (
 //   );
 // };
 const Wrapper = styled.div`
-  .main{
-    background: red;
-  }
   .basic {
     height: 60px;
   }
@@ -104,7 +101,7 @@ const Wrapper = styled.div`
       width: 260px;
       border: 1px solid;
       .active {
-        color: red;
+        // color: red;
       }
     }
     section {
