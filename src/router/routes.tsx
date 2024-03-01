@@ -21,19 +21,19 @@ const routes = [
     errorElement: <ErrorBoundary />,
     children: [
       {
-        path: '/',
+        path: '/1',
         element: <User />,
       },
       {
-        path: '/manage',
+        path: '/2',
         element: <Manage />,
       },
       {
-        path: '/file',
+        path: '/3',
         element: <File />,
       },
       {
-        path: '/info',
+        path: '/',
         element: <Info />,
       },
     ],

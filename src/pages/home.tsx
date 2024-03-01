@@ -1,13 +1,14 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-01 15:25:14
+ * @LastEditTime: 2024-03-01 17:34:45
  */
-import React from 'react';
+import React, { Suspense } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-// import { RouterProvider } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+
 // import router from '@/router';
 
 const { Header, Content, Sider, Footer } = Layout;
@@ -40,6 +41,12 @@ const App: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const navigate = useNavigate();
+
+  const goReace = (e: any) => {
+    navigate(e.key, { replace: true });
+  };
+
   return (
     <Layout style={{ height: '100%' }}>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
@@ -60,6 +67,7 @@ const App: React.FC = () => {
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
             items={items2}
+            onClick={goReace}
           />
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
@@ -76,7 +84,9 @@ const App: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            {/* <RouterProvider router={router} /> */}
+            <Suspense fallback={<div>Loading...</div>}>
+              <Outlet />
+            </Suspense>
           </Content>
           <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer>
         </Layout>
