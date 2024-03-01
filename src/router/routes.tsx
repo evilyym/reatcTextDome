@@ -36,12 +36,12 @@ const routes = [
         path: '/',
         element: <Info />,
       },
+      {
+        path: '*',
+        // element: <div>404</div>,
+        element: <ErrorPage />,
+      },
     ],
-  },
-  {
-    path: '*',
-    // element: <div>404</div>,
-    element: <ErrorPage />,
   },
 ];
 
