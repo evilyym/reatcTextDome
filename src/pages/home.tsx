@@ -1,14 +1,16 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-02-28 15:06:56
+ * @LastEditTime: 2024-03-01 15:25:14
  */
 import React from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+// import { RouterProvider } from 'react-router-dom';
+// import router from '@/router';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Sider, Footer } = Layout;
 
 const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
   key,
@@ -39,7 +41,7 @@ const App: React.FC = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
+    <Layout style={{ height: '100%' }}>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
         <div className="demo-logo" />
         <Menu
@@ -47,7 +49,7 @@ const App: React.FC = () => {
           mode="horizontal"
           defaultSelectedKeys={['2']}
           items={items1}
-          style={{ flex: 1, minWidth: 0 }}
+          style={{ flex: 1, minWidth: 0, color: 'red' }}
         />
       </Header>
       <Layout>
@@ -61,11 +63,10 @@ const App: React.FC = () => {
           />
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumb
+            style={{ margin: '16px 0' }}
+            items={[{ title: 'Home' }, { title: 'List' }, { title: 'App' }]}
+          ></Breadcrumb>
           <Content
             style={{
               padding: 24,
@@ -75,10 +76,12 @@ const App: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            Content
+            {/* <RouterProvider router={router} /> */}
           </Content>
+          <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer>
         </Layout>
       </Layout>
+      <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer>
     </Layout>
   );
 };
