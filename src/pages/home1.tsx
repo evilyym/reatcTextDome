@@ -5,14 +5,12 @@
  */
 import { Suspense } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import Ai from './ai'
 import styled from 'styled-components';
 
 const Home = () => {
   return (
     <Wrapper>
       <div className="header">
-        <Ai />
       </div>
       <div className="main">
         <aside>
