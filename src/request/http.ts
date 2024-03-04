@@ -12,7 +12,7 @@ if (
   new Vconsole()
 } else {
   configURL.baseURL = "https://zhhq-zjtie-edu-cn-s.zjtie.edu.cn:443/activitysupport_api"; //正式服
-  configURL.saasURL = "https://zhhq-zjtie-edu-cn-s.zjtie.edu.cn:443"; //正式服
+  configURL.saasURL = "https://zhhq-zjtie-edu-cn-s.zjtie.edu.cn:443/saas_wap/"; //正式服
 }
 
 export default configURL;
