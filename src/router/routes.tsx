@@ -1,3 +1,8 @@
+/*
+ * @Author: yym
+ * @Date: 2024-03-04 10:01:09
+ * @LastEditTime: 2024-03-04 14:48:11
+ */
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from 'react';
 
@@ -13,7 +18,7 @@ const ErrorPage = lazy(() => import('../pages/errorBoundary'));
 
 const routes = [
   {
-    path: '/login',
+    path: '/5',
     element: <Login />,
   },
   {
@@ -33,7 +38,7 @@ const routes = [
         element: <File />,
       },
       {
-        path: '/',
+        path: '/4',
         element: <Info />,
       },
       {

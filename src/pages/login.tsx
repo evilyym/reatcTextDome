@@ -52,7 +52,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Wrapper className="main">
+    <Wrapper>
       {contextHolder}
       <Form
         name="basic"
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ ...initialValues,remember: true }}
+        initialValues={{ ...initialValues, remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -111,17 +111,21 @@ const Login: React.FC = () => {
 //   );
 // };
 const Wrapper = styled.div`
-.basic {
-  height: 200px;
-  width: 400px;
-  aside {
-    width: 260px;
-    border: 1px solid;
+  height: 100%;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  .basic {
+    height: 200px;
+    width: 400px;
+    aside {
+      width: 260px;
+      border: 1px solid;
+    }
+    section {
+      flex: 1;
+    }
   }
-  section {
-    flex: 1;
-  }
-}
 `;
 
 export default Login;

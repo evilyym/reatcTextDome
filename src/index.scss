@@ -1,14 +1,15 @@
 html,
-body {
+body,
+#root {
   width: 100%;
   height: 100%;
   color: $test-color;
 
-  #root {
-    height: 100%;
-    display: grid;
-    align-content: center;
-    // align-items: start;
-    justify-content: center;
-  }
+  // #root {
+  //   height: 100%;
+  //   display: grid;
+  //   align-content: center;
+  //   // align-items: start;
+  //   justify-content: center;
+  // }
 }
