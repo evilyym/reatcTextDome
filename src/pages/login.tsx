@@ -23,7 +23,6 @@ const Login: React.FC = () => {
     // navigate('/', { replace: true });
 
     goLogin({ ...values }).then(({ data }) => {
-      debugger;
       if (data.code == 200) {
         localStorage.setItem('token', data.trace_id);
         getList({ ...values }).then(() => {
@@ -112,23 +111,17 @@ const Login: React.FC = () => {
 //   );
 // };
 const Wrapper = styled.div`
-  .basic {
-    height: 60px;
+.basic {
+  height: 200px;
+  width: 400px;
+  aside {
+    width: 260px;
+    border: 1px solid;
   }
-  .main {
-    height: calc(100vh - 60px);
-    display: flex;
-    aside {
-      width: 260px;
-      border: 1px solid;
-      .active {
-        // color: red;
-      }
-    }
-    section {
-      flex: 1;
-    }
+  section {
+    flex: 1;
   }
+}
 `;
 
 export default Login;

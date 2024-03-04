@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-01 17:34:45
+ * @LastEditTime: 2024-03-04 14:34:48
  */
 import React, { Suspense } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
@@ -48,7 +48,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Layout style={{ height: '100%' }}>
+    <Layout>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
         <div className="demo-logo" />
         <Menu
