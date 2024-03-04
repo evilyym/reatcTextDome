@@ -1,3 +1,8 @@
+/*
+ * @Author: yym
+ * @Date: 2024-03-04 13:34:26
+ * @LastEditTime: 2024-03-04 13:36:21
+ */
 import Vconsole from 'vconsole'
 
 let hostname = location.hostname;
