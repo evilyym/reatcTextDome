@@ -1,5 +1,7 @@
 import axios from "axios";
 import { showLoadingToast, closeToast, showFailToast } from "vant";
+import { routerQuery } from "../route/index";
+
 declare module "axios" {
   interface AxiosResponse<T = any> {
     code: number;
@@ -15,7 +17,6 @@ const request = axios.create({
 
 request.interceptors.request.use(
   (config) => {
-
     showLoadingToast({
       message: "加载中...",
       duration: 0,
@@ -31,7 +32,7 @@ request.interceptors.request.use(
     if (obj) {
       const empty = ["", null, undefined, NaN];
       for (let item in obj) {
-        if (empty.includes(obj[item])) {
+        if (empty.includes(obj[item]) || obj[item].length == 0) {
           delete obj[item];
         }
       }
@@ -50,7 +51,7 @@ request.interceptors.response.use(
     //成功
     const { data } = response;
 
-    statusCodeHandle(data.code, data.msg);
+    statusCodeHandle(data.code, data.data, data.msg);
     // return { data: data.data, msg: data.msg, code: data.code };
     return response.data;
   },
@@ -59,7 +60,7 @@ request.interceptors.response.use(
   }
 );
 //状态码处理
-const statusCodeHandle = (code: number, msg: string) => {
+const statusCodeHandle = (code: number, data: any, msg: string) => {
   switch (code) {
     case 12000401:
       sessionStorage.removeItem("go");
@@ -73,6 +74,29 @@ const statusCodeHandle = (code: number, msg: string) => {
         }`
       );
       // location.href = "https://zjtie.goliveplus.cn";
+      break;
+    case 501:
+    case 502:
+      const codeType = routerQuery;
+      if (codeType.code) {
+        location.replace(
+          data.register_url`?redirect_url=${
+            location.origin + location.pathname
+          }?activitysupporCode=${codeType.code}&time=${new Date().getTime()}`
+        );
+      } else if (codeType.id) {
+        location.replace(
+          data.register_url +
+            `?redirect_url=${location.origin + location.pathname}?id=${
+              codeType.id
+            }&userType=${codeType.user_type}&time=${new Date().getTime()}`
+        );
+      } else {
+        location.replace(
+          data.register_url +
+            `?redirect_url=${location.origin + location.pathname}`
+        );
+      }
       break;
     case 200:
       break;

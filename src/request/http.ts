@@ -1,3 +1,8 @@
+/*
+ * @Author: yym
+ * @Date: 2024-03-04 13:34:26
+ * @LastEditTime: 2024-03-04 13:36:21
+ */
 import Vconsole from 'vconsole'
 
 let hostname = location.hostname;
@@ -11,8 +16,8 @@ if (
   configURL.saasURL = "https://dev-zjtie.goliveplus.cn/saas_wap/"; //测试服
   new Vconsole()
 } else {
-  configURL.baseURL = "https://zhhq-zjtie-edu-cn-s.zjtie.edu.cn:443/activitysupport_api"; //正式服
-  configURL.saasURL = "https://zhhq-zjtie-edu-cn-s.zjtie.edu.cn:443/saas_wap/"; //正式服
+  configURL.baseURL = "https://zhhq.zjtie.edu.cn/activitysupport_api"; //正式服
+  configURL.saasURL = "https://zhhq.zjtie.edu.cn/saas_wap/"; //正式服
 }
 
 export default configURL;
