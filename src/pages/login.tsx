@@ -5,27 +5,34 @@ import { goLogin, getList } from '@/apis/user';
 import styled from 'styled-components';
 
 import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const error = (msg: string) => {
+    messageApi.open({
+      type: 'error',
+      content: msg,
+    });
+  };
 
   const onFinish = (values: any) => {
-    navigate('/', { replace: true });
-    localStorage.setItem('token', values);
+    // navigate('/', { replace: true });
 
-    // goLogin({ ...values }).then(({ data }) => {
-    //   if (data.code == 200 || 1) {
-    //     // getList({ ...values }).then(() => {
-    //       debugger
-    //       const navigate = useNavigate();
-    //       navigate('/', { replace: true });
-    //     // });
-    //   } else {
-    //     alert(data.msg);
-    //   }
-    // });
+    goLogin({ ...values }).then(({ data }) => {
+      debugger;
+      if (data.code == 200) {
+        localStorage.setItem('token', data.trace_id);
+        getList({ ...values }).then(() => {
+          navigate('/', { replace: true });
+        });
+      } else {
+        error(data.msg);
+      }
+    });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -34,27 +41,34 @@ const Login: React.FC = () => {
 
   type FieldType = {
     type?: string;
-    phone?: string;
+    username?: string;
     password?: string;
     code?: string;
+    defaultValue?: any;
+  };
+  const initialValues = {
+    username: '15505707071',
+    password: 'Qw9KEV4C834Ie1lt/mKeeLfx/gLonCzzQc1kr2rv8gA=',
+    email: 'john.doe@example.com',
   };
 
   return (
     <Wrapper className="main">
+      {contextHolder}
       <Form
         name="basic"
         className="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
+        initialValues={{ ...initialValues,remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item<FieldType>
-          label="Userphone"
-          name="phone"
+          label="Userusername"
+          name="username"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
