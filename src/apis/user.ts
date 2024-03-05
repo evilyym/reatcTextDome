@@ -1,9 +1,9 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-05 11:33:45
+ * @LastEditTime: 2024-03-05 14:41:48
  */
-import HttpClient from '../utils/axios';
+import HttpClient from '@/utils/axios';
 
 import type { ListParams, ListModel, dataAny } from './model/userModel';
 

@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-05 11:40:42
+ * @LastEditTime: 2024-03-05 14:20:07
  */
 import React, { Suspense } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
@@ -9,6 +9,9 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu, theme, ConfigProvider } from 'antd';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import Bread from "@/components/breadcrumb";
+import homeS from "./home.scss";
+import homeMs from "./home.module.scss";
+
 // import router from '@/router';
 
 import { getProductList } from '@/apis/user';
