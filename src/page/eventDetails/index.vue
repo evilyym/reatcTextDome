@@ -167,14 +167,17 @@
         <van-field v-model="activityInfo.leader_phone" name="" label="手机号:" placeholder="手机号" readonly />
       </van-form>
       <van-form label-align="top">
-        <h5>申请材料</h5>
+        <h5 v-if="activityInfo.specific_matters">具体事项</h5>
+        <van-field v-if="activityInfo.specific_matters" readonly v-model="activityInfo.specific_matters" autosize type="textarea" 
+        maxlength="200" label="" placeholder="" />
+        <!-- <h5>申请材料</h5>
         <van-field readonly>
           <template #input>
             <div class="materialsBox">
-              <div v-for="itme in activityInfo.materials">{{ itme.name }} {{ itme.number }} {{ itme.unit }}</div>
+              <div v-for="itme in activityInfo.materials" :key="itme.name">{{ itme.name }} {{ itme.number }} {{ itme.unit }}</div>
             </div>
           </template>
-        </van-field>
+        </van-field> -->
 
         <h5>使用信息</h5>
         <van-field readonly v-model="activityInfo.usage_location" name="" label="地点:" placeholder="请输入地点"

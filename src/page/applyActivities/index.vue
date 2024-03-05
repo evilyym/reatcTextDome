@@ -111,20 +111,26 @@
         <van-field v-model="activityInfo.leader_phone" name="" label="手机号:" placeholder="手机号" readonly />
       </van-form>
       <van-form @submit="onSubmit" label-align="top">
-        <h5>申请材料</h5>
-        <van-swipe-cell right-width="60" v-for="(item) in materialArr">
+        <h5>具体事项</h5>
+
+        <van-field required autosize type="textarea" rows="3" maxlength="200" show-word-limit
+          v-model="formData.specific_matters" name="" label="" placeholder="请输入具体事项内容"
+          :rules="[{ required: true, message: '请输入具体事项内容' }]" />
+        <!-- 1.31 版本  -->
+        <!-- <h5>申请材料</h5>
+        <van-swipe-cell right-width="60" v-for="(item, index) in materialArr" :key="index">
           <van-field :label="item.name" label-align="left" input-align="right">
             <template #input>
               <van-stepper v-model="item.addNumber" />
             </template>
           </van-field>
-          <view slot="right" class="van-swipe-cell__right" @click="delMateria(item.index)">删除</view>
-        </van-swipe-cell>
+          <view class="van-swipe-cell__right" @click="delMateria(item.index)">删除</view>
+        </van-swipe-cell> -->
 
-        <van-field is-link readonly name="picker" label="" placeholder="点击新增材料"
-          @click="(activitiesInfo.length > 0) ? (showPicker = true) : (showToast('没有可用材料'))" />
+        <!-- <van-field is-link readonly name="picker" label="" placeholder="点击新增材料"
+          @click="(activitiesInfo.length > 0) ? (showPicker = true) : (showToast('没有可用材料'))" /> -->
 
-        <van-popup v-model:show="showPicker" closeable position="bottom" class="dialog">
+        <!-- <van-popup v-model:show="showPicker" closeable position="bottom" class="dialog">
           <h4>材料选择</h4>
           <van-checkbox-group v-model="materialArr">
             <van-cell-group inset>
@@ -137,7 +143,8 @@
             </van-cell-group>
           </van-checkbox-group>
           <van-button type="primary" round block @click="showPicker = false">确定</van-button>
-        </van-popup>
+        </van-popup> -->
+
         <h5>使用信息</h5>
         <van-field required v-model="formData.usage_location" name="" label="地点:" placeholder="请输入地点"
           :rules="[{ required: true, message: '请输入地点' }]" />

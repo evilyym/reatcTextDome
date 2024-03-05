@@ -1,6 +1,7 @@
 import axios from "axios";
 import { showLoadingToast, closeToast, showFailToast } from "vant";
 import { routerQuery } from "../route/index";
+import { v1 as uid } from "uuid";
 
 declare module "axios" {
   interface AxiosResponse<T = any> {
@@ -26,6 +27,9 @@ request.interceptors.request.use(
 
     const userCode = localStorage.getItem("userCode");
     config.headers["Authorization"] = userCode;
+    const tid = uid().replaceAll('-','')
+    config.headers["Trace-Id"] = tid;
+    config.headers["Trace_id"] = tid;
     const { data, params, method } = config;
     // 统一过滤空字段
     const obj = method === "get" ? params : data;
@@ -49,9 +53,8 @@ request.interceptors.response.use(
   (response) => {
     closeToast();
     //成功
-    const { data } = response;
-
-    statusCodeHandle(data.code, data.data, data.msg);
+    const { data, config } = response;
+    statusCodeHandle(data.code, data.data, data.msg, config.headers['Trace-Id'].substr(0, 12) );
     // return { data: data.data, msg: data.msg, code: data.code };
     return response.data;
   },
@@ -60,7 +63,7 @@ request.interceptors.response.use(
   }
 );
 //状态码处理
-const statusCodeHandle = (code: number, data: any, msg: string) => {
+const statusCodeHandle = (code: number, data: any, msg: string, tid:string) => {
   switch (code) {
     case 12000401:
       sessionStorage.removeItem("go");
@@ -101,8 +104,7 @@ const statusCodeHandle = (code: number, data: any, msg: string) => {
     case 200:
       break;
     default:
-      showFailToast(msg);
-      console.error(msg);
+      showFailToast(msg + '\n' + tid);
       break;
   }
 };
