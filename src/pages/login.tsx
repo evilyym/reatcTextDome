@@ -18,7 +18,7 @@ const Login: React.FC = () => {
       content: msg,
     });
   };
-  let userArr = [];
+  let userArr=[1,3,4];
   const onFinish = (values: any) => {
     // navigate('/', { replace: true });
     goLogin({ ...values }).then((data) => {
@@ -26,8 +26,7 @@ const Login: React.FC = () => {
         localStorage.setItem('token', data.token);
         navigate('/', { replace: true });
       } else {
-        userArr = data.info
-        debugger
+        userArr = data.info;
         showModal();
         // 弹出选择框
       }
@@ -65,6 +64,7 @@ const Login: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   return (
     <Wrapper>
       {contextHolder}
@@ -106,13 +106,22 @@ const Login: React.FC = () => {
         </Form.Item>
       </Form>
       <Modal centered title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <p>111</p>
-        {()=>{ for (item in userArr) {
-          debugger
-          console.log(item.tenant_code);
-          
-          return <p>111</p>
-        } }}
+        {userArr}
+        {userArr.map((item, index) =>
+          item.id != '' ? (
+            <li>
+              <Link to={`${peopleUlr}/type=${item.value}`}>
+                <p className="box-title">{item.value}</p>
+                <p>
+                  <span className={`box-icon icon-${skin}${index}`}></span>
+                  <span className="box-type">{item.name}</span>
+                </p>
+              </Link>
+            </li>
+          ) : (
+            '22'
+          ),
+        )}
       </Modal>
     </Wrapper>
   );
