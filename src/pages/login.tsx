@@ -24,7 +24,7 @@ const Login: React.FC = () => {
 
     goLogin({ ...values }).then(({ data }) => {
       if (data.code == 200) {
-        localStorage.setItem('token', data.trace_id);
+        localStorage.setItem('token', data.data.token);
         getList({ ...values }).then(() => {
           navigate('/', { replace: true });
         });
@@ -48,7 +48,8 @@ const Login: React.FC = () => {
   const initialValues = {
     username: '15505707071',
     password: 'Qw9KEV4C834Ie1lt/mKeeLfx/gLonCzzQc1kr2rv8gA=',
-    email: 'john.doe@example.com',
+    tenant_code: 'C10026',
+    mid_code: ''
   };
 
   return (

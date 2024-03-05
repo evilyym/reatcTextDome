@@ -1,21 +1,26 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-04 14:56:55
+ * @LastEditTime: 2024-03-05 11:40:42
  */
 import React, { Suspense } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
-
+import { Layout, Menu, theme, ConfigProvider } from 'antd';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
+import Bread from "@/components/breadcrumb";
 // import router from '@/router';
+
+import { getProductList } from '@/apis/user';
 
 const { Header, Content, Sider, Footer } = Layout;
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
+const items1: MenuProps['items'] = [
+  { key: '1', name: '主页' },
+  { key: '2', name: '设置' },
+].map((item) => ({
+  key: item.key,
+  label: `${item.name}`,
 }));
 
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
@@ -26,8 +31,8 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
     icon: React.createElement(icon),
     label: `subnav ${key}`,
 
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
+    children: new Array(5).fill(null).map((_, j) => {
+      const subKey = index * 5 + j + 1;
       return {
         key: subKey,
         label: `option${subKey}`,
@@ -47,52 +52,101 @@ const App: React.FC = () => {
     navigate(e.key, { replace: true });
   };
 
+  const itemRender = (item, params, items, paths) => {
+    const last = items.indexOf(item) === items.length - 1;
+    return last ? <span>{item.title}</span> : <Link to={paths.join('/')}>{item.title}</Link>;
+  };
+
+  // "H10172" 15505707071
+  getProductList({ product_id:'H10172' }).then(({ data }) => {
+    console.log(data);
+  });
+
+  const breadcrumbItems = [
+    {
+      path: '/',
+      title: 'home',
+    },
+    {
+      path: '1',
+      title: 'first',
+      children: [
+        {
+          path: '/1',
+          title: 'General',
+        },
+        {
+          path: '/2',
+          title: 'Layout',
+        },
+        {
+          path: '/3',
+          title: 'Navigation',
+        },
+        {
+          path: '/',
+          title: '主页',
+        },
+      ],
+    },
+    {
+      path: 'second',
+      title: 'second',
+    },
+  ];
   return (
-    <Layout style={{height: '100%'}}>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={items1}
-          style={{ flex: 1, minWidth: 0, color: 'red' }}
-        />
-      </Header>
-      <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}>
+    <ConfigProvider
+      theme={{
+        components: {
+          Layout: {
+            footerPadding: '10px 10px',
+          },
+        },
+      }}
+    >
+      <Layout style={{ height: '100%' }}>
+        <Header style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="demo-logo" />
           <Menu
-            mode="inline"
+            theme="dark"
+            mode="horizontal"
             defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
-            items={items2}
-            onClick={goReace}
+            items={items1}
+            style={{ flex: 1, minWidth: 0, color: 'red' }}
           />
-        </Sider>
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb
-            style={{ margin: '16px 0' }}
-            items={[{ title: 'Home' }, { title: 'List' }, { title: 'App' }]}
-          ></Breadcrumb>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            <Suspense fallback={<div>Loading...</div>}>
-              <Outlet />
-            </Suspense>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer>
+        </Header>
+        <Layout>
+          <Sider width={200} style={{ background: colorBgContainer }}>
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              style={{ height: '100%', borderRight: 0 }}
+              items={items2}
+              onClick={goReace}
+            />
+          </Sider>
+          <Layout style={{ padding: '0 24px 5px' }}>
+            <Bread />
+            <Content
+              style={{
+                padding: 24,
+                margin: 0,
+                minHeight: 280,
+                background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              <Suspense fallback={<div>Loading...</div>}>
+                <Outlet />
+              </Suspense>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer>
+          </Layout>
         </Layout>
+        {/* <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer> */}
       </Layout>
-      <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer>
-    </Layout>
+    </ConfigProvider>
   );
 };
 

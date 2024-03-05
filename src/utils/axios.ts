@@ -1,5 +1,10 @@
+/*
+ * @Author: yym
+ * @Date: 2024-01-26 01:29:24
+ * @LastEditTime: 2024-03-05 11:42:29
+ */
 import axios from 'axios';
-
+import { v1 as uid } from "uuid";
 /*
  * 创建实例
  * 与后端服务通信
@@ -15,8 +20,8 @@ const HttpClient = axios.create({
  */
 HttpClient.interceptors.request.use(
   (config) => {
-    // const token = '222';
-    // config.headers.authorization = 'Bearer ' + token;
+    config.headers.Authorization = localStorage.getItem('token');
+    config.headers['Trace-id'] = uid().replaceAll('-','');
     return config;
   },
   (error) => {

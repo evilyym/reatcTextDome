@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-03-04 10:01:09
- * @LastEditTime: 2024-03-04 14:48:11
+ * @LastEditTime: 2024-03-05 10:41:27
  */
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from 'react';
@@ -38,7 +38,7 @@ const routes = [
         element: <File />,
       },
       {
-        path: '/4',
+        path: '/',
         element: <Info />,
       },
       {
