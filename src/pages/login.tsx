@@ -4,8 +4,8 @@
 import { goLogin, getList } from '@/apis/user';
 import styled from 'styled-components';
 
-import React from 'react';
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import React, { useState } from 'react';
+import { Button, Checkbox, Form, Input, message, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
@@ -18,18 +18,17 @@ const Login: React.FC = () => {
       content: msg,
     });
   };
-
+  let userArr = [];
   const onFinish = (values: any) => {
     // navigate('/', { replace: true });
-
-    goLogin({ ...values }).then(({ data }) => {
-      if (data.code == 200) {
-        localStorage.setItem('token', data.data.token);
-        getList({ ...values }).then(() => {
-          navigate('/', { replace: true });
-        });
+    goLogin({ ...values }).then((data) => {
+      if (data.login) {
+        localStorage.setItem('token', data.token);
+        navigate('/', { replace: true });
       } else {
-        error(data.msg);
+        userArr = data.info
+        showModal();
+        // 弹出选择框
       }
     });
   };
@@ -49,9 +48,22 @@ const Login: React.FC = () => {
     username: '15505707071',
     password: 'Qw9KEV4C834Ie1lt/mKeeLfx/gLonCzzQc1kr2rv8gA=',
     tenant_code: 'C10026',
-    mid_code: ''
+    mid_code: '',
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <Wrapper>
       {contextHolder}
@@ -61,7 +73,7 @@ const Login: React.FC = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ ...initialValues, remember: true }}
+        initialValues={{ ...initialValues, remember: false }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -92,6 +104,10 @@ const Login: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        {/* <div>{ for (let index = 0; index < userArr.length; index++) {
+        } }</div> */}
+      </Modal>
     </Wrapper>
   );
 };
