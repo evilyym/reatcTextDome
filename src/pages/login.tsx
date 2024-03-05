@@ -27,6 +27,7 @@ const Login: React.FC = () => {
         navigate('/', { replace: true });
       } else {
         userArr = data.info
+        debugger
         showModal();
         // 弹出选择框
       }
@@ -104,9 +105,14 @@ const Login: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        {/* <div>{ for (let index = 0; index < userArr.length; index++) {
-        } }</div> */}
+      <Modal centered title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>111</p>
+        {()=>{ for (item in userArr) {
+          debugger
+          console.log(item.tenant_code);
+          
+          return <p>111</p>
+        } }}
       </Modal>
     </Wrapper>
   );
