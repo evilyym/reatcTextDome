@@ -10,8 +10,8 @@ import { Layout, Menu, theme, ConfigProvider } from 'antd';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import Bread from "@/components/breadcrumb";
 
-import homeS from "@/assets/style/home.scss";
-import homeMs from "@/assets/style/home.module.scss";
+import "@/assets/styles/home.scss";
+import "@/assets/styles/home.module.scss";
 
 // import router from '@/router';
 
@@ -108,7 +108,7 @@ const App: React.FC = () => {
         },
       }}
     >
-      <Layout style={{ height: '100%' }}>
+      <Layout className='main' style={{ height: '100%' }}>
         <Header style={{ display: 'flex', alignItems: 'center' }}>
           <div className="demo-logo" />
           <Menu

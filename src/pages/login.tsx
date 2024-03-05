@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   let userArr=[1,3,4];
   const onFinish = (values: any) => {
     // navigate('/', { replace: true });
-    goLogin({ ...values }).then((data) => {
+    goLogin({ ...values }).then((data:any) => {
       if (data.login) {
         localStorage.setItem('token', data.token);
         navigate('/', { replace: true });
@@ -82,7 +82,7 @@ const Login: React.FC = () => {
         <Form.Item<FieldType>
           label="Userusername"
           name="username"
-          rules={[{ required: true, message: 'Please input your username!' }]}
+          rules={[{ required: true, message: '此项目必填' }]}
         >
           <Input />
         </Form.Item>
@@ -90,7 +90,7 @@ const Login: React.FC = () => {
         <Form.Item<FieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: '此项目必填' }]}
         >
           <Input.Password />
         </Form.Item>
@@ -108,15 +108,13 @@ const Login: React.FC = () => {
       <Modal centered title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         {userArr}
         {userArr.map((item, index) =>
-          item.id != '' ? (
+          item > 2 ? (
             <li>
-              <Link to={`${peopleUlr}/type=${item.value}`}>
-                <p className="box-title">{item.value}</p>
+                <p className="box-title">{item}</p>
                 <p>
-                  <span className={`box-icon icon-${skin}${index}`}></span>
-                  <span className="box-type">{item.name}</span>
+                  <span className={`box-icon icon-${item}${index}`}></span>
+                  <span className="box-type">{item}</span>
                 </p>
-              </Link>
             </li>
           ) : (
             '22'
