@@ -114,7 +114,7 @@
         <h5>具体事项</h5>
 
         <van-field required autosize type="textarea" rows="3" maxlength="200" show-word-limit
-          v-model="formData.specific_matters" name="" label="" placeholder="请输入具体事项内容"
+          v-model="formData.basic_matters" name="" label="" placeholder="请输入具体事项内容"
           :rules="[{ required: true, message: '请输入具体事项内容' }]" />
         <!-- 1.31 版本  -->
         <!-- <h5>申请材料</h5>
