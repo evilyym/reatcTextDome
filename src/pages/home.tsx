@@ -18,6 +18,8 @@ import styles from '@/assets/styles/home.module.scss';
 // import Iconfont from '@/components/Iconfont';
 // import router from '@/router';
 
+// import { useMenuRoute } from '@/components/useMenuRoute';
+
 import { getProductList, getListAll } from '@/apis/user';
 
 const { Header, Content, Sider, Footer } = Layout;
@@ -55,6 +57,7 @@ const App: React.FC = () => {
 
   const navigate = useNavigate();
   const [location, setLocation] = useState(useLocation().pathname);
+  // const [selectedKey] = useMenuRoute(1);
 
   const goReace = (e: any) => {
     navigate(e.key.split('-')[0], { replace: true });
@@ -89,7 +92,7 @@ const App: React.FC = () => {
     return a;
   };
   const onOpenChange = (keys: any) => {
-    const openKey = keys.find((key:any ) => openKeys.indexOf(key) === -1);
+    const openKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
     // const closeKey = openKeys.find((key) => keys.indexOf(key) === -1);
     if (openKey) {
       findParent(userTtems2, openKey, []) || [];
@@ -104,13 +107,13 @@ const App: React.FC = () => {
   useEffect(() => {
     // getListAll  getProductList
     // getListAll({token:localStorage.getItem('token')}).then(({ menu_list }) => {
-    getProductList({}).then(({ menu_list }:any) => {
+    getProductList({}).then(({ menu_list }: any) => {
       const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
       let myMenu = [];
       if (myProduct) {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
-      const arrN = myMenu.list.map((itme:any , index:any ) => {
+      const arrN = myMenu.list.map((itme: any, index: any) => {
         if (`/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
           // setLocation(`${itme.en_name}-${index}`);
           setOpenKeys([`${itme.en_name}-${index}`]);
@@ -125,7 +128,7 @@ const App: React.FC = () => {
           // ),
           children:
             itme.child &&
-            itme.child.map((_:any , j:any ) => {
+            itme.child.map((_: any, j: any) => {
               // console.log(location);
               // console.log(`/${_.en_name}-${j}`);
               // `/${_.en_name}-${j}`.indexOf(location) != -1 && setLocation(`${_.en_name}-${j}`);
@@ -220,6 +223,8 @@ const App: React.FC = () => {
               onOpenChange={onOpenChange}
               openKeys={openKeys}
               onClick={goReace}
+              // onSelect={({ key }) => setSelectedKey(key)}
+              // selectedKeys={[selectedKey]}
             />
           </Sider>
           <Layout style={{ padding: '0 24px 5px' }}>
