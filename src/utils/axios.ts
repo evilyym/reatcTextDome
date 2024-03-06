@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-05 16:17:41
+ * @LastEditTime: 2024-03-06 16:12:48
  */
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
@@ -11,6 +11,7 @@ import react from '@vitejs/plugin-react';
  * 与后端服务通信
  */
 const HttpClient = axios.create({
+  // VITE_APP_CAR_BASE_URL
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   // baseURL: process.env.VITE_APP_BASE_URL,
 });
@@ -22,7 +23,13 @@ const HttpClient = axios.create({
 HttpClient.interceptors.request.use(
   (config) => {
     config.headers.Authorization = localStorage.getItem('token');
-    config.headers['Trace-id'] = uid().replaceAll('-', '');
+    // config.headers['Trace-id'] = uid().replaceAll('-', '');
+    if (/api\/saas/.test(config.url)) {
+      config.baseURL = import.meta.env.VITE_APP_BASE_URL;
+    } else {
+      config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
+    }
+    console.log(config.baseURL);
     return config;
   },
   (error) => {
@@ -38,7 +45,7 @@ HttpClient.interceptors.request.use(
 HttpClient.interceptors.response.use(
   (response) => {
     const { data, config } = response;
-    if(data.code==200) return data.data;
+    if (data.code == 200) return data.data;
     return Promise.reject(data.msg);
   },
   (error) => {

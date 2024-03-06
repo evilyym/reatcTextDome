@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-03-06 09:42:36
- * @LastEditTime: 2024-03-06 15:34:00
+ * @LastEditTime: 2024-03-06 18:02:09
  */
 /*
  * @Author: yym
@@ -12,14 +12,14 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme, ConfigProvider } from 'antd';
-import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import Bread from '@/components/breadcrumb';
 import '@/assets/styles/home.scss';
 import styles from '@/assets/styles/home.module.scss';
 import Iconfont from '@/components/Iconfont';
 // import router from '@/router';
 
-import { getProductList } from '@/apis/user';
+import { getProductList, getListAll } from '@/apis/user';
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -55,9 +55,10 @@ const App: React.FC = () => {
   } = theme.useToken();
 
   const navigate = useNavigate();
+  const [location, setLocation] = useState(useLocation().pathname);
 
   const goReace = (e: any) => {
-    navigate(e.key, { replace: true });
+    navigate(e.key.split('-')[0], { replace: true });
   };
 
   const itemRender = (item, params, items, paths) => {
@@ -99,13 +100,48 @@ const App: React.FC = () => {
       setOpenKeys(keys);
     }
   };
-  
+
   // "H10172" 15505707071
   useEffect(() => {
+    // getListAll  getProductList
+    // getListAll({token:localStorage.getItem('token')}).then(({ menu_list }) => {
     getProductList().then(({ menu_list }) => {
-      const arrN = menu_list.map((itme, index) => {
+      const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
+      let myMenu = [];
+      if (myProduct) {
+        myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
+      }
+      const arrN = myMenu.list.map((itme, index) => {
+        if (`/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
+          // setLocation(`${itme.en_name}-${index}`);
+          setOpenKeys([`${itme.en_name}-${index}`]);
+        }
         return {
-          key: `${itme.sort}`,
+          key: `${itme.en_name}-${index}`,
+          label: `${itme.name}`,
+          // label: (
+          //   <Link to={itme.en_name}>
+          //     {itme.en_name} - {itme.name}
+          //   </Link>
+          // ),
+          children:
+            itme.child &&
+            itme.child.map((_, j) => {
+              // console.log(location);
+              // console.log(`/${_.en_name}-${j}`);
+              // `/${_.en_name}-${j}`.indexOf(location) != -1 && setLocation(`${_.en_name}-${j}`);
+              return {
+                key: `${_.en_name}-${j}`,
+                label: _.name,
+                // label: (
+                //   <Link to={_.en_name}>
+                //     {_.en_name} - {_.name}
+                //   </Link>
+                // ),
+              };
+            }),
+
+          /* key: `${itme.sort}`,
           // icon: React.createElement(icon),
           label: `${itme.type_name}`,
           children: itme.child.map((_, j) => {
@@ -114,10 +150,9 @@ const App: React.FC = () => {
               icon: <img src={_.logo} alt="" width="16" height="16" />,
               label: _.name,
             };
-          }),
+          }), */
         };
       });
-      console.log(arrN);
       setUserTtems2(arrN);
     });
   }, []);
@@ -179,8 +214,8 @@ const App: React.FC = () => {
           <Sider width={200} style={{ background: colorBgContainer }}>
             <Menu
               mode="inline"
-              // defaultSelectedKeys={['1']}
-              // defaultOpenKeys={['sub1']}
+              // defaultSelectedKeys={[location]}
+              // defaultOpenKeys={[location]}
               style={{ height: '100%', borderRight: 0 }}
               items={userTtems2}
               onOpenChange={onOpenChange}
