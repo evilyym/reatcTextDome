@@ -205,16 +205,16 @@ import '@nutui/nutui/dist/packages/toast/style';
 const router = useRouter()
 
 const materialArr = ref([]);
-const checkboxRefs = ref([]);
-const toggle = (index) => {
-  checkboxRefs.value[index].toggle();
-};
+// const checkboxRefs = ref([]);
+// const toggle = (index) => {
+//   checkboxRefs.value[index].toggle();
+// };
 
 // const onOversize = () => {
 //   showToast('文件大小不能超过 30 MB');
 // };
 
-const showPicker = ref(false)
+// const showPicker = ref(false)
 const formData = ref<any>({
   file: []
 })
@@ -365,9 +365,9 @@ const afterFileRead = async (e) => {
     delete formData.value.file[formData.value.file.length - 1]?.content
   }
 }
-const delMateria = (index) => {
-  checkboxRefs.value[index].toggle();
-}
+// const delMateria = (index) => {
+//   checkboxRefs.value[index].toggle();
+// }
 
 onMounted(async () => {
   const data = (await getActivityDetail({ id: router.currentRoute.value.query.id })).data
