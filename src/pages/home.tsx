@@ -109,7 +109,7 @@ const App: React.FC = () => {
     // getListAll({token:localStorage.getItem('token')}).then(({ menu_list }) => {
     getProductList({}).then(({ menu_list }: any) => {
       const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
-      let myMenu = [];
+      let myMenu = { list: [] };
       if (myProduct) {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
