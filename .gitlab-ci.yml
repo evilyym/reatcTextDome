@@ -26,12 +26,12 @@ sonarqube-check:
     - sonar-scanner -Dsonar.projectKey=zjtie_zjtie_activitysupport_wap_AYwU_D8H3Iv7fQhy86OH
   allow_failure: true
   only:
-    - develop
+    - v3Dev
 
 develop:
   stage: develop 
   only:
-    - develop
+    - v3Dev
   tags:
     - golive-test
   script:
