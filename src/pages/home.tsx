@@ -9,14 +9,13 @@
  * @LastEditTime: 2024-03-06 11:25:51
  */
 import React, { Suspense, useState, useEffect } from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme, ConfigProvider } from 'antd';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import Bread from '@/components/breadcrumb';
 import '@/assets/styles/home.scss';
 import styles from '@/assets/styles/home.module.scss';
-import Iconfont from '@/components/Iconfont';
+// import Iconfont from '@/components/Iconfont';
 // import router from '@/router';
 
 import { getProductList, getListAll } from '@/apis/user';
@@ -48,7 +47,7 @@ const items1: MenuProps['items'] = [
 //     }),
 //   };
 // });
-const items2 = [];
+const items2: any = [];
 const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -61,7 +60,7 @@ const App: React.FC = () => {
     navigate(e.key.split('-')[0], { replace: true });
   };
 
-  const itemRender = (item, params, items, paths) => {
+  const itemRender: any = (item: any, params: any, items: any, paths: any) => {
     const last = items.indexOf(item) === items.length - 1;
     return last ? <span>{item.title}</span> : <Link to={paths.join('/')}>{item.title}</Link>;
   };
@@ -69,7 +68,7 @@ const App: React.FC = () => {
   const [userTtems2, setUserTtems2] = useState(items2);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   let parentKey: string[] = [];
-  const findParent = (arr: MenuItem[], path: string, parent: string[] = []): string[] => {
+  const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
     let a = parent;
     for (const k in arr) {
       if (parentKey.length == 0) {
@@ -90,7 +89,7 @@ const App: React.FC = () => {
     return a;
   };
   const onOpenChange = (keys: any) => {
-    const openKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    const openKey = keys.find((key:any ) => openKeys.indexOf(key) === -1);
     // const closeKey = openKeys.find((key) => keys.indexOf(key) === -1);
     if (openKey) {
       findParent(userTtems2, openKey, []) || [];
@@ -105,13 +104,13 @@ const App: React.FC = () => {
   useEffect(() => {
     // getListAll  getProductList
     // getListAll({token:localStorage.getItem('token')}).then(({ menu_list }) => {
-    getProductList().then(({ menu_list }) => {
+    getProductList({}).then(({ menu_list }:any) => {
       const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
       let myMenu = [];
       if (myProduct) {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
-      const arrN = myMenu.list.map((itme, index) => {
+      const arrN = myMenu.list.map((itme:any , index:any ) => {
         if (`/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
           // setLocation(`${itme.en_name}-${index}`);
           setOpenKeys([`${itme.en_name}-${index}`]);
@@ -126,7 +125,7 @@ const App: React.FC = () => {
           // ),
           children:
             itme.child &&
-            itme.child.map((_, j) => {
+            itme.child.map((_:any , j:any ) => {
               // console.log(location);
               // console.log(`/${_.en_name}-${j}`);
               // `/${_.en_name}-${j}`.indexOf(location) != -1 && setLocation(`${_.en_name}-${j}`);

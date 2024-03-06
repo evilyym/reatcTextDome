@@ -18,9 +18,7 @@ const Login: React.FC = () => {
       content: msg,
     });
   };
-  const [userArr, setUserArr] = useState([]);
-  
-  console.log(111);
+  const [userArr, setUserArr] = useState({ info: [{ tenant_code: '', tenant_name: '' }], mid_code: '' });
 
   const onFinish = (values: any) => {
     // navigate('/', { replace: true });
@@ -37,8 +35,7 @@ const Login: React.FC = () => {
   };
 
   function getUserToken(code: any, mid: string) {
-
-    onFinish({mid_code: mid, tenant_code:code})
+    onFinish({ mid_code: mid, tenant_code: code });
     // localStorage.setItem('token', data.token);
     // navigate('/', { replace: true });
   }
@@ -54,8 +51,10 @@ const Login: React.FC = () => {
     defaultValue?: any;
   };
   const initialValues = {
-    username: '15505707071',
-    password: 'Qw9KEV4C834Ie1lt/mKeeLfx/gLonCzzQc1kr2rv8gA=',
+    // username: '15505707071',
+    // password: 'Qw9KEV4C834Ie1lt/mKeeLfx/gLonCzzQc1kr2rv8gA=',
+    username: 'golive',
+    password: 'Y0WMs+G6PWTuYT2QXynKWw==',
     tenant_code: 'C10026',
     mid_code: '',
   };
@@ -108,7 +107,12 @@ const Login: React.FC = () => {
       </Form>
       <Modal centered title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         {userArr.info?.map((item, index) => (
-          <li onClick={()=>{ getUserToken(item.tenant_code,userArr.mid_code)}}>
+          <li
+            key={index}
+            onClick={() => {
+              getUserToken(item.tenant_code, userArr.mid_code);
+            }}
+          >
             <p className="box-title">{item.tenant_code}</p>
             <p>
               <span className={`box-icon icon-${index}${item.tenant_name}`}></span>
