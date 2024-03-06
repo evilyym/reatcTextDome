@@ -18,21 +18,30 @@ const Login: React.FC = () => {
       content: msg,
     });
   };
-  let userArr=[1,3,4];
+  const [userArr, setUserArr] = useState([]);
+  
+  console.log(111);
+
   const onFinish = (values: any) => {
     // navigate('/', { replace: true });
-    goLogin({ ...values }).then((data:any) => {
+    goLogin({ ...values }).then((data: any) => {
       if (data.login) {
         localStorage.setItem('token', data.token);
         navigate('/', { replace: true });
       } else {
-        userArr = data.info;
+        setUserArr(data);
         showModal();
         // 弹出选择框
       }
     });
   };
 
+  function getUserToken(code: any, mid: string) {
+
+    onFinish({mid_code: mid, tenant_code:code})
+    // localStorage.setItem('token', data.token);
+    // navigate('/', { replace: true });
+  }
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -79,19 +88,11 @@ const Login: React.FC = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Form.Item<FieldType>
-          label="Userusername"
-          name="username"
-          rules={[{ required: true, message: '此项目必填' }]}
-        >
+        <Form.Item<FieldType> label="Userusername" name="username" rules={[{ required: true, message: '此项目必填' }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item<FieldType>
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: '此项目必填' }]}
-        >
+        <Form.Item<FieldType> label="Password" name="password" rules={[{ required: true, message: '此项目必填' }]}>
           <Input.Password />
         </Form.Item>
 
@@ -106,20 +107,14 @@ const Login: React.FC = () => {
         </Form.Item>
       </Form>
       <Modal centered title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        {userArr}
-        {userArr.map((item, index) =>
-          item > 2 ? (
-            <li>
-                <p className="box-title">{item}</p>
-                <p>
-                  <span className={`box-icon icon-${item}${index}`}></span>
-                  <span className="box-type">{item}</span>
-                </p>
-            </li>
-          ) : (
-            '22'
-          ),
-        )}
+        {userArr.info?.map((item, index) => (
+          <li onClick={()=>{ getUserToken(item.tenant_code,userArr.mid_code)}}>
+            <p className="box-title">{item.tenant_code}</p>
+            <p>
+              <span className={`box-icon icon-${index}${item.tenant_name}`}></span>
+            </p>
+          </li>
+        ))}
       </Modal>
     </Wrapper>
   );

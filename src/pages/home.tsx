@@ -1,18 +1,22 @@
 /*
  * @Author: yym
- * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-05 16:00:48
+ * @Date: 2024-03-06 09:42:36
+ * @LastEditTime: 2024-03-06 15:34:00
  */
-import React, { Suspense } from 'react';
+/*
+ * @Author: yym
+ * @Date: 2024-02-28 15:06:28
+ * @LastEditTime: 2024-03-06 11:25:51
+ */
+import React, { Suspense, useState, useEffect } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme, ConfigProvider } from 'antd';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
-import Bread from "@/components/breadcrumb";
-
-import "@/assets/styles/home.scss";
-import "@/assets/styles/home.module.scss";
-
+import Bread from '@/components/breadcrumb';
+import '@/assets/styles/home.scss';
+import styles from '@/assets/styles/home.module.scss';
+import Iconfont from '@/components/Iconfont';
 // import router from '@/router';
 
 import { getProductList } from '@/apis/user';
@@ -27,24 +31,24 @@ const items1: MenuProps['items'] = [
   label: `${item.name}`,
 }));
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-  const key = String(index + 1);
+// const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
+//   const key = String(index + 1);
 
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
+//   return {
+//     key: `sub${key}`,
+//     icon: React.createElement(icon),
+//     label: `subnav ${key}`,
 
-    children: new Array(5).fill(null).map((_, j) => {
-      const subKey = index * 5 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
-});
-
+//     children: new Array(5).fill(null).map((_, j) => {
+//       const subKey = index * 5 + j + 1;
+//       return {
+//         key: subKey,
+//         label: `option${subKey}`,
+//       };
+//     }),
+//   };
+// });
+const items2 = [];
 const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -61,10 +65,62 @@ const App: React.FC = () => {
     return last ? <span>{item.title}</span> : <Link to={paths.join('/')}>{item.title}</Link>;
   };
 
+  const [userTtems2, setUserTtems2] = useState(items2);
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  let parentKey: string[] = [];
+  const findParent = (arr: MenuItem[], path: string, parent: string[] = []): string[] => {
+    let a = parent;
+    for (const k in arr) {
+      if (parentKey.length == 0) {
+        if (arr[k].key === path) {
+          // 找到当前点击的key则停止寻找
+          parentKey = parent;
+        } else {
+          // parent备份，不为当前点击将a置空，避免影响同级循环使用parent
+          a = [];
+        }
+        if (arr[k].children && arr[k].children!.length > 0) {
+          if (findParent(arr[k].children!, path, [arr[k].key, ...parent]).length > 0) {
+            parent = parent.concat(findParent(arr[k].children!, path, [arr[k].key, ...parent]));
+          }
+        }
+      }
+    }
+    return a;
+  };
+  const onOpenChange = (keys: any) => {
+    const openKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    // const closeKey = openKeys.find((key) => keys.indexOf(key) === -1);
+    if (openKey) {
+      findParent(userTtems2, openKey, []) || [];
+      setOpenKeys([openKey, ...parentKey]);
+      parentKey = [];
+    } else {
+      setOpenKeys(keys);
+    }
+  };
+  
   // "H10172" 15505707071
-  getProductList({ product_id:'H10172' }).then(({ data }) => {
-    console.log(data);
-  });
+  useEffect(() => {
+    getProductList().then(({ menu_list }) => {
+      const arrN = menu_list.map((itme, index) => {
+        return {
+          key: `${itme.sort}`,
+          // icon: React.createElement(icon),
+          label: `${itme.type_name}`,
+          children: itme.child.map((_, j) => {
+            return {
+              key: _.id,
+              icon: <img src={_.logo} alt="" width="16" height="16" />,
+              label: _.name,
+            };
+          }),
+        };
+      });
+      console.log(arrN);
+      setUserTtems2(arrN);
+    });
+  }, []);
 
   const breadcrumbItems = [
     {
@@ -108,7 +164,7 @@ const App: React.FC = () => {
         },
       }}
     >
-      <Layout className='main' style={{ height: '100%' }}>
+      <Layout style={{ height: '100%' }} className={styles.main}>
         <Header style={{ display: 'flex', alignItems: 'center' }}>
           <div className="demo-logo" />
           <Menu
@@ -123,10 +179,12 @@ const App: React.FC = () => {
           <Sider width={200} style={{ background: colorBgContainer }}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              // defaultSelectedKeys={['1']}
+              // defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}
-              items={items2}
+              items={userTtems2}
+              onOpenChange={onOpenChange}
+              openKeys={openKeys}
               onClick={goReace}
             />
           </Sider>

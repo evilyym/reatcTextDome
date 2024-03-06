@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-05 14:41:48
+ * @LastEditTime: 2024-03-06 10:20:33
  */
 import HttpClient from '@/utils/axios';
 
@@ -82,6 +82,5 @@ export const verifyToken = (token: dataAny) =>
     token,
   });
 
-// 超级平台 接口
-
-export const getProductList = (params: dataAny) => HttpClient.get('/api/super-admin/product/module/list', { params });
+// 超级平台 saas接口
+export const getProductList = (data: dataAny) => HttpClient.post('/api/saas/admin/info', data);
