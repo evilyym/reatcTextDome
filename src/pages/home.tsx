@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-03-06 09:42:36
- * @LastEditTime: 2024-03-06 18:02:09
+ * @LastEditTime: 2024-03-07 09:22:49
  */
 /*
  * @Author: yym
@@ -9,18 +9,25 @@
  * @LastEditTime: 2024-03-06 11:25:51
  */
 import React, { Suspense, useState, useEffect } from 'react';
-import type { MenuProps } from 'antd';
-import { Layout, Menu, theme, ConfigProvider } from 'antd';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
+
+import { Layout, Menu, theme, ConfigProvider } from 'antd';
+
 import Bread from '@/components/breadcrumb';
+
 import '@/assets/styles/home.scss';
-import styles from '@/assets/styles/home.module.scss';
+
 // import Iconfont from '@/components/Iconfont';
+
 // import router from '@/router';
 
 // import { useMenuRoute } from '@/components/useMenuRoute';
 
 import { getProductList, getListAll } from '@/apis/user';
+
+import type { MenuProps } from 'antd';
+
+import styles from '@/assets/styles/home.module.scss';
 
 const { Header, Content, Sider, Footer } = Layout;
 
