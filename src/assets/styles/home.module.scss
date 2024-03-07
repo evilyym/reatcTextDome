@@ -1,3 +1,10 @@
-.main{
-    background: red;
+.main {
+  background: white;
+  .demo-logo {
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    background-image: url(../react.svg);
+    background-repeat: no-repeat;
+  }
 }

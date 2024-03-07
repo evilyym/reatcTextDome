@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-07 15:25:57
+ * @LastEditTime: 2024-03-07 15:57:22
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -192,35 +192,49 @@ const App: React.FC = () => {
         },
       }}
     >
-      <Layout style={{ height: '100%' }} className={styles.main}>
-        <Header style={{ display: 'flex', alignItems: 'center' }}>
-          <div className="demo-logo" />
-          <Menu
+      <Layout style={{ height: '100%' }}>
+        <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
+          <div className={styles['demo-logo']} />
+          {/* <Menu
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={['1']}
             items={items1}
             style={{ flex: 1, minWidth: 0, color: 'red' }}
-          />
+          /> */}
         </Header>
         <Layout>
           <Sider width={200} style={{ background: colorBgContainer }}>
-            <Menu
-              mode="inline"
-              // defaultSelectedKeys={[location]}
-              // defaultOpenKeys={[location]}
-              style={{ height: '100%', borderRight: 0 }}
-              items={userTtems2}
-              onOpenChange={onOpenChange}
-              openKeys={openKeys}
-              onClick={goReace}
-              selectedKeys={selectedKeys}
-              // onSelect={({ key }) => setSelectedKey(key)}
-              // selectedKeys={[selectedKey]}
-            />
+            <ConfigProvider
+              theme={{
+                components: {
+                  Menu: {
+                    darkItemBg: '#222653',
+                    darkSubMenuItemBg: '#222653',
+                    darkItemColor: '#fff',
+                    darkItemHoverBg: '#6495ed',
+                  },
+                },
+              }}
+            >
+              <Menu
+                theme="dark"
+                mode="inline"
+                // defaultSelectedKeys={[location]}
+                // defaultOpenKeys={[location]}
+                style={{ height: '100%', borderRight: 0 }}
+                items={userTtems2}
+                onOpenChange={onOpenChange}
+                openKeys={openKeys}
+                onClick={goReace}
+                selectedKeys={selectedKeys}
+                // onSelect={({ key }) => setSelectedKey(key)}
+                // selectedKeys={[selectedKey]}
+              />
+            </ConfigProvider>
           </Sider>
           <Layout style={{ padding: '0 24px 5px' }}>
-            <Bread />
+            {/* <Bread /> */}
             <Content
               style={{
                 padding: 24,
@@ -230,9 +244,9 @@ const App: React.FC = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
-              选中: {selectedKeys}
+              {/* 选中: {selectedKeys}
               <br />
-              展开: {openKeys}
+              展开: {openKeys} */}
               <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
               </Suspense>
