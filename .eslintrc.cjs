@@ -1,3 +1,8 @@
+/*
+ * @Author: yym
+ * @Date: 2024-01-26 01:29:24
+ * @LastEditTime: 2024-03-07 09:43:50
+ */
 module.exports = {
   root: true,
   env: { browser: true, es2020: true, node: true },
@@ -83,5 +88,8 @@ module.exports = {
       },
     ],
     'no-debugger': 'warn', //提交时不允许有debugger
+    "@typescript-eslint/no-explicit-any": ["off"],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   },
 };
