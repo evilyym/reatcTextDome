@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-07 14:55:50
+ * @LastEditTime: 2024-03-07 15:25:57
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -44,6 +44,7 @@ const App: React.FC = () => {
   const [location, setLocation] = useState(useLocation().pathname);
 
   const goReace = (e: any) => {
+    setSelectedKeys(e.key);
     navigate(e.key.split('-')[0], { replace: true });
   };
 
@@ -54,7 +55,7 @@ const App: React.FC = () => {
 
   const [userTtems2, setUserTtems2] = useState(items2);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(['statisticanalysis-3']);
 
   let parentKey: string[] = [];
   const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
@@ -81,11 +82,9 @@ const App: React.FC = () => {
     if (openKey) {
       findParent(userTtems2, openKey, []) || [];
       setOpenKeys([openKey, ...parentKey]);
-      setSelectedKeys([openKey, ...parentKey]);
       parentKey = [];
     } else {
       setOpenKeys(keys);
-      setSelectedKeys(keys);
     }
   };
 
@@ -103,7 +102,7 @@ const App: React.FC = () => {
         if (`/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
           // setLocation(`${itme.en_name}-${index}`);
           setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
-          setSelectedKeys([...selectedKeys, `${itme.en_name}-${index}`]);
+          setSelectedKeys(`${itme.en_name}-${index}`);
         }
         return {
           key: `${itme.en_name}-${index}`,
@@ -119,7 +118,7 @@ const App: React.FC = () => {
               if (`/${_.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
                 // setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
                 setOpenKeys([...openKeys, `${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
-                setSelectedKeys([...openKeys, `${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
+                setSelectedKeys(`${_.en_name}-${j}`);
               }
               // console.log(location);
               // console.log(`/${_.en_name}-${j}`);
@@ -231,7 +230,9 @@ const App: React.FC = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
-              {openKeys}
+              选中: {selectedKeys}
+              <br />
+              展开: {openKeys}
               <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
               </Suspense>
