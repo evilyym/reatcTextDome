@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-07 09:44:19
+ * @LastEditTime: 2024-03-07 14:55:50
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -34,23 +34,6 @@ const items1: MenuProps['items'] = [
   label: `${item.name}`,
 }));
 
-// const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-//   const key = String(index + 1);
-
-//   return {
-//     key: `sub${key}`,
-//     icon: React.createElement(icon),
-//     label: `subnav ${key}`,
-
-//     children: new Array(5).fill(null).map((_, j) => {
-//       const subKey = index * 5 + j + 1;
-//       return {
-//         key: subKey,
-//         label: `option${subKey}`,
-//       };
-//     }),
-//   };
-// });
 const items2: any = [];
 const App: React.FC = () => {
   const {
@@ -59,7 +42,6 @@ const App: React.FC = () => {
 
   const navigate = useNavigate();
   const [location, setLocation] = useState(useLocation().pathname);
-  // const [selectedKey] = useMenuRoute(1);
 
   const goReace = (e: any) => {
     navigate(e.key.split('-')[0], { replace: true });
@@ -72,16 +54,16 @@ const App: React.FC = () => {
 
   const [userTtems2, setUserTtems2] = useState(items2);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+
   let parentKey: string[] = [];
   const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
     let a = parent;
     for (const k in arr) {
       if (parentKey.length == 0) {
         if (arr[k].key === path) {
-          // 找到当前点击的key则停止寻找
           parentKey = parent;
         } else {
-          // parent备份，不为当前点击将a置空，避免影响同级循环使用parent
           a = [];
         }
         if (arr[k].children && arr[k].children!.length > 0) {
@@ -99,9 +81,11 @@ const App: React.FC = () => {
     if (openKey) {
       findParent(userTtems2, openKey, []) || [];
       setOpenKeys([openKey, ...parentKey]);
+      setSelectedKeys([openKey, ...parentKey]);
       parentKey = [];
     } else {
       setOpenKeys(keys);
+      setSelectedKeys(keys);
     }
   };
 
@@ -118,7 +102,8 @@ const App: React.FC = () => {
       const arrN = myMenu.list.map((itme: any, index: any) => {
         if (`/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
           // setLocation(`${itme.en_name}-${index}`);
-          setOpenKeys([`${itme.en_name}-${index}`]);
+          setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
+          setSelectedKeys([...selectedKeys, `${itme.en_name}-${index}`]);
         }
         return {
           key: `${itme.en_name}-${index}`,
@@ -131,6 +116,11 @@ const App: React.FC = () => {
           children:
             itme.child &&
             itme.child.map((_: any, j: any) => {
+              if (`/${_.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
+                // setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
+                setOpenKeys([...openKeys, `${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
+                setSelectedKeys([...openKeys, `${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
+              }
               // console.log(location);
               // console.log(`/${_.en_name}-${j}`);
               // `/${_.en_name}-${j}`.indexOf(location) != -1 && setLocation(`${_.en_name}-${j}`);
@@ -225,6 +215,7 @@ const App: React.FC = () => {
               onOpenChange={onOpenChange}
               openKeys={openKeys}
               onClick={goReace}
+              selectedKeys={selectedKeys}
               // onSelect={({ key }) => setSelectedKey(key)}
               // selectedKeys={[selectedKey]}
             />
@@ -240,6 +231,7 @@ const App: React.FC = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
+              {openKeys}
               <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
               </Suspense>
