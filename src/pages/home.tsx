@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-07 15:57:22
+ * @LastEditTime: 2024-03-07 17:35:26
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -233,7 +233,7 @@ const App: React.FC = () => {
               />
             </ConfigProvider>
           </Sider>
-          <Layout style={{ padding: '0 24px 5px' }}>
+          <Layout style={{ padding: '20px 24px 5px' }}>
             {/* <Bread /> */}
             <Content
               style={{
