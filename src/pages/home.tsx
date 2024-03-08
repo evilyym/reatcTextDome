@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-08 10:28:58
+ * @LastEditTime: 2024-03-08 11:25:12
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -54,8 +54,8 @@ const App: React.FC = () => {
   };
 
   const [userTtems2, setUserTtems2] = useState(items2);
-  const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const [openKeys, setOpenKeys] = useState<string[]>();
+  const [selectedKeys, setSelectedKeys] = useState<any>();
 
   let parentKey: string[] = [];
   const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
@@ -215,15 +215,16 @@ const App: React.FC = () => {
                   Menu: {
                     darkItemBg: '#222653',
                     darkSubMenuItemBg: '#222653',
-                    darkItemColor: '#fff',
+                    darkItemColor: '#ccc',
                     darkItemHoverBg: '#6495ed',
                     darkItemSelectedBg: '#1677ff',
-                    // itemSelectedBg: '#1677ff',
+                    darkItemSelectedColor: '#fff',
                   },
                 },
               }}
             >
               <Menu
+                theme="dark"
                 mode="inline"
                 // defaultSelectedKeys={[location]}
                 // defaultOpenKeys={[location]}

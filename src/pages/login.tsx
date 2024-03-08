@@ -1,12 +1,13 @@
 // import { useRequest } from 'ahooks';
 
 // import { getAssetsFile } from '@/utils/share';
-import { goLogin, getList } from '@/apis/user';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { Button, Checkbox, Form, Input, message, Modal } from 'antd';
 import styled from 'styled-components';
 
-import React, { useState } from 'react';
-import { Button, Checkbox, Form, Input, message, Modal } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { goLogin, getList } from '@/apis/user';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
