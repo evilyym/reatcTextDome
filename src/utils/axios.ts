@@ -1,11 +1,14 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-06 16:12:48
+ * @LastEditTime: 2024-03-08 10:10:20
  */
+import React from 'react';
+
+import react from '@vitejs/plugin-react';
+import { message } from 'antd';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
-import react from '@vitejs/plugin-react';
 /*
  * 创建实例
  * 与后端服务通信
@@ -46,6 +49,14 @@ HttpClient.interceptors.response.use(
   (response) => {
     const { data, config } = response;
     if (data.code == 200) return data.data;
+    //
+    message.error(
+      React.createElement(
+        'span',
+        { style: { display: 'inline-block', 'word-wrap': 'break-word' } },
+        data.msg + '\n' + data.trace_id.slice(0, 16),
+      ),
+    );
     return Promise.reject(data.msg);
   },
   (error) => {

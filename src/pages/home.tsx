@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-07 17:35:26
+ * @LastEditTime: 2024-03-08 10:28:58
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
   const [userTtems2, setUserTtems2] = useState(items2);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(['statisticanalysis-3']);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
 
   let parentKey: string[] = [];
   const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
@@ -99,7 +99,7 @@ const App: React.FC = () => {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
       const arrN = myMenu.list.map((itme: any, index: any) => {
-        if (`/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
+        if (location != '/' && `/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
           // setLocation(`${itme.en_name}-${index}`);
           setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
           setSelectedKeys(`${itme.en_name}-${index}`);
@@ -115,7 +115,11 @@ const App: React.FC = () => {
           children:
             itme.child &&
             itme.child.map((_: any, j: any) => {
-              if (`/${_.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
+              if (
+                location != '/' &&
+                `/${_.en_name}-${index}`.indexOf(location) != -1 &&
+                location.split('-').length == 1
+              ) {
                 // setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
                 setOpenKeys([...openKeys, `${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
                 setSelectedKeys(`${_.en_name}-${j}`);
@@ -213,12 +217,13 @@ const App: React.FC = () => {
                     darkSubMenuItemBg: '#222653',
                     darkItemColor: '#fff',
                     darkItemHoverBg: '#6495ed',
+                    darkItemSelectedBg: '#1677ff',
+                    // itemSelectedBg: '#1677ff',
                   },
                 },
               }}
             >
               <Menu
-                theme="dark"
                 mode="inline"
                 // defaultSelectedKeys={[location]}
                 // defaultOpenKeys={[location]}
@@ -244,9 +249,9 @@ const App: React.FC = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
-              {/* 选中: {selectedKeys}
+              选中: {selectedKeys}
               <br />
-              展开: {openKeys} */}
+              展开: {openKeys}
               <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
               </Suspense>
