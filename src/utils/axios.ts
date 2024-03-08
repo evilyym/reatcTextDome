@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-08 15:35:15
+ * @LastEditTime: 2024-03-08 15:48:33
  */
 import React from 'react';
 
@@ -54,7 +54,7 @@ HttpClient.interceptors.response.use(
     //
     notification.error({
       className: 'messageErr',
-      duration: 0,
+      duration: 5,
       message: data.msg,
       description: React.createElement(
         'span',
@@ -62,7 +62,7 @@ HttpClient.interceptors.response.use(
         data.trace_id.slice(0, 16),
         React.createElement(CopyOutlined, {
           onClick: () => {
-            message.success('复制成功');
+            message.success({ content: '复制成功', duration: 3 });
           },
         }),
       ),
