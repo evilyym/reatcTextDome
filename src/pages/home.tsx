@@ -6,7 +6,7 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 
-import { Layout, Menu, theme, ConfigProvider } from 'antd';
+import { Layout, Menu, theme, ConfigProvider, Spin } from 'antd';
 
 import Bread from '@/components/breadcrumb';
 
@@ -56,6 +56,7 @@ const App: React.FC = () => {
   const [userTtems2, setUserTtems2] = useState(items2);
   const [openKeys, setOpenKeys] = useState<string[]>();
   const [selectedKeys, setSelectedKeys] = useState<any>();
+  const [loadingMeun, setLoadingMeun] = useState<boolean>(true);
 
   let parentKey: string[] = [];
   const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
@@ -101,7 +102,7 @@ const App: React.FC = () => {
       const arrN = myMenu.list.map((itme: any, index: any) => {
         if (location != '/' && `/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
           // setLocation(`${itme.en_name}-${index}`);
-          setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
+          setOpenKeys([`${itme.en_name}-${index}`]);
           setSelectedKeys(`${itme.en_name}-${index}`);
         }
         return {
@@ -121,7 +122,7 @@ const App: React.FC = () => {
                 location.split('-').length == 1
               ) {
                 // setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
-                setOpenKeys([...openKeys, `${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
+                setOpenKeys([`${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
                 setSelectedKeys(`${_.en_name}-${j}`);
               }
               // console.log(location);
@@ -151,41 +152,10 @@ const App: React.FC = () => {
         };
       });
       setUserTtems2(arrN);
+      setLoadingMeun(false);
     });
   }, []);
 
-  const breadcrumbItems = [
-    {
-      path: '/',
-      title: 'home',
-    },
-    {
-      path: '1',
-      title: 'first',
-      children: [
-        {
-          path: '/1',
-          title: 'General',
-        },
-        {
-          path: '/2',
-          title: 'Layout',
-        },
-        {
-          path: '/3',
-          title: 'Navigation',
-        },
-        {
-          path: '/',
-          title: '主页',
-        },
-      ],
-    },
-    {
-      path: 'second',
-      title: 'second',
-    },
-  ];
   return (
     <ConfigProvider
       theme={{
@@ -223,20 +193,22 @@ const App: React.FC = () => {
                 },
               }}
             >
-              <Menu
-                theme="dark"
-                mode="inline"
-                // defaultSelectedKeys={[location]}
-                // defaultOpenKeys={[location]}
-                style={{ height: '100%', borderRight: 0 }}
-                items={userTtems2}
-                onOpenChange={onOpenChange}
-                openKeys={openKeys}
-                onClick={goReace}
-                selectedKeys={selectedKeys}
-                // onSelect={({ key }) => setSelectedKey(key)}
-                // selectedKeys={[selectedKey]}
-              />
+              <Spin spinning={loadingMeun}>
+                <Menu
+                  theme="dark"
+                  mode="inline"
+                  // defaultSelectedKeys={[location]}
+                  // defaultOpenKeys={[location]}
+                  style={{ height: '100%', borderRight: 0 }}
+                  items={userTtems2}
+                  onOpenChange={onOpenChange}
+                  openKeys={openKeys}
+                  onClick={goReace}
+                  selectedKeys={selectedKeys}
+                  // onSelect={({ key }) => setSelectedKey(key)}
+                  // selectedKeys={[selectedKey]}
+                />
+              </Spin>
             </ConfigProvider>
           </Sider>
           <Layout style={{ padding: '20px 24px 5px' }}>
