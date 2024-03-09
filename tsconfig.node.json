@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
+    "typeRoots": ["node_modules/@types"],
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "Node",
