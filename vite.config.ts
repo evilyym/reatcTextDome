@@ -53,6 +53,7 @@ export default ({ mode }) => {
       host: '0.0.0.0',
       port: 9527,
       open: true,
+      hmr: true,
       // proxy: {
       //   '/api': {
       //     target: '要代理的地址',
