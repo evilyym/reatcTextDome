@@ -9,8 +9,7 @@ import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, theme, ConfigProvider, Spin } from 'antd';
 
 import Bread from '@/components/breadcrumb';
-
-import '@/assets/styles/home.scss';
+ import '@/assets/styles/home.scss';
 
 // import Iconfont from '@/components/Iconfont';
 
@@ -99,6 +98,9 @@ const App: React.FC = () => {
       if (myProduct) {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
+      setOpenKeys([`${myMenu.list[0].en_name}-${0}`]);
+      setSelectedKeys(`${myMenu.list[0].en_name}-${0}`);
+
       const arrN = myMenu.list.map((itme: any, index: any) => {
         if (location != '/' && `/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
           // setLocation(`${itme.en_name}-${index}`);
@@ -168,7 +170,8 @@ const App: React.FC = () => {
     >
       <Layout style={{ height: '100%' }}>
         <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
-          <div className={styles['demo-logo']} />
+          <div className={styles['head-logo']} />
+          <div className={styles['head-title']}>xxx管理后台</div>
           {/* <Menu
             theme="dark"
             mode="horizontal"
