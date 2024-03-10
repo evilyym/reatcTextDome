@@ -9,7 +9,7 @@ import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, theme, ConfigProvider, Spin } from 'antd';
 
 import Bread from '@/components/breadcrumb';
- import '@/assets/styles/home.scss';
+import '@/assets/styles/home.scss';
 
 // import Iconfont from '@/components/Iconfont';
 
@@ -20,6 +20,7 @@ import Bread from '@/components/breadcrumb';
 import { getProductList, getListAll } from '@/apis/user';
 
 import type { MenuProps } from 'antd';
+import zhCN from 'antd/locale/zh_CN';
 
 import styles from '@/assets/styles/home.module.scss';
 
@@ -159,7 +160,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <ConfigProvider
+    <ConfigProvider locale={zhCN}
       theme={{
         components: {
           Layout: {
@@ -208,8 +209,8 @@ const App: React.FC = () => {
                   openKeys={openKeys}
                   onClick={goReace}
                   selectedKeys={selectedKeys}
-                  // onSelect={({ key }) => setSelectedKey(key)}
-                  // selectedKeys={[selectedKey]}
+                // onSelect={({ key }) => setSelectedKey(key)}
+                // selectedKeys={[selectedKey]}
                 />
               </Spin>
             </ConfigProvider>

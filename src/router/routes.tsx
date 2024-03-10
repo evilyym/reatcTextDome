@@ -15,10 +15,12 @@ const Manage = lazy(() => import('../pages/manage'));
 const File = lazy(() => import('../pages/file'));
 const Info = lazy(() => import('../pages/info'));
 const ErrorPage = lazy(() => import('../pages/errorBoundary'));
+const DatePicker = lazy(() => import('../pages/datePicker'));
+
 
 const routes = [
   {
-    path: '/5',
+    path: '/login',
     element: <Login />,
   },
   {
@@ -40,6 +42,10 @@ const routes = [
       {
         path: '/',
         element: <Info />,
+      },
+      {
+        path: '/data',
+        element: <DatePicker />,
       },
       {
         path: '*',

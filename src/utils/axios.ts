@@ -17,7 +17,7 @@ import { v1 as uid } from 'uuid';
  */
 const HttpClient = axios.create({
   // VITE_APP_CAR_BASE_URL
-  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  // baseURL: import.meta.env.VITE_APP_BASE_URL,
   // baseURL: process.env.VITE_APP_BASE_URL,
 });
 
@@ -34,7 +34,6 @@ HttpClient.interceptors.request.use(
     } else {
       config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
     }
-    console.log(config.baseURL);
     return config;
   },
   (error) => {
@@ -76,6 +75,7 @@ HttpClient.interceptors.response.use(
       //   data.msg + '\n' + data.trace_id.slice(0, 16),
       // ),
     });
+    if (data.code == 401 && window.location.pathname != "/login") window.location.pathname = "/login"
     return Promise.reject(data.msg);
   },
   (error) => {
