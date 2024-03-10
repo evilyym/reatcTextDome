@@ -23,6 +23,8 @@ import type { MenuProps } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 
 import styles from '@/assets/styles/home.module.scss';
+import { notification, message } from '@/store/store';
+
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -39,6 +41,10 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const navClick = () => {
+    message.success('Success!');
+  }
 
   const navigate = useNavigate();
   const [location, setLocation] = useState(useLocation().pathname);
@@ -172,7 +178,7 @@ const App: React.FC = () => {
       <Layout style={{ height: '100%' }}>
         <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
           <div className={styles['head-logo']} />
-          <div className={styles['head-title']}>xxx管理后台</div>
+          <div className={styles['head-title']} onClick={navClick}>xxx管理后台</div>
           {/* <Menu
             theme="dark"
             mode="horizontal"

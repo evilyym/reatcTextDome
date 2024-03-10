@@ -7,7 +7,8 @@ import React from 'react';
 
 import { CopyOutlined } from '@ant-design/icons';
 import react from '@vitejs/plugin-react';
-import { notification, message } from 'antd';
+// import { notification, message } from 'antd';
+import { notification, message } from '@/store/store';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
 
@@ -51,6 +52,8 @@ HttpClient.interceptors.response.use(
     const { data, config } = response;
     if (data.code == 200) return data.data;
     //
+    debugger
+    message.success('Success!');
     notification.error({
       className: 'messageErr',
       duration: 5,
