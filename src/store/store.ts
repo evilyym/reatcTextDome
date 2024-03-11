@@ -1,4 +1,10 @@
+/*
+ * @Author: yym
+ * @Date: 2024-03-11 09:07:48
+ * @LastEditTime: 2024-03-11 09:37:23
+ */
 import { App } from 'antd';
+
 import type { MessageInstance } from 'antd/es/message/interface';
 import type { ModalStaticFunctions } from 'antd/es/modal/confirm';
 import type { NotificationInstance } from 'antd/es/notification/interface';
@@ -14,5 +20,5 @@ export default () => {
   notification = staticFunction.notification;
   return null;
 };
-debugger
+
 export { message, notification, modal };

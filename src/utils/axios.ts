@@ -1,17 +1,17 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-11 09:19:19
+ * @LastEditTime: 2024-03-11 09:38:08
  */
 import React from 'react';
 
 import { CopyOutlined } from '@ant-design/icons';
 import react from '@vitejs/plugin-react';
-// import { notification, message } from 'antd';
+import { notification, message } from 'antd';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
 
-import { notification, message } from '@/store/store';
+// import { notification, message } from '@/store/store';
 
 /*
  * 创建实例
