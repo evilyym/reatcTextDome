@@ -1,16 +1,17 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-08 15:48:33
+ * @LastEditTime: 2024-03-11 09:19:19
  */
 import React from 'react';
 
 import { CopyOutlined } from '@ant-design/icons';
 import react from '@vitejs/plugin-react';
 // import { notification, message } from 'antd';
-import { notification, message } from '@/store/store';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
+
+import { notification, message } from '@/store/store';
 
 /*
  * 创建实例
@@ -52,7 +53,6 @@ HttpClient.interceptors.response.use(
     const { data, config } = response;
     if (data.code == 200) return data.data;
     //
-    debugger
     message.success('Success!');
     notification.error({
       className: 'messageErr',
@@ -78,7 +78,7 @@ HttpClient.interceptors.response.use(
       //   data.msg + '\n' + data.trace_id.slice(0, 16),
       // ),
     });
-    if (data.code == 401 && window.location.pathname != "/login") window.location.pathname = "/login"
+    if (data.code == 401 && window.location.pathname != '/login') window.location.pathname = '/login';
     return Promise.reject(data.msg);
   },
   (error) => {

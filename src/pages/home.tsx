@@ -1,14 +1,16 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-08 11:25:12
+ * @LastEditTime: 2024-03-11 09:20:03
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 
 import { Layout, Menu, theme, ConfigProvider, Spin } from 'antd';
+import zhCN from 'antd/locale/zh_CN';
 
 import Bread from '@/components/breadcrumb';
+
 import '@/assets/styles/home.scss';
 
 // import Iconfont from '@/components/Iconfont';
@@ -20,11 +22,9 @@ import '@/assets/styles/home.scss';
 import { getProductList, getListAll } from '@/apis/user';
 
 import type { MenuProps } from 'antd';
-import zhCN from 'antd/locale/zh_CN';
 
 import styles from '@/assets/styles/home.module.scss';
 import { notification, message } from '@/store/store';
-
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -44,7 +44,7 @@ const App: React.FC = () => {
 
   const navClick = () => {
     message.success('Success!');
-  }
+  };
 
   const navigate = useNavigate();
   const [location, setLocation] = useState(useLocation().pathname);
@@ -166,7 +166,8 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <ConfigProvider locale={zhCN}
+    <ConfigProvider
+      locale={zhCN}
       theme={{
         components: {
           Layout: {
@@ -178,7 +179,9 @@ const App: React.FC = () => {
       <Layout style={{ height: '100%' }}>
         <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
           <div className={styles['head-logo']} />
-          <div className={styles['head-title']} onClick={navClick}>xxx管理后台</div>
+          <div className={styles['head-title']} onClick={navClick}>
+            xxx管理后台
+          </div>
           {/* <Menu
             theme="dark"
             mode="horizontal"
@@ -215,8 +218,8 @@ const App: React.FC = () => {
                   openKeys={openKeys}
                   onClick={goReace}
                   selectedKeys={selectedKeys}
-                // onSelect={({ key }) => setSelectedKey(key)}
-                // selectedKeys={[selectedKey]}
+                  // onSelect={({ key }) => setSelectedKey(key)}
+                  // selectedKeys={[selectedKey]}
                 />
               </Spin>
             </ConfigProvider>
