@@ -1,9 +1,11 @@
 /*
  * @Author: yym
  * @Date: 2024-03-11 09:07:48
- * @LastEditTime: 2024-03-11 09:37:23
+ * @LastEditTime: 2024-03-11 11:03:04
  */
 import { App } from 'antd';
+import { produce } from 'immer';
+import { create } from 'zustand';
 
 import type { MessageInstance } from 'antd/es/message/interface';
 import type { ModalStaticFunctions } from 'antd/es/modal/confirm';
@@ -13,12 +15,12 @@ let message: MessageInstance;
 let notification: NotificationInstance;
 let modal: Omit<ModalStaticFunctions, 'warn'>;
 
-export default () => {
+export default create(() => {
   const staticFunction = App.useApp();
   message = staticFunction.message;
   modal = staticFunction.modal;
   notification = staticFunction.notification;
   return null;
-};
+});
 
 export { message, notification, modal };
