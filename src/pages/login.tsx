@@ -70,10 +70,6 @@ const Login: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <Wrapper>
       {contextHolder}
@@ -106,7 +102,7 @@ const Login: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
-      <Modal centered title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal centered title="选择租户" footer={null} open={isModalOpen} onOk={handleOk} onCancel={handleOk}>
         {userArr.info?.map((item, index) => (
           <li
             key={index}
@@ -116,8 +112,9 @@ const Login: React.FC = () => {
           >
             <p className="box-title">{item.tenant_code}</p>
             <p>
-              <span className={`box-icon icon-${index}${item.tenant_name}`}></span>
+              <span className={`box-icon icon-${index}`}>{item.tenant_name}</span>
             </p>
+            <br />
           </li>
         ))}
       </Modal>

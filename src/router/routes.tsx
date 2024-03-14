@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-03-04 10:01:09
- * @LastEditTime: 2024-03-05 10:41:27
+ * @LastEditTime: 2024-03-14 16:45:40
  */
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from 'react';
@@ -16,12 +16,16 @@ const File = lazy(() => import('../pages/file'));
 const Info = lazy(() => import('../pages/info'));
 const ErrorPage = lazy(() => import('../pages/errorBoundary'));
 const DatePicker = lazy(() => import('../pages/datePicker'));
-
+const Dropdoswns = lazy(() => import('../pages/antdDropdown.tsx'));
 
 const routes = [
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/Dropdoswns',
+    element: <Dropdoswns />,
   },
   {
     element: <Home />,
@@ -31,6 +35,7 @@ const routes = [
         path: '/1',
         element: <User />,
       },
+
       {
         path: '/2',
         element: <Manage />,

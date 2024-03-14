@@ -1,12 +1,13 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-11 09:20:03
+ * @LastEditTime: 2024-03-14 16:45:17
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 
-import { Layout, Menu, theme, ConfigProvider, Spin } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 
 import Bread from '@/components/breadcrumb';
@@ -18,13 +19,14 @@ import '@/assets/styles/home.scss';
 // import router from '@/router';
 
 // import { useMenuRoute } from '@/components/useMenuRoute';
+import { getAssetsFile } from '@/utils/share';
 
 import { getProductList, getListAll } from '@/apis/user';
 
 import type { MenuProps } from 'antd';
 
 import styles from '@/assets/styles/home.module.scss';
-import { notification, message } from '@/store/store';
+// import { notification, message } from '@/store/store';
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -37,6 +39,34 @@ const items1: MenuProps['items'] = [
 }));
 
 const items2: any = [];
+
+const itemss: MenuProps['items'] = [
+  {
+    key: '1',
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        1st menu item
+      </a>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+        2nd menu item
+      </a>
+    ),
+  },
+  {
+    key: '3',
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+        3rd menu item
+      </a>
+    ),
+  },
+];
+
 const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -63,6 +93,7 @@ const App: React.FC = () => {
   const [openKeys, setOpenKeys] = useState<string[]>();
   const [selectedKeys, setSelectedKeys] = useState<any>();
   const [loadingMeun, setLoadingMeun] = useState<boolean>(true);
+  const [title, setTitle] = useState<string>('');
 
   let parentKey: string[] = [];
   const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
@@ -105,6 +136,7 @@ const App: React.FC = () => {
       if (myProduct) {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
+      setTitle(myMenu.name);
       setOpenKeys([`${myMenu.list[0].en_name}-${0}`]);
       setSelectedKeys(`${myMenu.list[0].en_name}-${0}`);
 
@@ -178,17 +210,26 @@ const App: React.FC = () => {
     >
       <Layout style={{ height: '100%' }}>
         <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
-          <div className={styles['head-logo']} />
-          <div className={styles['head-title']} onClick={navClick}>
-            xxx管理后台
-          </div>
-          {/* <Menu
+          <>
+            <div className={styles['head-logo']} />
+            <div className={styles['head-title']} onClick={navClick}>
+              {title}
+            </div>
+            <div className={styles['head-user']}>
+              <Dropdown menu={{ itemss }} placement="bottom" arrow={{ pointAtCenter: true }}>
+                <img src={getAssetsFile('home.png')} alt="" />
+                {/* <p>1111</p> */}
+                {/* <DownOutlined /> */}
+              </Dropdown>
+            </div>
+            {/* <Menu
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={['1']}
             items={items1}
             style={{ flex: 1, minWidth: 0, color: 'red' }}
           /> */}
+          </>
         </Header>
         <Layout>
           <Sider width={200} style={{ background: colorBgContainer }}>
