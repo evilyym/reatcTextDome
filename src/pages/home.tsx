@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-14 16:45:17
+ * @LastEditTime: 2024-03-14 16:55:13
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -40,7 +40,7 @@ const items1: MenuProps['items'] = [
 
 const items2: any = [];
 
-const itemss: MenuProps['items'] = [
+const items: MenuProps['items'] = [
   {
     key: '1',
     label: (
@@ -216,10 +216,9 @@ const App: React.FC = () => {
               {title}
             </div>
             <div className={styles['head-user']}>
-              <Dropdown menu={{ itemss }} placement="bottom" arrow={{ pointAtCenter: true }}>
+              <Dropdown menu={{ items }} placement="bottom" arrow={{ pointAtCenter: true }}>
                 <img src={getAssetsFile('home.png')} alt="" />
-                {/* <p>1111</p> */}
-                {/* <DownOutlined /> */}
+                {/* <Button>bottom</Button> */}
               </Dropdown>
             </div>
             {/* <Menu
