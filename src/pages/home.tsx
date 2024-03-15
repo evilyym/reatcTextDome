@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-14 16:55:13
+ * @LastEditTime: 2024-03-15 14:12:29
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
+import VirtualList from 'rc-virtual-list';
 
 import Bread from '@/components/breadcrumb';
 
@@ -45,7 +46,7 @@ const items: MenuProps['items'] = [
     key: '1',
     label: (
       <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        1st menu item
+        修改头像
       </a>
     ),
   },
@@ -53,7 +54,7 @@ const items: MenuProps['items'] = [
     key: '2',
     label: (
       <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        2nd menu item
+        系统消息
       </a>
     ),
   },
@@ -61,7 +62,23 @@ const items: MenuProps['items'] = [
     key: '3',
     label: (
       <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        3rd menu item
+        个人中心
+      </a>
+    ),
+  },
+  {
+    key: '4',
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        修改密码
+      </a>
+    ),
+  },
+  {
+    key: '5',
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+        退出登录
       </a>
     ),
   },
@@ -115,7 +132,12 @@ const App: React.FC = () => {
     return a;
   };
   const onOpenChange = (keys: any) => {
-    const openKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
+    let openKey;
+    try {
+      openKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
+    } catch (error) {
+      openKey = false;
+    }
     // const closeKey = openKeys.find((key) => keys.indexOf(key) === -1);
     if (openKey) {
       findParent(userTtems2, openKey, []) || [];
@@ -137,61 +159,82 @@ const App: React.FC = () => {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
       setTitle(myMenu.name);
-      setOpenKeys([`${myMenu.list[0].en_name}-${0}`]);
-      setSelectedKeys(`${myMenu.list[0].en_name}-${0}`);
+      // setOpenKeys([`${myMenu.list[0].en_name}-${0}`]);
+      // setSelectedKeys(`${myMenu.list[0].en_name}-${0}`);
 
-      const arrN = myMenu.list.map((itme: any, index: any) => {
-        if (location != '/' && `/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
-          // setLocation(`${itme.en_name}-${index}`);
-          setOpenKeys([`${itme.en_name}-${index}`]);
-          setSelectedKeys(`${itme.en_name}-${index}`);
-        }
+      // const arrN = myMenu.list.map((itme: any, index: any) => {
+      //   if (location != '/' && `/${itme.en_name}-${index}`.indexOf(location) != -1 && location.split('-').length == 1) {
+      //     setOpenKeys([`${itme.en_name}-${index}`]);
+      //     setSelectedKeys(`${itme.en_name}-${index}`);
+      //   }
+      //   return {
+      //     key: `${itme.en_name}-${index}`,
+      //     label: `${itme.name}`,
+      //     // label: (
+      //     //   <Link to={itme.en_name}>
+      //     //     {itme.en_name} - {itme.name}
+      //     //   </Link>
+      //     // ),
+      //     children:
+      //       itme.child &&
+      //       itme.child.map((_: any, j: any) => {
+      //         if (
+      //           location != '/' &&
+      //           `/${_.en_name}-${index}`.indexOf(location) != -1 &&
+      //           location.split('-').length == 1
+      //         ) {
+      //           // setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
+      //           setOpenKeys([`${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
+      //           setSelectedKeys(`${_.en_name}-${j}`);
+      //         }
+      //         // console.log(location);
+      //         // console.log(`/${_.en_name}-${j}`);
+      //         // `/${_.en_name}-${j}`.indexOf(location) != -1 && setLocation(`${_.en_name}-${j}`);
+      //         return {
+      //           key: `${_.en_name}-${j}`,
+      //           label: _.name,
+      //           // label: (
+      //           //   <Link to={_.en_name}>
+      //           //     {_.en_name} - {_.name}
+      //           //   </Link>
+      //           // ),
+      //         };
+      //       }),
+
+      //     /* key: `${itme.sort}`,
+      //     // icon: React.createElement(icon),
+      //     label: `${itme.type_name}`,
+      //     children: itme.child.map((_, j) => {
+      //       return {
+      //         key: _.id,
+      //         icon: <img src={_.logo} alt="" width="16" height="16" />,
+      //         label: _.name,
+      //       };
+      //     }), */
+      //   };
+      // });
+      function GetRandomNum(Min, Max) {
+        const Range = Max - Min;
+        const Rand = Math.random();
+        return Min + Math.round(Rand * Range);
+      }
+
+      function mapMenuTree(item: any) {
         return {
-          key: `${itme.en_name}-${index}`,
-          label: `${itme.name}`,
-          // label: (
-          //   <Link to={itme.en_name}>
-          //     {itme.en_name} - {itme.name}
-          //   </Link>
-          // ),
+          key: `${item.soren_namet || item.en_name}-${GetRandomNum(10000, 999999)}`, // 保持原样或改为 item.sort + ''
+          label: `${item.type_name || item.name}`, // 保持原样或改为 item.type_name + ''
           children:
-            itme.child &&
-            itme.child.map((_: any, j: any) => {
-              if (
-                location != '/' &&
-                `/${_.en_name}-${index}`.indexOf(location) != -1 &&
-                location.split('-').length == 1
-              ) {
-                // setOpenKeys([...openKeys, `${itme.en_name}-${index}`]);
-                setOpenKeys([`${itme.en_name}-${index}`, `${_.en_name}-${j}`]);
-                setSelectedKeys(`${_.en_name}-${j}`);
-              }
-              // console.log(location);
-              // console.log(`/${_.en_name}-${j}`);
-              // `/${_.en_name}-${j}`.indexOf(location) != -1 && setLocation(`${_.en_name}-${j}`);
-              return {
-                key: `${_.en_name}-${j}`,
-                label: _.name,
-                // label: (
-                //   <Link to={_.en_name}>
-                //     {_.en_name} - {_.name}
-                //   </Link>
-                // ),
-              };
-            }),
-
-          /* key: `${itme.sort}`,
-          // icon: React.createElement(icon),
-          label: `${itme.type_name}`,
-          children: itme.child.map((_, j) => {
-            return {
-              key: _.id,
-              icon: <img src={_.logo} alt="" width="16" height="16" />,
-              label: _.name,
-            };
-          }), */
+            item.child && Array.isArray(item.child) && item.child.length
+              ? item.child.map((childItem) => mapMenuTree(childItem))
+              : item.list && Array.isArray(item.list) && item.list.length
+                ? item.list.map((childItem) => mapMenuTree(childItem))
+                : null,
         };
-      });
+      }
+
+      const arrN = menu_list.map(mapMenuTree);
+
+      // 注意：在实际使用中，可能需要根据业务需求对错误进行更合适的处理，比如通过回调函数、Promise等机制。
       setUserTtems2(arrN);
       setLoadingMeun(false);
     });
@@ -247,12 +290,13 @@ const App: React.FC = () => {
               }}
             >
               <Spin spinning={loadingMeun}>
+                {/* <VirtualList height={400}> */}
                 <Menu
                   theme="dark"
                   mode="inline"
                   // defaultSelectedKeys={[location]}
                   // defaultOpenKeys={[location]}
-                  style={{ height: '100%', borderRight: 0 }}
+                  style={{ height: '100%', borderRight: 0, overflow: 'auto' }}
                   items={userTtems2}
                   onOpenChange={onOpenChange}
                   openKeys={openKeys}
@@ -261,6 +305,7 @@ const App: React.FC = () => {
                   // onSelect={({ key }) => setSelectedKey(key)}
                   // selectedKeys={[selectedKey]}
                 />
+                {/* </VirtualList> */}
               </Spin>
             </ConfigProvider>
           </Sider>
