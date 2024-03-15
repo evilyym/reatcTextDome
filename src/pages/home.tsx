@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-15 15:02:20
+ * @LastEditTime: 2024-03-15 15:46:41
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -166,10 +166,10 @@ const App: React.FC = () => {
         return Min + Math.round(Rand * Range);
       }
 
-      function mapMenuTree(item, index) {
+      function mapMenuTree(item, index, fn) {
         const key = item.soren_namet || item.en_name;
         return {
-          key: key,
+          key: '/' + key,
           label: `${item.type_name || item.name}`,
           children:
             item.child && Array.isArray(item.child) && item.child.length
@@ -182,8 +182,7 @@ const App: React.FC = () => {
 
       const arrN = menu_list.map(mapMenuTree);
       // setOpenKeys([key]);
-      // setSelectedKeys([key]);
-      // 注意：在实际使用中，可能需要根据业务需求对错误进行更合适的处理，比如通过回调函数、Promise等机制。
+      setSelectedKeys([location]);
       setUserTtems2(arrN);
       setLoadingMeun(false);
     });
@@ -243,8 +242,6 @@ const App: React.FC = () => {
                 <Menu
                   theme="dark"
                   mode="inline"
-                  // defaultSelectedKeys={[location]}
-                  // defaultOpenKeys={[location]}
                   style={{ height: '100%', borderRight: 0, overflow: 'auto' }}
                   items={userTtems2}
                   onOpenChange={onOpenChange}
@@ -272,6 +269,8 @@ const App: React.FC = () => {
               选中: {selectedKeys}
               <br />
               展开: {openKeys}
+              <br />
+              路由 {location}
               <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
               </Suspense>
