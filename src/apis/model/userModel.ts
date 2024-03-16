@@ -1,6 +1,7 @@
 //定义请求参数
 export interface ListParams {
-  id: number; //用户id
+  id?: number; //用户id
+  token?: string;
 }
 
 export interface dataAny {

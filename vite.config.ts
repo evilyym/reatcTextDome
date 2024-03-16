@@ -54,14 +54,20 @@ export default ({ mode }) => {
       port: 9527,
       open: true,
       hmr: true,
-      // proxy: {
-      //   '/api': {
-      //     target: '要代理的地址',
-      //     changeOrigin: true,
-      //     ws: true,
-      //     rewrite: (path: string) => path.replace(/^\/api/, ''),
-      //   },
-      // },
+      proxy: {
+        '/api': {
+          target: 'https://dev-charging-pile-car.goliveplus.cn',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path: string) => path.replace(/^\/api/, ''),
+        },
+        '/sapi': {
+          target: 'https://dev-saas-api.goliveplus.cn',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path: string) => path.replace(/^\/sapi/, ''),
+        },
+      },
     },
   });
 };

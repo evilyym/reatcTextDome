@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { CopyOutlined } from '@ant-design/icons';
-import react from '@vitejs/plugin-react';
 import { notification, message } from 'antd';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
@@ -21,6 +20,7 @@ const HttpClient = axios.create({
   // VITE_APP_CAR_BASE_URL
   // baseURL: import.meta.env.VITE_APP_BASE_URL,
   // baseURL: process.env.VITE_APP_BASE_URL,
+  // baseURL: '/api',
 });
 
 /**
@@ -30,11 +30,13 @@ const HttpClient = axios.create({
 HttpClient.interceptors.request.use(
   (config) => {
     config.headers.Authorization = localStorage.getItem('token');
-    // config.headers['Trace-id'] = uid().replaceAll('-', '');
+    config.headers['Trace-id'] = uid().replaceAll('-', '');
     if (/api\/saas/.test(config.url)) {
-      config.baseURL = import.meta.env.VITE_APP_BASE_URL;
+      // config.baseURL = import.meta.env.VITE_APP_BASE_URL;
+      config.baseURL = '/sapi'
     } else {
-      config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
+      // config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
+      config.baseURL = '/api'
     }
     return config;
   },

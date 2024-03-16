@@ -97,8 +97,9 @@ const App: React.FC = () => {
   const [location, setLocation] = useState(useLocation().pathname);
 
   const goReace = (e: any) => {
-    setSelectedKeys(e.key);
-    navigate(e.key.split('-')[0], { replace: true });
+    // reverse().join("")
+    setSelectedKeys(e.keyPath[0]);
+    navigate(e.keyPath.reverse().join('/'), { replace: true });
   };
 
   const itemRender: any = (item: any, params: any, items: any, paths: any) => {
@@ -132,7 +133,7 @@ const App: React.FC = () => {
     return a;
   };
   const onOpenChange = (keys: any) => {
-    let openKey;
+    let openKey: any;
     try {
       openKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
     } catch (error) {
@@ -154,7 +155,7 @@ const App: React.FC = () => {
     // getListAll({token:localStorage.getItem('token')}).then(({ menu_list }) => {
     getProductList({}).then(({ menu_list }: any) => {
       const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
-      let myMenu = { list: [] };
+      let myMenu = { list: [], name: '' };
       if (myProduct) {
         myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
       }
@@ -166,10 +167,10 @@ const App: React.FC = () => {
         return Min + Math.round(Rand * Range);
       }
 
-      function mapMenuTree(item, index, fn) {
+      function mapMenuTree(item) {
         const key = item.soren_namet || item.en_name;
         return {
-          key: '/' + key,
+          key: key,
           label: `${item.type_name || item.name}`,
           children:
             item.child && Array.isArray(item.child) && item.child.length
@@ -181,8 +182,8 @@ const App: React.FC = () => {
       }
 
       const arrN = menu_list.map(mapMenuTree);
-      // setOpenKeys([key]);
-      setSelectedKeys([location]);
+      setOpenKeys(location.split('/'));
+      setSelectedKeys(location.split('/').slice(-1));
       setUserTtems2(arrN);
       setLoadingMeun(false);
     });
@@ -248,8 +249,8 @@ const App: React.FC = () => {
                   openKeys={openKeys}
                   onClick={goReace}
                   selectedKeys={selectedKeys}
-                  // onSelect={({ key }) => setSelectedKey(key)}
-                  // selectedKeys={[selectedKey]}
+                // onSelect={({ key }) => setSelectedKey(key)}
+                // selectedKeys={[selectedKey]}
                 />
                 {/* </VirtualList> */}
               </Spin>
