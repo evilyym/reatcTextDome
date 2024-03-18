@@ -1,3 +1,8 @@
+/*
+ * @Author: yym
+ * @Date: 2024-01-26 01:29:24
+ * @LastEditTime: 2024-03-18 10:52:52
+ */
 import { createBrowserRouter } from 'react-router-dom';
 
 import routes from './routes';

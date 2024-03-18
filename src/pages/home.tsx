@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-15 15:46:41
+ * @LastEditTime: 2024-03-18 10:40:42
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -186,6 +186,8 @@ const App: React.FC = () => {
       setSelectedKeys(location.split('/').slice(-1));
       setUserTtems2(arrN);
       setLoadingMeun(false);
+
+      // 添加路由
     });
   }, []);
 
@@ -249,8 +251,7 @@ const App: React.FC = () => {
                   openKeys={openKeys}
                   onClick={goReace}
                   selectedKeys={selectedKeys}
-                // onSelect={({ key }) => setSelectedKey(key)}
-                // selectedKeys={[selectedKey]}
+                  // onSelect={({ key }) => setSelectedKey(key)}
                 />
                 {/* </VirtualList> */}
               </Spin>
@@ -267,11 +268,11 @@ const App: React.FC = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
-              选中: {selectedKeys}
+              {/* 选中: {selectedKeys}
               <br />
               展开: {openKeys}
               <br />
-              路由 {location}
+              路由 {location} */}
               <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
               </Suspense>
