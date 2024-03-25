@@ -1,126 +1,3 @@
-<style lang="less" scoped>
-:deep(.van-dropdown-menu__bar) {
-  box-shadow: none;
-}
-
-:deep(.van-tab--active) {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.applicationResults {
-  background-color: #EDEDED;
-  height: 100%;
-
-  .van-tabs {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-
-    :deep(.van-tabs__content) {
-      flex-grow: 1;
-      height: 0;
-
-      .van-tab__panel {
-        height: 100%;
-      }
-    }
-  }
-
-  hr {
-    font-size: 1px;
-    border: none;
-    height: 1px;
-    background-color: #EDEDED;
-  }
-
-  .listBox {
-    border-radius: 15px 15px 0 0;
-    // overflow: auto;
-    background-color: #fff;
-    height: 100%;
-
-    .van-dropdown-menu {
-      border-radius: 15px 15px 0 0;
-      overflow: hidden;
-    }
-
-    .cirdBox {
-      padding: 15px 15px 0;
-      position: relative;
-
-      hr {
-        margin-top: 15px;
-      }
-
-      p,
-      h4 {
-        margin: 0;
-        line-height: 20px;
-      }
-
-      h4 {
-        line-height: 20px;
-        font-weight: 600;
-        font-size: 18px;
-        position: relative;
-
-        span {
-          position: absolute;
-          right: 5px;
-          font-size: 14px;
-        }
-      }
-
-      p {
-        margin-top: 8px;
-        color: #666666;
-        font-weight: 400;
-        font-size: 14px;
-        position: relative;
-        display: flex;
-        width: 100%;
-        gap: 20px;
-        span{
-          width: 35%;
-        }
-        & span.auditStatus {
-          left: 125px;
-          flex-grow: 1;
-          font-size: 14px;
-        }
-
-        & span.reportStatus {
-          position: absolute;
-          right: 5px;
-          font-size: 14px;
-          font-weight: 600;
-          text-align: right;
-        }
-      }
-
-      .van-icon-department::before {
-        content: "\e678";
-      }
-
-      .van-icon {
-        color: #1677FF;
-      }
-
-      .rightArrow {
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        border-top: 2px solid #333;
-        border-right: 2px solid #333;
-        transform: rotate(45deg);
-        right: 15px;
-        top: 30px;
-      }
-    }
-  }
-}
-</style>
 <template>
   <div class="applicationResults">
     <van-tabs v-model:active="active" color="#EDEDED" style="" background="#EDEDED" title-inactive-color="#666"
@@ -132,7 +9,7 @@
               <h4>{{ itme.name }}</h4>
               <p style="display: flex;">
                 <span><van-icon name="user" />{{ itme.leader_name }} </span>
-                <span class="auditStatus" @click="goPhone(itme.leader_phon)"><van-icon name="phone" />{{ itme.leader_phone }} </span>
+                <span class="auditStatus" @click="goPhone(itme.leader_phone)"><van-icon name="phone" />{{ itme.leader_phone }} </span>
               </p>
               <div class="rightArrow"></div>
               <hr>
@@ -156,7 +33,7 @@
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
                 <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus" @click="goPhone(itme.leader_phon)"><van-icon name="phone" />{{ itme.phone }} </span>
+                <span class="auditStatus" @click="goPhone(itme.phone)"><van-icon name="phone" />{{ itme.phone }} </span>
               </p>
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
@@ -186,7 +63,7 @@
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
                 <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus" @click="goPhone(itme.leader_phon)"><van-icon name="phone" />{{ itme.phone }} </span>
+                <span class="auditStatus" @click="goPhone(itme.phone)"><van-icon name="phone" />{{ itme.phone }} </span>
               </p>
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
@@ -216,7 +93,7 @@
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
                 <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus" @click="goPhone(itme.leader_phon)"><van-icon name="phone" />{{ itme.phone }} </span>
+                <span class="auditStatus" @click="goPhone(itme.phone)"><van-icon name="phone" />{{ itme.phone }} </span>
               </p>
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
@@ -391,3 +268,127 @@ onMounted(() => {
   getList(active.value, false)
 })
 </script>
+
+<style lang="less" scoped>
+:deep(.van-dropdown-menu__bar) {
+  box-shadow: none;
+}
+
+:deep(.van-tab--active) {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.applicationResults {
+  background-color: #EDEDED;
+  height: 100%;
+
+  .van-tabs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    :deep(.van-tabs__content) {
+      flex-grow: 1;
+      height: 0;
+
+      .van-tab__panel {
+        height: 100%;
+      }
+    }
+  }
+
+  hr {
+    font-size: 1px;
+    border: none;
+    height: 1px;
+    background-color: #EDEDED;
+  }
+
+  .listBox {
+    border-radius: 15px 15px 0 0;
+    // overflow: auto;
+    background-color: #fff;
+    height: 100%;
+
+    .van-dropdown-menu {
+      border-radius: 15px 15px 0 0;
+      overflow: hidden;
+    }
+
+    .cirdBox {
+      padding: 15px 15px 0;
+      position: relative;
+
+      hr {
+        margin-top: 15px;
+      }
+
+      p,
+      h4 {
+        margin: 0;
+        line-height: 20px;
+      }
+
+      h4 {
+        line-height: 20px;
+        font-weight: 600;
+        font-size: 18px;
+        position: relative;
+
+        span {
+          position: absolute;
+          right: 5px;
+          font-size: 14px;
+        }
+      }
+
+      p {
+        margin-top: 8px;
+        color: #666666;
+        font-weight: 400;
+        font-size: 14px;
+        position: relative;
+        display: flex;
+        width: 100%;
+        gap: 20px;
+        span{
+          width: 35%;
+        }
+        & span.auditStatus {
+          left: 125px;
+          flex-grow: 1;
+          font-size: 14px;
+        }
+
+        & span.reportStatus {
+          position: absolute;
+          right: 5px;
+          font-size: 14px;
+          font-weight: 600;
+          text-align: right;
+        }
+      }
+
+      .van-icon-department::before {
+        content: "\e678";
+      }
+
+      .van-icon {
+        color: #1677FF;
+      }
+
+      .rightArrow {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-top: 2px solid #333;
+        border-right: 2px solid #333;
+        transform: rotate(45deg);
+        right: 15px;
+        top: 30px;
+      }
+    }
+  }
+}
+</style>
