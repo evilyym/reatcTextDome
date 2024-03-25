@@ -108,7 +108,7 @@
       <van-form input-align="right">
         <van-field v-model="activityInfo.name" name="" label="服务内容:" readonly placeholder="服务内容" />
         <van-field v-model="activityInfo.leader_name" name="" label="负责人:" placeholder="负责人" readonly />
-        <van-field v-model="activityInfo.leader_phone" name="" label="手机号:" placeholder="手机号" readonly />
+        <van-field v-model="activityInfo.leader_phone" @click-input="goPhone(activityInfo.leader_phone)" name="" label="手机号:" placeholder="手机号" readonly />
       </van-form>
       <van-form @submit="onSubmit" label-align="top">
         <h5>具体事项</h5>
@@ -203,6 +203,10 @@ import '@nutui/nutui/dist/packages/toast/style';
 
 
 const router = useRouter()
+
+const goPhone = (phone) => {
+  window.location.href = `tel:${phone}`
+}
 
 const materialArr = ref([]);
 // const checkboxRefs = ref([]);
