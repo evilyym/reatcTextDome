@@ -164,7 +164,8 @@
       <van-form input-align="right">
         <van-field v-model="activityInfo.activity_name" name="" label="服务内容:" readonly placeholder="服务内容" />
         <van-field v-model="activityInfo.leader_name" name="" label="负责人:" placeholder="负责人" readonly />
-        <van-field v-model="activityInfo.leader_phone" @click-input="goPhone(activityInfo.leader_phone)" name="" label="手机号:" placeholder="手机号" readonly />
+        <van-field v-model="activityInfo.leader_phone.split('/')[0]" @click-input="goPhone(activityInfo.leader_phone.split('/')[0])" name="" label="手机号:" placeholder="手机号" readonly />
+        <van-field v-if="activityInfo.leader_phone.split('/').length > 1" v-model="activityInfo.leader_phone.split('/')[1]" @click-input="goPhone(activityInfo.leader_phone.split('/')[1])" name="" label="" placeholder="手机号" readonly />
       </van-form>
       <van-form label-align="top">
         <h5>具体事项</h5>
