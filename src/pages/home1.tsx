@@ -1,17 +1,17 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-02-23 15:24:23
+ * @LastEditTime: 2024-03-21 13:24:00
  */
 import { Suspense } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 const Home = () => {
   return (
     <Wrapper>
-      <div className="header">
-      </div>
+      <div className="header"></div>
       <div className="main">
         <aside>
           <div className="menu_item">
