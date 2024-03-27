@@ -9,7 +9,7 @@
               <h4>{{ itme.name }}</h4>
               <p style="display: flex;">
                 <span><van-icon name="user" />{{ itme.leader_name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="j in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span></span>
+                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="(j,i) in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span></span>
               </p>
               <div class="rightArrow"></div>
               <hr>
@@ -33,7 +33,7 @@
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
                 <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="j in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span> </span>
+                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="(j,i) in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span> </span>
               </p>
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
@@ -63,7 +63,7 @@
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
                 <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="j in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span> </span>
+                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="(j,i) in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span> </span>
               </p>
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
