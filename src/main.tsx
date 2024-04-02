@@ -1,9 +1,9 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-13 17:26:14
+ * @LastEditTime: 2024-04-02 16:57:51
  */
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
@@ -15,6 +15,44 @@ import store from './store/store';
 
 import './index.scss';
 import styles from '@/assets/styles/home.module.scss';
+
+const RouterContext = React.createContext<{ menus: any[] }>({ menus: [] });
+
+const modules = import.meta.glob('./pages/*/index.tsx');
+const components = Object.keys(modules).reduce<Record<string, any>>((prev, cur) => {
+  prev[cur.replace('./pages', '')] = modules[cur];
+  return prev;
+}, {}) as any;
+
+function Apps() {
+  const [menus, setMenus] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getAdminMenus().then((adminMenus: any) => {
+      setMenus(adminMenus);
+      setLoading(false);
+
+      // 获取菜单后动态添加路由
+      router.routes[0].children = adminMenus.map((menu: any) => ({
+        path: menu.route,
+        Component: lazy(components[menu.filePath]),
+      }));
+    });
+  }, []);
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
+
+  return (
+    <RouterContext.Provider value={{ menus }}>
+      <RouterProvider router={router} />
+    </RouterContext.Provider>
+  );
+}
+
+export default Apps;
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
