@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-04-02 16:57:51
+ * @LastEditTime: 2024-04-03 16:31:46
  */
 import React, { Suspense } from 'react';
 import { Provider } from 'react-redux';
@@ -18,7 +18,7 @@ import styles from '@/assets/styles/home.module.scss';
 
 const RouterContext = React.createContext<{ menus: any[] }>({ menus: [] });
 
-const modules = import.meta.glob('./pages/*/index.tsx');
+const modules = import.meta.glob('./pages/**/index.tsx');
 const components = Object.keys(modules).reduce<Record<string, any>>((prev, cur) => {
   prev[cur.replace('./pages', '')] = modules[cur];
   return prev;

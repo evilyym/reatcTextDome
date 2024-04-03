@@ -1,11 +1,15 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-04-02 16:51:07
+ * @LastEditTime: 2024-04-03 16:32:04
  */
 import { createBrowserRouter } from 'react-router-dom';
 
 import routes from './routes';
+
+const aaa: string = 'ss';
+
+aaa = 22;
 
 const router = createBrowserRouter(routes);
 
