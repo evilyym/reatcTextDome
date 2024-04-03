@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-03-18 10:40:42
+ * @LastEditTime: 2024-04-02 11:19:58
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -11,15 +11,14 @@ import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button } 
 import zhCN from 'antd/locale/zh_CN';
 import VirtualList from 'rc-virtual-list';
 
-import Bread from '@/components/breadcrumb';
-
 import '@/assets/styles/home.scss';
 
 // import Iconfont from '@/components/Iconfont';
 
 // import router from '@/router';
+import Bread from '@/components/breadcrumb';
+import { useMenuRoute } from '@/components/useMenuRoute';
 
-// import { useMenuRoute } from '@/components/useMenuRoute';
 import { getAssetsFile } from '@/utils/share';
 
 import { getProductList, getListAll } from '@/apis/user';
