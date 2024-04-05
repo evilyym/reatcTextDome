@@ -7,11 +7,6 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import routes from './routes';
 
-const aaa: string = 'ss';
-
-aaa = 22;
-aaa = undefined;
-
 const router = createBrowserRouter(routes);
 
 //可传第二个参数，配置base路径 { basename: "/app"}
