@@ -44,41 +44,31 @@ const items: MenuProps['items'] = [
   {
     key: '1',
     label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        修改头像
-      </a>
+        '修改头像'
     ),
   },
   {
     key: '2',
     label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        系统消息
-      </a>
+        '系统消息'
     ),
   },
   {
     key: '3',
     label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        个人中心
-      </a>
+        '个人中心'
     ),
   },
   {
     key: '4',
     label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        修改密码
-      </a>
+        '修改密码'
     ),
   },
   {
     key: '5',
     label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        退出登录
-      </a>
+        '退出登录'
     ),
   },
 ];
@@ -134,7 +124,7 @@ const App: React.FC = () => {
   const onOpenChange = (keys: any) => {
     let openKey: any;
     try {
-      openKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
+      openKey = keys.find((key: any) => openKeys && openKeys.indexOf(key) === -1);
     } catch (error) {
       openKey = false;
     }
@@ -160,13 +150,13 @@ const App: React.FC = () => {
       }
       setTitle(myMenu.name);
 
-      function GetRandomNum(Min, Max) {
+      function GetRandomNum(Min:number, Max:number) {
         const Range = Max - Min;
         const Rand = Math.random();
         return Min + Math.round(Rand * Range);
       }
 
-      function mapMenuTree(item) {
+      function mapMenuTree(item:{[string:string]:any}):any {
         const key = item.soren_namet || item.en_name;
         return {
           key: key,
