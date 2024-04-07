@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-04-02 11:19:58
+ * @LastEditTime: 2024-04-07 17:29:34
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
@@ -29,7 +29,7 @@ import styles from '@/assets/styles/home.module.scss';
 // import { notification, message } from '@/store/store';
 
 const { Header, Content, Sider, Footer } = Layout;
-
+Header = 1;
 const items1: MenuProps['items'] = [
   { key: '1', name: '主页' },
   { key: '2', name: '设置' },
@@ -43,35 +43,28 @@ const items2: any = [];
 const items: MenuProps['items'] = [
   {
     key: '1',
-    label: (
-        '修改头像'
-    ),
+    label: '修改头像',
   },
   {
     key: '2',
-    label: (
-        '系统消息'
-    ),
+    label: '系统消息',
   },
   {
     key: '3',
-    label: (
-        '个人中心'
-    ),
+    label: '个人中心',
   },
   {
     key: '4',
-    label: (
-        '修改密码'
-    ),
+    label: '修改密码',
   },
   {
     key: '5',
-    label: (
-        '退出登录'
-    ),
+    label: '退出登录',
   },
 ];
+type aTpye = { key: string; name?: string }[];
+const a: aTpye = { key: '22' };
+a = 1;
 
 const App: React.FC = () => {
   const {
@@ -150,13 +143,13 @@ const App: React.FC = () => {
       }
       setTitle(myMenu.name);
 
-      function GetRandomNum(Min:number, Max:number) {
+      function GetRandomNum(Min: number, Max: number) {
         const Range = Max - Min;
         const Rand = Math.random();
         return Min + Math.round(Rand * Range);
       }
 
-      function mapMenuTree(item:{[string:string]:any}):any {
+      function mapMenuTree(item: { [string: string]: any }): any {
         const key = item.soren_namet || item.en_name;
         return {
           key: key,
