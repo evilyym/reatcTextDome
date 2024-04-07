@@ -1,12 +1,13 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-03-11 11:02:12
+ * @LastEditTime: 2024-04-07 14:56:53
  */
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { CopyOutlined } from '@ant-design/icons';
-import { notification, message } from 'antd';
+import { notification, message, Spin } from 'antd';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
 
@@ -33,11 +34,16 @@ HttpClient.interceptors.request.use(
     config.headers['Trace-id'] = uid().replaceAll('-', '');
     if (/api\/saas/.test(config.url)) {
       // config.baseURL = import.meta.env.VITE_APP_BASE_URL;
-      config.baseURL = '/sapi'
+      config.baseURL = '/sapi';
     } else {
       // config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
-      config.baseURL = '/api'
+      config.baseURL = '/api';
     }
+    const dom = document.getElementById('root');
+    // dom.setAttribute('id', 'loading');
+    // document.body.appendChild(dom);
+    // ReactDOM.render(<Spin/>, dom)
+    Spin.setDefaultIndicator(dom);
     return config;
   },
   (error) => {
