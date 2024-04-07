@@ -3,7 +3,7 @@
  * @Date: 2024-01-26 01:29:24
  * @LastEditTime: 2024-04-03 16:31:46
  */
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
@@ -28,18 +28,18 @@ function Apps() {
   const [menus, setMenus] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getAdminMenus().then((adminMenus: any) => {
-      setMenus(adminMenus);
-      setLoading(false);
+  // useEffect(() => {
+  //   getAdminMenus().then((adminMenus: any) => {
+  //     setMenus(adminMenus);
+  //     setLoading(false);
 
-      // 获取菜单后动态添加路由
-      router.routes[0].children = adminMenus.map((menu: any) => ({
-        path: menu.route,
-        Component: lazy(components[menu.filePath]),
-      }));
-    });
-  }, []);
+  //     // 获取菜单后动态添加路由
+  //     router.routes[0].children = adminMenus.map((menu: any) => ({
+  //       path: menu.route,
+  //       Component: lazy(components[menu.filePath]),
+  //     }));
+  //   });
+  // }, []);
 
   if (loading) {
     return <div>loading...</div>;

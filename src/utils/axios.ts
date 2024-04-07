@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 
 import { CopyOutlined } from '@ant-design/icons';
 import { notification, message, Spin } from 'antd';
+import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
 
@@ -18,10 +19,8 @@ import { v1 as uid } from 'uuid';
  * 与后端服务通信
  */
 const HttpClient = axios.create({
-  // VITE_APP_CAR_BASE_URL
-  // baseURL: import.meta.env.VITE_APP_BASE_URL,
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
   // baseURL: process.env.VITE_APP_BASE_URL,
-  // baseURL: '/api',
 });
 
 /**
@@ -29,22 +28,15 @@ const HttpClient = axios.create({
  * 功能：配置请求头
  */
 HttpClient.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     config.headers.Authorization = localStorage.getItem('token');
     config.headers['Trace-id'] = uid().replaceAll('-', '');
-    if (/api\/saas/.test(config.url)) {
-      // config.baseURL = import.meta.env.VITE_APP_BASE_URL;
-      config.baseURL = '/sapi';
+    if (config.url && /api\/saas/.test(config.url)) {
+      config.baseURL = import.meta.env.VITE_APP_BASE_URL;
     } else {
-      // config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
-      config.baseURL = '/api';
+      config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
     }
-    const dom = document.getElementById('root');
-    // dom.setAttribute('id', 'loading');
-    // document.body.appendChild(dom);
-    // ReactDOM.render(<Spin/>, dom)
-    Spin.setDefaultIndicator(dom);
-    return config;
+    return config
   },
   (error) => {
     console.error('网络错误，请稍后重试');

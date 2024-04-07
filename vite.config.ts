@@ -13,6 +13,9 @@ import viteCompression from 'vite-plugin-compression';
 
 export default ({ mode }) => {
   console.log('mode', loadEnv(mode, process.cwd())); //127.0.0.1:9000/api
+  const fileName = loadEnv(mode, process.cwd()).VITE_NODE_ENV == 'staging' ? 'testdist/YM_dom' : 'dist/YM_dom';
+  console.log('fileName', fileName);
+  
   return defineConfig({
     plugins: [
       react(),
@@ -35,6 +38,7 @@ export default ({ mode }) => {
       },
     },
     build: {
+      outDir: fileName,
       rollupOptions: {
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
@@ -48,7 +52,7 @@ export default ({ mode }) => {
       },
     },
     // define: { 'process.env': {} },
-    base: '/',
+    base: '/YM_dom/',
     server: {
       host: '0.0.0.0',
       port: 9527,

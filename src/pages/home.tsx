@@ -29,7 +29,6 @@ import styles from '@/assets/styles/home.module.scss';
 // import { notification, message } from '@/store/store';
 
 const { Header, Content, Sider, Footer } = Layout;
-Header = 1;
 const items1: MenuProps['items'] = [
   { key: '1', name: '主页' },
   { key: '2', name: '设置' },
@@ -63,8 +62,6 @@ const items: MenuProps['items'] = [
   },
 ];
 type aTpye = { key: string; name?: string }[];
-const a: aTpye = { key: '22' };
-a = 1;
 
 const App: React.FC = () => {
   const {
