@@ -52,11 +52,11 @@ const routes = [
         path: '/data',
         element: <DatePicker />,
       },
-      {
-        path: '*',
-        element: <ErrorPage />,
-      },
     ],
+  },
+  {
+    path: '*',
+    element: <ErrorPage />,
   },
 ];
 

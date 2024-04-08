@@ -12,8 +12,8 @@ const ErrorBoundary = () => {
   //错误信息，可用来错误上报
   console.log(error);
   return (
-    <div style={{ color: 'red' }}>
-      <Empty />
+    <div style={{ color: 'red', margin: 'auto' }}>
+      <Empty description={'暂无权限'} />
     </div>
   );
 };

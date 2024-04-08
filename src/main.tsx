@@ -58,7 +58,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
   <Provider store={store}>
-    <App style={{ height: '100%' }}>
+    <App style={{ height: '100%', display: 'flex' }}>
       <Suspense fallback={<div>Loading...</div>}>
         {/* <BrowserRouter basename={'/YM_dom'}> */}
         <RouterProvider router={router} />
