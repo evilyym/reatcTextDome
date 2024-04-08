@@ -141,6 +141,7 @@ const Login: React.FC = () => {
 //   );
 // };
 const Wrapper = styled.div`
+  margin: auto;
   height: 100%;
   display: grid;
   align-content: center;

@@ -14,7 +14,6 @@ export default () => {
   msg = staticFunction.message;
   modal = staticFunction.modal;
   notification = staticFunction.notification;
-  debugger
   return null;
 };
 
