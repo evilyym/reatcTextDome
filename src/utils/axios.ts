@@ -1,16 +1,18 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-04-07 14:56:53
+ * @LastEditTime: 2024-04-08 10:25:42
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { CopyOutlined } from '@ant-design/icons';
 import { notification, message, Spin } from 'antd';
-import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
+
+import type { InternalAxiosRequestConfig } from 'axios';
 
 // import { notification, message } from '@/store/store';
 
@@ -36,7 +38,7 @@ HttpClient.interceptors.request.use(
     } else {
       config.baseURL = import.meta.env.VITE_APP_CAR_BASE_URL;
     }
-    return config
+    return config;
   },
   (error) => {
     console.error('网络错误，请稍后重试');
@@ -53,7 +55,7 @@ HttpClient.interceptors.response.use(
     const { data, config } = response;
     if (data.code == 200) return data.data;
     //
-    message.success('Success!');
+    // message.success('Success!');
     notification.error({
       className: 'messageErr',
       duration: 5,
@@ -68,17 +70,10 @@ HttpClient.interceptors.response.use(
           },
         }),
       ),
-      // onClick: () => {
-      //   console.log('Notification Clicked!');
-      // },
-      // style: { background: 'red' },
-      // content: React.createElement(
-      //   'p',
-      //   { style: { display: 'inline-block', 'word-wrap': 'break-word', width: '150px', 'text-overflow': 'ellipsis' } },
-      //   data.msg + '\n' + data.trace_id.slice(0, 16),
-      // ),
     });
-    if (data.code == 401 && window.location.pathname != '/login') window.location.pathname = '/login';
+    const navigate = useNavigate();
+
+    if (data.code == 401) navigate(`/login`);
     return Promise.reject(data.msg);
   },
   (error) => {

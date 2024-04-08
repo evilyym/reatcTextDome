@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-03-04 10:01:09
- * @LastEditTime: 2024-03-14 16:45:40
+ * @LastEditTime: 2024-04-08 10:28:44
  */
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from 'react';
@@ -54,7 +54,6 @@ const routes = [
       },
       {
         path: '*',
-        // element: <div>404</div>,
         element: <ErrorPage />,
       },
     ],

@@ -1,11 +1,11 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-04-03 16:31:46
+ * @LastEditTime: 2024-04-08 10:53:45
  */
 import React, { Suspense, useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { RouterProvider } from 'react-router-dom';
+import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
 import { App } from 'antd';
 import ReactDOM from 'react-dom/client';
@@ -60,7 +60,10 @@ root.render(
   <Provider store={store}>
     <App style={{ height: '100%' }}>
       <Suspense fallback={<div>Loading...</div>}>
+        {/* <BrowserRouter basename={'/YM_dom'}> */}
         <RouterProvider router={router} />
+        {/* <Router></Router> */}
+        {/* </BrowserRouter> */}
       </Suspense>
     </App>
   </Provider>,

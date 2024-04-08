@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-02-23 09:13:46
+ * @LastEditTime: 2024-04-08 09:43:44
  */
 import path from 'path'; //这个path用到了上面安装的@types/node
 
@@ -12,10 +12,8 @@ import viteCompression from 'vite-plugin-compression';
 // https://vitejs.dev/config/
 
 export default ({ mode }) => {
-  console.log('mode', loadEnv(mode, process.cwd())); //127.0.0.1:9000/api
-  const fileName = loadEnv(mode, process.cwd()).VITE_NODE_ENV == 'staging' ? 'testdist/YM_dom' : 'dist/YM_dom';
-  console.log('fileName', fileName);
-  
+  const fileName = loadEnv(mode, process.cwd()).VITE_NODE_ENV == 'staging' ? 'testdist' : 'dist';
+
   return defineConfig({
     plugins: [
       react(),
@@ -38,7 +36,7 @@ export default ({ mode }) => {
       },
     },
     build: {
-      outDir: fileName,
+      outDir: fileName + process.env.VITE_BASE,
       rollupOptions: {
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
@@ -52,11 +50,11 @@ export default ({ mode }) => {
       },
     },
     // define: { 'process.env': {} },
-    base: '/YM_dom/',
+    base: process.env.VITE_BASE,
     server: {
       host: '0.0.0.0',
       port: 9527,
-      open: true,
+      open: false,
       hmr: true,
       proxy: {
         '/api': {
