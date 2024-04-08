@@ -9,7 +9,10 @@ import styled from 'styled-components';
 
 import { goLogin, getList } from '@/apis/user';
 
+import { msg } from '@/store/msg';
+
 const Login: React.FC = () => {
+  // msg.success(11);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
 

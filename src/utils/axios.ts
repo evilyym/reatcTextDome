@@ -8,13 +8,14 @@ import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { CopyOutlined } from '@ant-design/icons';
-import { notification, message, Spin } from 'antd';
+import { notification, Spin } from 'antd';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
 
 import type { InternalAxiosRequestConfig } from 'axios';
 
 // import { notification, message } from '@/store/store';
+import { msg } from '@/store/msg';
 
 /*
  * 创建实例
@@ -52,10 +53,10 @@ HttpClient.interceptors.request.use(
  */
 HttpClient.interceptors.response.use(
   (response) => {
+    msg.success('Success!');
     const { data, config } = response;
     if (data.code == 200) return data.data;
-    //
-    // message.success('Success!');
+
     notification.error({
       className: 'messageErr',
       duration: 5,
@@ -66,7 +67,7 @@ HttpClient.interceptors.response.use(
         data.trace_id.slice(0, 16),
         React.createElement(CopyOutlined, {
           onClick: () => {
-            message.success({ content: '复制成功', duration: 3 });
+            msg.success({ content: '复制成功', duration: 3 });
           },
         }),
       ),
