@@ -17,11 +17,12 @@ const Info = lazy(() => import('../pages/info'));
 const ErrorPage = lazy(() => import('../pages/errorBoundary'));
 const DatePicker = lazy(() => import('../pages/datePicker'));
 const Dropdoswns = lazy(() => import('../pages/antdDropdown.tsx'));
+const Tetres = lazy(() => import('../pages/tetris/pages/index.jsx'));
 
 const routes = [
   {
     path: '/login',
-    element: <Login />,
+    element: <Tetres />,
   },
   {
     path: '/Dropdoswns',

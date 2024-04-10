@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 // @ts-ignore
-import Head from 'next/head';
+// import Head from 'next/head';
 
 import Board from '../components/Board';
 import Context from '../components/Context';
@@ -213,10 +213,10 @@ export default function Home() {
         level: level(),
       }}
     >
-      <Head>
+      {/* <Head>
         <title>Tetris</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico"></link>
-      </Head>
+      </Head> */}
       <main
         ref={mainRef}
         className="w-full h-screen focus:outline-none flex gap-8 items-center justify-center"
