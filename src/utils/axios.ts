@@ -53,7 +53,7 @@ HttpClient.interceptors.request.use(
  */
 HttpClient.interceptors.response.use(
   (response) => {
-    msg.success('Success!');
+    // msg.success('Success!');
     const { data, config } = response;
     if (data.code == 200) return data.data;
 
@@ -72,9 +72,8 @@ HttpClient.interceptors.response.use(
         }),
       ),
     });
-    const navigate = useNavigate();
 
-    if (data.code == 401) navigate(`/login`);
+    if (data.code == 401) location.href = 'login';
     return Promise.reject(data.msg);
   },
   (error) => {

@@ -15,6 +15,7 @@ export default ({ mode }) => {
   const fileName = loadEnv(mode, process.cwd()).VITE_NODE_ENV == 'staging' ? 'testdist' : 'dist';
 
   return defineConfig({
+    base: loadEnv(mode, process.cwd()).VITE_BASE,
     plugins: [
       react(),
       {
@@ -50,7 +51,6 @@ export default ({ mode }) => {
       },
     },
     // define: { 'process.env': {} },
-    base: process.env.VITE_BASE,
     server: {
       host: '0.0.0.0',
       port: 9527,

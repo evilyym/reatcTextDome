@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Checkbox, Form, Input, message, Modal } from 'antd';
 import styled from 'styled-components';
+// import { Format } from 'ym-vue-module';
 
 import { goLogin, getList } from '@/apis/user';
 
 import { msg } from '@/store/msg';
 
+// Format(111);
 const Login: React.FC = () => {
   // msg.success(11);
   const navigate = useNavigate();
