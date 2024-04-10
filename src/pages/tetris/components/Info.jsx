@@ -1,0 +1,51 @@
+import { useContext } from 'react';
+
+import { I } from '../lib/TetrominoType';
+import t from '../lib/time';
+
+import Context from './Context';
+import Tetromino from './Tetromino';
+
+const { h, m, s } = t();
+
+export default function Info() {
+  const { time, nextTetromino, score, eliminatedLines, level } = useContext(Context);
+
+  if (!time) return <></>;
+  const duration = Date.now() - time;
+
+  return (
+    <div className="flex flex-col gap-8">
+      <div className="flex gap-6 justify-between items-center">
+        <span>Time</span>
+        <span className="text-2xl font-bold text-red-600">
+          {h(duration)}:{m(duration)}:{s(duration)}
+        </span>
+      </div>
+
+      <div className="flex gap-6 justify-between items-center">
+        <span>Level</span>
+        <span className="text-2xl font-bold text-red-600">{level}</span>
+      </div>
+
+      <div className="flex gap-6 justify-between items-center">
+        <span>Score</span>
+        <span className="text-2xl font-bold text-red-600">{score}</span>
+      </div>
+
+      <div className="flex gap-6 justify-between items-center">
+        <span>Eliminate Lines</span>
+        <span className="text-2xl font-bold text-red-600">{eliminatedLines}</span>
+      </div>
+
+      {nextTetromino && (
+        <div className="flex gap-6 justify-between items-center">
+          <div>下一个</div>
+          <div className="relative">
+            <Tetromino {...nextTetromino} x={-1} y={nextTetromino.type == I ? 0 : -1} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

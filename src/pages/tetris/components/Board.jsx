@@ -1,9 +1,10 @@
 import { useContext } from 'react';
 
-import Tetromino from './Tetromino';
-import Context from './Context';
-import { BOARD_HEIGHT, BOARD_WIDTH } from '@/lib/tetris';
+import { BOARD_HEIGHT, BOARD_WIDTH } from '../lib/tetris';
+
 import BoardBgCubes from './BoardBgCubes';
+import Context from './Context';
+import Tetromino from './Tetromino';
 
 export default function Board() {
   const { currentTetromino, predictedTetromino, tetrominoes, gameOver } = useContext(Context);
