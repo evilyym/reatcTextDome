@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
 import { App } from 'antd';
+import { random } from 'ym-toolset';
 import ReactDOM from 'react-dom/client';
 
 import router from './router';
@@ -17,6 +18,7 @@ import './index.scss';
 import styles from '@/assets/styles/home.module.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+console.log(random(1, 20));
 
 root.render(
   <Provider store={store}>

@@ -22,6 +22,7 @@
     "ahooks": "^3.7.10",
     "antd": "^5.15.2",
     "axios": "^1.6.7",
+    "h-toolset": "^1.1.7",
     "immer": "^10.0.4",
     "rc-virtual-list": "^3.11.4",
     "react": "^18.2.0",
@@ -32,6 +33,7 @@
     "styled-components": "^6.1.8",
     "three": "^0.163.0",
     "uuid": "^9.0.1",
+    "ym-toolset": "^1.1.12",
     "ym-vue-module": "^1.0.2",
     "zustand": "^4.5.2"
   },
