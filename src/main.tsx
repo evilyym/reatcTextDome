@@ -8,8 +8,8 @@ import { Provider } from 'react-redux';
 import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
 import { App } from 'antd';
-import { random } from 'ym-toolset';
 import ReactDOM from 'react-dom/client';
+import { random } from 'ym-toolset';
 
 import router from './router';
 import store from './store/store';
