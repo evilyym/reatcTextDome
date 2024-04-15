@@ -2,15 +2,19 @@
 
 // import { getAssetsFile } from '@/utils/share';
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Checkbox, Form, Input, message, Modal } from 'antd';
+import { Button, Checkbox, Form, Input, message, Modal, Spin } from 'antd';
 import styled from 'styled-components';
 // import { Format } from 'ym-vue-module';
 
 import { goLogin, getList } from '@/apis/user';
 
-import { msg } from '@/store/msg';
+import { increment, disconnect } from '@/store/counter';
+// import store from '@/store/store';
+
+// import { msg } from '@/store/msg';
 
 // Format(111);
 const Login: React.FC = () => {
@@ -25,10 +29,16 @@ const Login: React.FC = () => {
     });
   };
   const [userArr, setUserArr] = useState({ info: [{ tenant_code: '', tenant_name: '' }], mid_code: '' });
+  const count = useSelector((state: any) => state.counter.value);
+  const dispatch = useDispatch();
 
   const onFinish = (values: any) => {
     // navigate('/', { replace: true });
+    dispatch(disconnect());
+
     goLogin({ ...values }).then((data: any) => {
+      dispatch(increment());
+
       if (data.login) {
         localStorage.setItem('token', data.token);
         navigate('/', { replace: true });
@@ -78,6 +88,7 @@ const Login: React.FC = () => {
   return (
     <Wrapper>
       {contextHolder}
+      <Spin spinning={count} fullscreen />
       <Form
         name="basic"
         className="basic"

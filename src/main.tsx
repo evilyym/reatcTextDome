@@ -7,9 +7,8 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
-import { App } from 'antd';
+import { App, Spin } from 'antd';
 import ReactDOM from 'react-dom/client';
-import { random } from 'ym-toolset';
 
 import router from './router';
 import store from './store/store';
@@ -18,7 +17,6 @@ import './index.scss';
 import styles from '@/assets/styles/home.module.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-console.log(random(1, 20));
 
 root.render(
   <Provider store={store}>
