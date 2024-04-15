@@ -56,7 +56,7 @@ const Login: React.FC = () => {
     // navigate('/', { replace: true });
   }
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    // console.log('Failed:', errorInfo);
   };
 
   type FieldType = {
