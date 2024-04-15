@@ -33,7 +33,7 @@ const HttpClient = axios.create({
  */
 HttpClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    createAsyncThunk('counter', () => true);
+    // createAsyncThunk('counter', () => true);
 
     config.headers.Authorization = localStorage.getItem('token');
     config.headers['Trace-id'] = uid().replaceAll('-', '');
@@ -56,8 +56,7 @@ HttpClient.interceptors.request.use(
  */
 HttpClient.interceptors.response.use(
   (response) => {
-    createAsyncThunk('counter', () => false);
-    // msg.success('Success!');
+    // createAsyncThunk('counter', () => false);
     const { data, config } = response;
     if (data.code == 200) return data.data;
 

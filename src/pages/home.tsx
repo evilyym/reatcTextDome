@@ -131,7 +131,7 @@ const App: React.FC = () => {
   // "H10172" 15505707071
   useEffect(() => {
     // getListAll  getProductList
-    // getListAll({token:localStorage.getItem('token')}).then(({ menu_list }) => {
+    // getListAll({ token: localStorage.getItem('token') }).then(({ menu_list }) => {
     getProductList({}).then(({ menu_list }: any) => {
       const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
       let myMenu = { list: [], name: '' };
@@ -168,7 +168,7 @@ const App: React.FC = () => {
 
       // 添加路由
     });
-  });
+  }, [location]); //[] 监听对象 数据更新后 会请求
 
   return (
     <ConfigProvider
@@ -230,7 +230,6 @@ const App: React.FC = () => {
                   openKeys={openKeys}
                   onClick={goReace}
                   selectedKeys={selectedKeys}
-                  // onSelect={({ key }) => setSelectedKey(key)}
                 />
                 {/* </VirtualList> */}
               </Spin>

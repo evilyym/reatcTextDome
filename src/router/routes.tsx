@@ -6,8 +6,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from 'react';
 
-import ErrorBoundary from '../pages/errorBoundary';
-
 const Login = lazy(() => import('../pages/login'));
 const Home = lazy(() => import('../pages/home'));
 const User = lazy(() => import('../pages/user'));
@@ -34,7 +32,7 @@ const routes = [
   },
   {
     element: <Home />,
-    errorElement: <ErrorBoundary />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/1',
@@ -58,10 +56,6 @@ const routes = [
         element: <DatePicker />,
       },
     ],
-  },
-  {
-    path: '*',
-    element: <ErrorPage />,
   },
 ];
 
