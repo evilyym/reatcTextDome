@@ -74,16 +74,16 @@ export default function Home() {
     // @ts-ignore
     mainRef.current && mainRef.current.focus();
 
-    if (!audio) {
-      audio = new Audio('tetris.mp3');
-    }
+    // if (!audio) {
+    //   audio = new Audio('tetris.mp3');
+    // }
 
-    if (!gameOver) {
-      audio.loop = true;
-      audio.currentTime = 0;
-      audio.play();
-      return () => audio.pause();
-    }
+    // if (!gameOver) {
+    //   audio.loop = true;
+    //   audio.currentTime = 0;
+    //   audio.play();
+    //   return () => audio.pause();
+    // }
   }, [gameOver]);
 
   useEffect(() => {

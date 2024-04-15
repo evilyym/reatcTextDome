@@ -22,6 +22,10 @@ const Tetres = lazy(() => import('../pages/tetris/pages/index.jsx'));
 const routes = [
   {
     path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/Tetres',
     element: <Tetres />,
   },
   {
