@@ -168,7 +168,7 @@ const App: React.FC = () => {
 
       // 添加路由
     });
-  }, []);
+  });
 
   return (
     <ConfigProvider

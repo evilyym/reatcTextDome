@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { CopyOutlined } from '@ant-design/icons';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notification, Spin } from 'antd';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
@@ -32,6 +33,8 @@ const HttpClient = axios.create({
  */
 HttpClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    createAsyncThunk('counter', () => true);
+
     config.headers.Authorization = localStorage.getItem('token');
     config.headers['Trace-id'] = uid().replaceAll('-', '');
     if (config.url && /api\/saas/.test(config.url)) {
@@ -53,6 +56,7 @@ HttpClient.interceptors.request.use(
  */
 HttpClient.interceptors.response.use(
   (response) => {
+    createAsyncThunk('counter', () => false);
     // msg.success('Success!');
     const { data, config } = response;
     if (data.code == 200) return data.data;

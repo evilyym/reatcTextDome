@@ -7,7 +7,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
-import { App } from 'antd';
+import { App, Spin } from 'antd';
 import ReactDOM from 'react-dom/client';
 
 import router from './router';
