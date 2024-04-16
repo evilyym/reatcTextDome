@@ -7,7 +7,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
-import { App, Spin } from 'antd';
+import { App, Spin, message } from 'antd';
 import ReactDOM from 'react-dom/client';
 
 import router from './router';
@@ -19,9 +19,28 @@ import './index.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
+// eslint-disable-next-line react-refresh/only-export-components
 const Msg = () => {
-  const { spin } = useStore();
-  return <Spin spinning={spin} fullscreen />;
+  const { spin, msgT } = useStore();
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const error = (msg: string) => {
+    messageApi.open({
+      type: 'error',
+      content: msg,
+    });
+  };
+
+  useEffect(() => {
+    msgT && error(msgT);
+  }, [msgT]);
+  return (
+    <>
+      {contextHolder}
+      <Spin spinning={spin} fullscreen />
+    </>
+  );
 };
 
 root.render(

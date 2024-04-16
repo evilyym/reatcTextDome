@@ -20,7 +20,7 @@ import type { InternalAxiosRequestConfig } from 'axios';
 import { msg } from '@/store/msg';
 import useStore from '@/store/spinState';
 
-const { setSpinState } = useStore.getState();
+const { setSpinState, setMsgT } = useStore.getState();
 
 // const { list, updateList } = useListStore.getState();
 /*
@@ -66,7 +66,7 @@ HttpClient.interceptors.response.use(
     // createAsyncThunk('counter', () => false);
     const { data, config } = response;
     if (data.code == 200) return data.data;
-
+    // setMsgT('你好世界');
     notification.error({
       className: 'messageErr',
       duration: 5,

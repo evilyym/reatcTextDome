@@ -5,31 +5,18 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Checkbox, Form, Input, message, Modal, Spin } from 'antd';
+import { Button, Checkbox, Form, Input, Modal } from 'antd';
 import styled from 'styled-components';
-// import { Format } from 'ym-vue-module';
 
 import { goLogin, getList } from '@/apis/user';
 
 import bgImg from '@/assets/images/bg-2.jpg';
 import fromImg from '@/assets/images/背景框2.png';
 import { increment, disconnect } from '@/store/counter';
-// import store from '@/store/store';
 
-// import { msg } from '@/store/msg';
-
-// Format(111);
 const Login: React.FC = () => {
-  // msg.success(11);
   const navigate = useNavigate();
-  const [messageApi, contextHolder] = message.useMessage();
 
-  const error = (msg: string) => {
-    messageApi.open({
-      type: 'error',
-      content: msg,
-    });
-  };
   const [userArr, setUserArr] = useState({ info: [{ tenant_code: '', tenant_name: '' }], mid_code: '' });
   const count = useSelector((state: any) => state.counter.value);
   const dispatch = useDispatch();
@@ -89,7 +76,6 @@ const Login: React.FC = () => {
 
   return (
     <Wrapper>
-      {contextHolder}
       <Form
         name="basic"
         className="basic"
