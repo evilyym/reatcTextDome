@@ -4,25 +4,18 @@
  * @LastEditTime: 2024-04-08 10:25:42
  */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { useNavigate } from 'react-router-dom';
 
 import { CopyOutlined } from '@ant-design/icons';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { notification, Spin } from 'antd';
+import { notification } from 'antd';
 import axios from 'axios';
 import { v1 as uid } from 'uuid';
 
 import type { InternalAxiosRequestConfig } from 'axios';
 
-// import { notification, message } from '@/store/store';
-// import useListStore from '@/store/list';
-import { msg } from '@/store/msg';
 import useStore from '@/store/spinState';
 
 const { setSpinState, setMsgT } = useStore.getState();
 
-// const { list, updateList } = useListStore.getState();
 /*
  * 创建实例
  * 与后端服务通信
@@ -38,7 +31,6 @@ const HttpClient = axios.create({
  */
 HttpClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // createAsyncThunk('counter', () => true);
     setSpinState();
 
     config.headers.Authorization = localStorage.getItem('token');
@@ -63,7 +55,7 @@ HttpClient.interceptors.request.use(
 HttpClient.interceptors.response.use(
   (response) => {
     setSpinState();
-    // createAsyncThunk('counter', () => false);
+
     const { data, config } = response;
     if (data.code == 200) return data.data;
     // setMsgT('你好世界');
@@ -77,7 +69,8 @@ HttpClient.interceptors.response.use(
         data.trace_id.slice(0, 16),
         React.createElement(CopyOutlined, {
           onClick: () => {
-            msg.success({ content: '复制成功', duration: 3 });
+            navigator.clipboard.writeText(data.trace_id);
+            setMsgT({ content: '复制成功', type: 'success' });
           },
         }),
       ),

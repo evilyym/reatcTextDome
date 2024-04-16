@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/ban-types */
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
  * @LastEditTime: 2024-04-08 10:53:45
  */
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { Suspense, useRef, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
@@ -25,16 +27,23 @@ const Msg = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  const error = (msg: string) => {
+  interface msgType {
+    type: any;
+    content: string;
+    isOpen?: number;
+  }
+
+  const msge = (msg: msgType) => {
     messageApi.open({
-      type: 'error',
-      content: msg,
+      type: msg.type,
+      content: msg.content,
     });
   };
 
   useEffect(() => {
-    msgT && error(msgT);
+    msgT.isOpen !== 0 && msge(msgT);
   }, [msgT]);
+
   return (
     <>
       {contextHolder}

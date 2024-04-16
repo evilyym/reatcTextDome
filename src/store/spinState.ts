@@ -4,17 +4,23 @@ import { create } from 'zustand';
 interface ListState {
   spin: boolean;
   setSpinState: () => void;
-  msgT: string;
-  setMsgT: (params: string) => void;
+  msgT: msgType;
+  setMsgT: (params: msgType) => void;
 }
-
+interface msgType {
+  isOpen?: number;
+  type: string;
+  content: string;
+}
 const useStore = create<ListState>((set) => ({
   spin: false,
-  msgT: '',
-  setMsgT: async (msg: string) => {
+  msgT: { type: 'info', content: 'loading...', isOpen: 0 },
+  setMsgT: async ({ type, content }) => {
     set(
       produce((state) => {
-        state.msgT = msg;
+        state.msgT.type = type;
+        state.msgT.content = content;
+        state.msgT.isOpen++;
       }),
     );
   },
