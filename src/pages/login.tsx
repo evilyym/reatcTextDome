@@ -11,6 +11,8 @@ import styled from 'styled-components';
 
 import { goLogin, getList } from '@/apis/user';
 
+import bgImg from '@/assets/images/bg-2.jpg';
+import fromImg from '@/assets/images/背景框2.png';
 import { increment, disconnect } from '@/store/counter';
 // import store from '@/store/store';
 
@@ -153,15 +155,22 @@ const Login: React.FC = () => {
 //     </div>
 //   );
 // };
+
 const Wrapper = styled.div`
-  margin: auto;
+  padding: auto;
   height: 100%;
+  width: 100%;
   display: grid;
+  background-image: url(${bgImg});
+  background-size: cover;
   align-content: center;
   justify-content: center;
   .basic {
-    height: 200px;
-    width: 400px;
+    height: 300px;
+    width: 500px;
+    padding: 50px;
+    background-image: url(${fromImg});
+    background-size: cover;
     aside {
       width: 260px;
       border: 1px solid;
