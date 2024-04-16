@@ -16,10 +16,13 @@ import { v1 as uid } from 'uuid';
 import type { InternalAxiosRequestConfig } from 'axios';
 
 // import { notification, message } from '@/store/store';
-import useListStore from '@/store/list';
+// import useListStore from '@/store/list';
 import { msg } from '@/store/msg';
+import useStore from '@/store/spinState';
 
-const { list, updateList } = useListStore.getState();
+const { setSpinState } = useStore.getState();
+
+// const { list, updateList } = useListStore.getState();
 /*
  * 创建实例
  * 与后端服务通信
@@ -36,8 +39,7 @@ const HttpClient = axios.create({
 HttpClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // createAsyncThunk('counter', () => true);
-    console.log(list);
-    updateList();
+    setSpinState();
 
     config.headers.Authorization = localStorage.getItem('token');
     config.headers['Trace-id'] = uid().replaceAll('-', '');
@@ -60,7 +62,7 @@ HttpClient.interceptors.request.use(
  */
 HttpClient.interceptors.response.use(
   (response) => {
-    console.log(list);
+    setSpinState();
     // createAsyncThunk('counter', () => false);
     const { data, config } = response;
     if (data.code == 200) return data.data;

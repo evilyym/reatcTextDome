@@ -90,7 +90,6 @@ const Login: React.FC = () => {
   return (
     <Wrapper>
       {contextHolder}
-      <Spin spinning={count} fullscreen />
       <Form
         name="basic"
         className="basic"

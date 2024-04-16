@@ -13,14 +13,21 @@ import ReactDOM from 'react-dom/client';
 import router from './router';
 import store from './store/store';
 
-import './index.scss';
 import styles from '@/assets/styles/home.module.scss';
+import useStore from '@/store/spinState';
+import './index.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+const Msg = () => {
+  const { spin } = useStore();
+  return <Spin spinning={spin} fullscreen />;
+};
 
 root.render(
   <Provider store={store}>
     <App style={{ height: '100%', display: 'flex' }}>
+      <Msg></Msg>
       <Suspense fallback={<div>Loading...</div>}>
         <RouterProvider router={router} />
       </Suspense>

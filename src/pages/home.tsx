@@ -26,7 +26,6 @@ import { getProductList, getListAll } from '@/apis/user';
 import type { MenuProps } from 'antd';
 
 import styles from '@/assets/styles/home.module.scss';
-import useStore from '@/store/spinState';
 
 // import { notification, message } from '@/store/store';
 
@@ -171,11 +170,6 @@ const App: React.FC = () => {
       // 添加路由
     });
   }, [location]); //[] 监听对象 数据更新后 会请求
-  const { spin: spinStalt, setSpinState } = useStore();
-  const handlerToken = useCallback(() => {
-    setSpinState();
-    setTimeout(setSpinState, 3000);
-  }, [setSpinState]);
 
   return (
     <ConfigProvider
@@ -188,11 +182,10 @@ const App: React.FC = () => {
         },
       }}
     >
-      <Spin spinning={spinStalt} fullscreen />
       <Layout style={{ height: '100%' }}>
         <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
           <>
-            <div className={styles['head-logo']} onClick={handlerToken} />
+            <div className={styles['head-logo']} />
             <div className={styles['head-title']} onClick={navClick}>
               {title}
             </div>
