@@ -70,7 +70,7 @@ dependencies:
     version: 9.0.1
   ym-toolset:
     specifier: ^1.1.13
-    version: 1.1.13
+    version: 1.2.3
   ym-vue-module:
     specifier: ^1.0.2
     version: 1.0.2
@@ -5887,8 +5887,8 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ym-toolset@1.1.13:
-    resolution: {integrity: sha512-o3hPtL3HFLdrlWYVV9HYVvOnPa9fmyjTBsGJ0BC8iz02+g5Kz5Vc+FX4JE65r+eJqHXzfLu5avC+w1dZKWM72A==}
+  /ym-toolset@1.2.3:
+    resolution: {integrity: sha512-TRmZRdIGBcYmAFSpYPIHsYfUqawRN2oEhWAddjFFATaOkbk0UgLqUlOAwYNuDWNj1szXZrbfqXy3WyulJmD4HA==}
     dependencies:
       '@rollup/plugin-node-resolve': 15.2.3
       '@rollup/plugin-terser': 0.4.4
