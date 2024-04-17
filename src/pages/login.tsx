@@ -2,7 +2,6 @@
 
 // import { getAssetsFile } from '@/utils/share';
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Checkbox, Form, Input, Modal } from 'antd';
@@ -12,37 +11,27 @@ import { goLogin, getList } from '@/apis/user';
 
 import bgImg from '@/assets/images/bg-2.jpg';
 import fromImg from '@/assets/images/背景框2.png';
-import { increment, disconnect } from '@/store/counter';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const [userArr, setUserArr] = useState({ info: [{ tenant_code: '', tenant_name: '' }], mid_code: '' });
-  const count = useSelector((state: any) => state.counter.value);
-  const dispatch = useDispatch();
 
   const onFinish = (values: any) => {
-    // navigate('/', { replace: true });
-    dispatch(disconnect());
-
     goLogin({ ...values }).then((data: any) => {
-      dispatch(increment());
-
       if (data.login) {
         localStorage.setItem('token', data.token);
         navigate('/', { replace: true });
       } else {
+        // 弹出选择框
         setUserArr(data);
         showModal();
-        // 弹出选择框
       }
     });
   };
 
   function getUserToken(code: any, mid: string) {
     onFinish({ mid_code: mid, tenant_code: code });
-    // localStorage.setItem('token', data.token);
-    // navigate('/', { replace: true });
   }
   const onFinishFailed = (errorInfo: any) => {
     // console.log('Failed:', errorInfo);
@@ -57,11 +46,11 @@ const Login: React.FC = () => {
     autoComplete?: string;
   };
   const initialValues = {
-    // username: '15505707071',
-    // password: 'Qw9KEV4C834Ie1lt/mKeeLfx/gLonCzzQc1kr2rv8gA=',
-    username: 'golive',
-    password: 'Y0WMs+G6PWTuYT2QXynKWw==',
-    tenant_code: 'C10026',
+    // username: 'golive',
+    // password: 'Y0WMs+G6PWTuYT2QXynKWw==',
+    // tenant_code: 'C10026',
+    username: '15505707071',
+    password: 'Qw9KEV4C834Ie1lt/mKeeLfx/gLonCzzQc1kr2rv8gA=',
     mid_code: '',
   };
 
@@ -102,7 +91,7 @@ const Login: React.FC = () => {
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
-            提交
+            登录
           </Button>
         </Form.Item>
       </Form>
@@ -125,22 +114,6 @@ const Login: React.FC = () => {
     </Wrapper>
   );
 };
-
-// export default App;
-// const Login = () => {
-//   useRequest(getList, {
-//     defaultParams: [{ id: 2 }],
-//   });
-
-//   return (
-//     <div>
-//       <input type="text" />
-//       <input type="text" />
-//       <Button color='getList' type="primary">登录</Button>
-//       {/* <img src={getAssetsFile('home.png')} /> */}
-//     </div>
-//   );
-// };
 
 const Wrapper = styled.div`
   padding: auto;

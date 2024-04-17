@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
  * @LastEditTime: 2024-04-08 09:40:36
  */
-import React, { Suspense, useState, useEffect, useCallback } from 'react';
-import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
+import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
+import { Outlet, useNavigate, Link, useLocation, useMatches } from 'react-router-dom';
 
 import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
@@ -13,7 +14,6 @@ import '@/assets/styles/home.scss';
 
 // import Iconfont from '@/components/Iconfont';
 
-// import router from '@/router';
 import Bread from '@/components/breadcrumb'; //面包屑导航组件
 import { useMenuRoute } from '@/components/useMenuRoute';
 
@@ -24,6 +24,7 @@ import { getProductList, getListAll } from '@/apis/user';
 import type { MenuProps } from 'antd';
 
 import styles from '@/assets/styles/home.module.scss';
+import router from '@/router';
 
 // import { notification, message } from '@/store/store';
 
@@ -126,24 +127,23 @@ const App: React.FC = () => {
       setOpenKeys(keys);
     }
   };
+  const matches = useMatches();
 
-  // "H10172" 15505707071
+  const modules = import.meta.glob('./pages/**.tsx');
+  const components = Object.keys(modules).reduce<Record<string, any>>((prev, cur) => {
+    prev[cur.replace('./pages', '')] = modules[cur];
+    return prev;
+  }, {}) as any;
+
   useEffect(() => {
-    // getListAll  getProductList
     // getListAll({ token: localStorage.getItem('token') }).then(({ menu_list }) => {
-    getProductList({}).then(({ menu_list }: any) => {
-      const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
-      let myMenu = { list: [], name: '' };
-      if (myProduct) {
-        myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
-      }
-      setTitle(myMenu.name);
-
-      function GetRandomNum(Min: number, Max: number) {
-        const Range = Max - Min;
-        const Rand = Math.random();
-        return Min + Math.round(Rand * Range);
-      }
+    getProductList({}).then(({ menu_list, name }: any) => {
+      // const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
+      // let myMenu = { list: [], name: '' };
+      // if (myProduct) {
+      //   myMenu = myProduct.child.find((item: any) => item.en_name == 'Carcharging');
+      // }
+      setTitle(name);
 
       function mapMenuTree(item: { [string: string]: any }): any {
         const key = item.soren_namet || item.en_name;
@@ -166,6 +166,18 @@ const App: React.FC = () => {
       setLoadingMeun(false);
 
       // 添加路由
+      // 递归获取路由名称
+      const getRouterList = (menu: any) => {
+        return {
+          path: menu.key,
+          children: menu.children && menu.children.map((children: any) => getRouterList(children)),
+          Component: menu.children == null && lazy(components[menu.filePath]),
+        };
+      };
+      // 获取菜单后动态添加路由
+      router.routes[3].children = arrN.map((menu: any) => {
+        return getRouterList(menu);
+      });
     });
   }, [location]); //[] 监听对象 数据更新后 会请求
 

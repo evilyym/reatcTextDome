@@ -7,7 +7,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import routes from './routes';
 
-const router = createBrowserRouter(routes, { basename: import.meta.env.VITE_BASE }); //'/YM_dom'
+const router = createBrowserRouter(routes, { basename: import.meta.env.VITE_BASE });
 
 //可传第二个参数，配置base路径 { basename: "/app"}
 
@@ -49,7 +49,7 @@ function Apps() {
 }>
     <RouterProvider router={ router } />
         < /RouterContext.Provider>
-  );
+);
 }
 
 export { Apps };
