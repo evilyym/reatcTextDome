@@ -6,17 +6,15 @@
 import React, { Suspense, useState, useEffect, useCallback } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 
-import { DownOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import VirtualList from 'rc-virtual-list';
 
 import '@/assets/styles/home.scss';
 
 // import Iconfont from '@/components/Iconfont';
 
 // import router from '@/router';
-import Bread from '@/components/breadcrumb';
+import Bread from '@/components/breadcrumb'; //面包屑导航组件
 import { useMenuRoute } from '@/components/useMenuRoute';
 
 import { getAssetsFile } from '@/utils/share';

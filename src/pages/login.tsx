@@ -54,6 +54,7 @@ const Login: React.FC = () => {
     password?: string;
     code?: string;
     defaultValue?: any;
+    autoComplete?: string;
   };
   const initialValues = {
     // username: '15505707071',
@@ -92,7 +93,7 @@ const Login: React.FC = () => {
         </Form.Item>
 
         <Form.Item<FieldType> label="Password" name="password" rules={[{ required: true, message: '此项目必填' }]}>
-          <Input.Password />
+          <Input.Password autoComplete="off" />
         </Form.Item>
 
         <Form.Item<FieldType> name="type" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
