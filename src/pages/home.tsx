@@ -129,12 +129,12 @@ const App: React.FC = () => {
   };
   const matches = useMatches();
 
-  const modules = import.meta.glob('./pages/**.tsx');
+  const modules = import.meta.glob('../pages/**/*.tsx');
+  // FoodApplication/OrderFood/OrderFoodIndex
   const components = Object.keys(modules).reduce<Record<string, any>>((prev, cur) => {
-    prev[cur.replace('./pages', '')] = modules[cur];
+    prev[cur.replace(/(\.\/)|(.tsx)/g, '')] = modules[cur];
     return prev;
   }, {}) as any;
-
   useEffect(() => {
     // getListAll({ token: localStorage.getItem('token') }).then(({ menu_list }) => {
     getProductList({}).then(({ menu_list, name }: any) => {
@@ -164,14 +164,18 @@ const App: React.FC = () => {
       setSelectedKeys(location.split('/').slice(-1));
       setUserTtems2(arrN);
       setLoadingMeun(false);
-
       // 添加路由
       // 递归获取路由名称
-      const getRouterList = (menu: any) => {
+      const getRouterList = (menu: any, pathFather = '') => {
         return {
           path: menu.key,
-          children: menu.children && menu.children.map((children: any) => getRouterList(children)),
-          Component: menu.children == null && lazy(components[menu.filePath]),
+          pathFather: pathFather,
+          children:
+            menu.children &&
+            menu.children.map((children: any) =>
+              getRouterList(children, pathFather ? pathFather + '/' + menu.key : menu.key),
+            ),
+          Component: menu.children == null && lazy(components[pathFather ? pathFather + '/' + menu.key : menu.key]),
         };
       };
       // 获取菜单后动态添加路由
