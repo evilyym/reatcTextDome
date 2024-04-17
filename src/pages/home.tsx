@@ -91,6 +91,7 @@ const App: React.FC = () => {
   const [selectedKeys, setSelectedKeys] = useState<any>();
   const [loadingMeun, setLoadingMeun] = useState<boolean>(true);
   const [title, setTitle] = useState<string>('');
+  const [collapsed, setCollapsed] = useState(false);
 
   let parentKey: string[] = [];
   const findParent = (arr: any[], path: string, parent: string[] = []): string[] => {
@@ -199,7 +200,12 @@ const App: React.FC = () => {
       <Layout style={{ height: '100%' }}>
         <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
           <>
-            <div className={styles['head-logo']} />
+            <div
+              className={styles['head-logo']}
+              onClick={() => {
+                setCollapsed(!collapsed);
+              }}
+            />
             <div className={styles['head-title']} onClick={navClick}>
               {title}
             </div>
@@ -219,7 +225,7 @@ const App: React.FC = () => {
           </>
         </Header>
         <Layout>
-          <Sider width={200} style={{ background: colorBgContainer }}>
+          <Sider width={200} trigger={null} collapsible collapsed={collapsed} style={{ background: colorBgContainer }}>
             <ConfigProvider
               theme={{
                 components: {
