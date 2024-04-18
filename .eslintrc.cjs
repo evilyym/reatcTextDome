@@ -31,6 +31,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react', '@typescript-eslint', 'react-refresh', 'import', 'prettier'],
   rules: {
+    "react/prop-types": "off",
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     //import导入顺序规则
     'import/order': [

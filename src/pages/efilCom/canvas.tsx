@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 type propTypes = {
   color: string;
-  radius: string;
-  v: string;
-  angle: string;
-  x: string;
-  y: string;
+  radius: number;
+  v: number;
+  angle: number;
+  x: number;
+  y: number;
 };
 
 class Circle extends Component {
