@@ -15,12 +15,12 @@ const Info = lazy(() => import('../pages/info'));
 const ErrorPage = lazy(() => import('../pages/errorBoundary'));
 const DatePicker = lazy(() => import('../pages/datePicker'));
 const Dropdoswns = lazy(() => import('../pages/antdDropdown.tsx'));
-const Tetres = lazy(() => import('../pages/tetris/pages/index.jsx'));
+const Tetres = lazy(() => import('../pages/efilCom/canvas.tsx'));
 
 const routes = [
   {
     path: '/Tetres',
-    element: <Tetres />,
+    element: <Tetres color={'red'} radius={0} v={0} angle={0} x={0} y={0} />,
   },
   {
     path: '/login',
