@@ -16,6 +16,8 @@ const ErrorPage = lazy(() => import('../pages/errorBoundary'));
 const DatePicker = lazy(() => import('../pages/datePicker'));
 const Dropdoswns = lazy(() => import('../pages/antdDropdown.tsx'));
 const Tetres = lazy(() => import('../pages/efilCom/canvas.tsx'));
+const Els = lazy(() => import('../pages/elsDome.tsx'));
+const ElsTst = lazy(() => import('../pages/efilCom/blackType.tsx'));
 
 const routes = [
   {
@@ -53,7 +55,11 @@ const routes = [
       },
       {
         path: '/elsTst',
-        element: lazy(() => import('../pages/efilCom/blackType.tsx')),
+        element: <ElsTst />,
+      },
+      {
+        path: '/els',
+        element: <Els />,
       },
       {
         path: '/data',
