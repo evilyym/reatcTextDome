@@ -52,9 +52,9 @@ const App: FC = () => {
   ];
   const keycom = { '38': 'rotate(1)', '40': 'down()', '37': 'move(2,1)', '39': 'move(0.5,-1)' };
   // let dia: number[][] | number[], pos: any, bak: any;
-  const [dia, setDia] = useState([]);
-  const [pos, setPos] = useState<{ [x: string]: any }>();
-  const [bak, setBak] = useState<any>({});
+  const [dia, setDia] = useState(tatris[~~(Math.random() * 7)]);
+  const [pos, setPos] = useState({ fk: [], y: 0, x: 4, s: ~~(Math.random() * 4) });
+  const [bak, setBak] = useState({ fk: [], y: 0, x: 4, s: ~~(Math.random() * 4) });
   useEffect(() => {
     document.onkeydown = function (e: any) {
       eval(keycom[(e ? e : event).keyCode]);
@@ -75,14 +75,15 @@ const App: FC = () => {
       alert('GAME OVER');
     }
     function update(t) {
+      const arrObj = { fk: pos.fk.slice(0), y: pos.y, x: pos.x, s: pos.s };
       setBak({ fk: pos.fk.slice(0), y: pos.y, x: pos.x, s: pos.s });
       let a2 = '';
       if (t) return;
       for (let i = 0; i < 22; i++) a2 += map[i].toString(2).slice(1, -1) + '<br/>';
       for (let i = 0, n; i < 4; i++)
-        if (/([^0]+)/.test(bak.fk[i].toString(2).replace(/1/g, '\u25a1')))
+        if (/([^0]+)/.test(arrObj.fk[i].toString(2).replace(/1/g, '\u25a1')))
           a2 =
-            a2.substr(0, (n = (bak.y + i + 1) * 15 - RegExp.$_.length - 4)) +
+            a2.substr(0, (n = (arrObj.y + i + 1) * 15 - RegExp.$_.length - 4)) +
             RegExp.$1 +
             a2.slice(n + RegExp.$1.length);
       document.getElementById('box').innerHTML = a2.replace(/1/g, '\u25a0').replace(/0/g, '\u3000');
