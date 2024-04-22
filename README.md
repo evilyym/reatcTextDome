@@ -11,4 +11,12 @@ React18 + React-Router-Dom6 + Zustand4 + TypeScript5 + Vite5 + Antd5
 
 添加视频播放 图片处理 canvas 动画 统计 文本发布  评论 
 
-背景动态 以及 主题更换
+背景动态 以及 主题更换 
+
+俄罗斯
+
+场景
+
+方块
+
+信息

@@ -12,15 +12,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  /* 颜色主题 */
+  --color_text: '#646cff';
+  --color_hover: '#535bf2';
+  --color_bg: '#1a1a1a';
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color_text);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--color_hover);
 }
 
 body {

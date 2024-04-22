@@ -5,3 +5,5 @@ const o = { blocks: [0xcc00, 0xcc00, 0xcc00, 0xcc00], color: 'yellow' };
 const s = { blocks: [0x06c0, 0x8c40, 0x6c00, 0x4620], color: 'green' };
 const t = { blocks: [0x0e40, 0x4c40, 0x4e00, 0x4640], color: 'purple' };
 const z = { blocks: [0x0c60, 0x4c80, 0xc600, 0x2640], color: 'red' };
+
+// 根据16进制渲染

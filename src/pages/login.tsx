@@ -37,14 +37,15 @@ const Login: React.FC = () => {
     // console.log('Failed:', errorInfo);
   };
 
-  type FieldType = {
+  interface FieldType {
     type?: string;
     username?: string;
     password?: string;
     code?: string;
     defaultValue?: any;
     autoComplete?: string;
-  };
+  }
+
   const initialValues = {
     // username: 'golive',
     // password: 'Y0WMs+G6PWTuYT2QXynKWw==',
