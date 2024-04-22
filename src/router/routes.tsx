@@ -52,6 +52,10 @@ const routes = [
         element: <Info />,
       },
       {
+        path: '/elsTst',
+        element: lazy(() => import('../pages/efilCom/blackType.tsx')),
+      },
+      {
         path: '/data',
         element: <DatePicker />,
       },
