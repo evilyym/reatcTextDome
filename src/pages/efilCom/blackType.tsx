@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 // const i = { blocks: [0x0f00, 0x2222, 0x00f0, 0x4444], color: 'cyan' };
 // const j = { blocks: [0x44c0, 0x8e00, 0x6440, 0x0e20], color: 'blue' };
@@ -51,7 +51,10 @@ const App: FC = () => {
     [0x2620, 0x720, 0x2320, 0x2700],
   ];
   const keycom = { '38': 'rotate(1)', '40': 'down()', '37': 'move(2,1)', '39': 'move(0.5,-1)' };
-  let dia, pos, bak;
+  // let dia: number[][] | number[], pos: any, bak: any;
+  const [dia, setDia] = useState([]);
+  const [pos, setPos] = useState<{ [x: string]: any }>();
+  const [bak, setBak] = useState<any>({});
   useEffect(() => {
     document.onkeydown = function (e: any) {
       eval(keycom[(e ? e : event).keyCode]);
@@ -61,8 +64,9 @@ const App: FC = () => {
     const run: any = setInterval(down, 500);
 
     function start() {
-      dia = tatris[~~(Math.random() * 7)];
-      bak = pos = { fk: [], y: 0, x: 4, s: ~~(Math.random() * 4) };
+      setDia(tatris[~~(Math.random() * 7)]);
+      setPos({ fk: [], y: 0, x: 4, s: ~~(Math.random() * 4) });
+      setBak({ fk: [], y: 0, x: 4, s: ~~(Math.random() * 4) });
       rotate(0);
     }
     function over() {
@@ -71,7 +75,7 @@ const App: FC = () => {
       alert('GAME OVER');
     }
     function update(t) {
-      bak = { fk: pos.fk.slice(0), y: pos.y, x: pos.x, s: pos.s };
+      setBak({ fk: pos.fk.slice(0), y: pos.y, x: pos.x, s: pos.s });
       let a2 = '';
       if (t) return;
       for (let i = 0; i < 22; i++) a2 += map[i].toString(2).slice(1, -1) + '<br/>';
@@ -83,8 +87,8 @@ const App: FC = () => {
             a2.slice(n + RegExp.$1.length);
       document.getElementById('box').innerHTML = a2.replace(/1/g, '\u25a0').replace(/0/g, '\u3000');
     }
-    function is() {
-      for (let i = 0; i < 4; i++) if ((pos.fk[i] & map[pos.y + i]) != 0) return (pos = bak);
+    function is(): boolean | void {
+      for (let i = 0; i < 4; i++) if ((pos.fk[i] & map[pos.y + i]) != 0) return setPos(bak);
     }
     function rotate(r) {
       const f = dia[(pos.s = (pos.s + r) % dia.length)];
