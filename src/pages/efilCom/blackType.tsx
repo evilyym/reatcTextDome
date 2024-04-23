@@ -42,7 +42,7 @@ const App: FC = () => {
   const divRef = useRef<HTMLCanvasElement>(null);
   const map = eval('[' + Array(23).join('0x801,') + '0xfff]');
   const tatris = [
-    [0x6600],
+    [0xcc00],
     [0x2222, 0xf00],
     [0xc600, 0x2640],
     [0x6c00, 0x4620],
@@ -111,6 +111,7 @@ const App: FC = () => {
       for (let i = 0; i < 4; i++) pos.fk[i] *= t;
       update(is());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Wrapper>
