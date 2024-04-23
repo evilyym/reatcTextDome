@@ -18,8 +18,13 @@ const Dropdoswns = lazy(() => import('../pages/antdDropdown.tsx'));
 const Tetres = lazy(() => import('../pages/efilCom/canvas.tsx'));
 const Els = lazy(() => import('../pages/elsDome.tsx'));
 const ElsTst = lazy(() => import('../pages/efilCom/blackType.tsx'));
+const ElsDom = lazy(() => import('../pages/elsVueDome.tsx'));
 
 const routes = [
+  {
+    path: '/ElsDom',
+    element: <ElsDom />,
+  },
   {
     path: '/Tetres',
     element: <Tetres color={'red'} radius={0} v={0} angle={0} x={0} y={0} />,
