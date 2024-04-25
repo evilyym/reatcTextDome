@@ -12,7 +12,7 @@ if (
   hostname.indexOf("127.0.0.1") > -1 ||
   hostname.indexOf("localhost") > -1
 ) {
-  configURL.baseURL = "https://dev-zjtie.goliveplus.cn/activitysupport_api"; //测试服
+  configURL.baseURL = "https://dev-msupervision.goliveplus.cn"; //测试服
   configURL.saasURL = "https://dev-zjtie.goliveplus.cn/saas_wap/"; //测试服
   new Vconsole()
 } else {

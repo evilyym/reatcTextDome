@@ -5,8 +5,9 @@
 import 'vant/es/toast/style'; //4.8 版本bug 按需引入对此组件失效
 import 'vant/es/dialog/style'; //4.8 版本bug 按需引入对此组件失效
 
+import { getInfo } from "./api/index.ts";
 
-import { ref, provide, watch } from "vue";
+import { ref, provide, watch, onMounted } from "vue";
 
 const $active = ref(parseInt(sessionStorage.getItem('$active')) || 0);
 
@@ -14,6 +15,13 @@ provide('$active', $active)
 
 watch($active, (val) => {
   sessionStorage.setItem('$active', val + '')
+})
+
+onMounted(async () => {
+  const res = await getInfo('');
+  if (res.code == 200 || 1) {
+    if(res.data.submit_status==1){};
+  }
 })
 
 </script>
@@ -32,11 +40,13 @@ body,
   overflow-y: auto;
   overscroll-behavior: none;
 }
+
 html,
-body{
+body {
   overflow: hidden;
   overscroll-behavior: none;
 }
+
 .blue {
   color: #1677FF;
 }

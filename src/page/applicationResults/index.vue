@@ -1,15 +1,23 @@
 <template>
   <div class="applicationResults">
-    <van-tabs v-model:active="active" color="#EDEDED" style="" background="#EDEDED" title-inactive-color="#666"
-      title-active-color="#111">
-      <van-tab title="我服务的">
+    <van-tabs v-model:active="active" color="#2488FF" style="" background="#fff" title-inactive-color="#333"
+      title-active-color="#2488FF">
+      <van-tab v-if="1" title="检查情况通知">
+        <van-field v-model="date" is-link readonly label="" placeholder="日期选择" @click="show = !show" />
+        <div style=""></div>
+        <van-calendar first-day-of-week="1" :default-date="[new Date(), new Date()]" :allow-same-day="true"
+          :min-date="minDate" :max-date="maxDate" v-model:show="show" type="range" @confirm="onConfirm" />
+        <br>
         <div class="listBox">
           <template v-for="itme in ResultsList">
             <div class="cirdBox" @click="initiateActivities(itme)" v-if="itme.leader_phone">
               <h4>{{ itme.name }}</h4>
               <p style="display: flex;">
-                <span><van-icon name="user" />{{ itme.leader_name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="(j,i) in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span></span>
+                <span>
+                  <!-- <van-icon name="user" /> -->
+                  {{ itme.leader_phone.split('/')[0] }} </span>
+                <!-- <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
+                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ j }} </span></span> -->
               </p>
               <div class="rightArrow"></div>
               <hr>
@@ -18,11 +26,43 @@
           <van-empty v-if="ResultsList.length == 1" description="暂无数据"></van-empty>
         </div>
       </van-tab>
-      <van-tab title="我审核的">
+      <van-tab v-if="1" title="资质证书查看">
+        <van-dropdown-menu>
+          <van-dropdown-item style="width: 50%;" v-model="value1" :options="option1" />
+        </van-dropdown-menu><br>
         <div class="listBox">
-          <van-dropdown-menu>
-            <van-dropdown-item v-model="value1" :options="option1" />
-            <van-dropdown-item v-model="value2" :options="option2" />
+          <img src="https://img.yzcdn.cn/vant/cat.jpeg" height="100px" alt="">
+          <img src="https://img.yzcdn.cn/vant/cat.jpeg" height="100px" alt="">
+          <div class="bookshelf"></div>
+          <van-list v-model:loading="loading" offset="15" :finished="finished"
+            :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
+            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
+              <h4>{{ itme.activity_name }} <span :class="{
+                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
+              }">{{ showText(itme.audit_status) }}</span></h4>
+              <p>
+                <span> <van-icon name="user" />{{ itme.name }} </span>
+                <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
+                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ j }} </span> </span>
+              </p>
+              <p><van-icon name="friends" />{{ itme.department }} </p>
+              <p>
+                <van-icon name="underway" />{{ itme.created_at }}
+                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
+                  green: itme.report_status == 2, red: itme.report_status == 1
+                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
+              </p>
+              <hr>
+            </div>
+            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
+          </van-list>
+        </div>
+      </van-tab>
+      <van-tab v-if="0" title="检查提交">
+        <div class="listBox">
+          <van-dropdown-menu active-color="#1677FF">
+            <van-dropdown-item v-model="value1" :options="option1" active-color="#1677FF" />
+            <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
           </van-dropdown-menu>
           <hr>
           <van-list v-model:loading="loading" offset="15" :finished="finished"
@@ -33,7 +73,8 @@
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
                 <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="(j,i) in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span> </span>
+                <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
+                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ j }} </span> </span>
               </p>
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
@@ -48,52 +89,25 @@
           </van-list>
         </div>
       </van-tab>
-      <van-tab title="我发出的">
-        <div class="listBox">
-          <van-dropdown-menu active-color="#1677FF">
-            <van-dropdown-item v-model="value1" :options="option1" active-color="#1677FF" />
-            <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
-          </van-dropdown-menu>
-          <hr>
-          <van-list v-model:loading="loading" offset="15" :finished="finished" 
-          :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
-            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity_name }} <span :class="{
-                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
-              }">{{ showText(itme.audit_status) }}</span></h4>
-              <p>
-                <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="(j,i) in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{ j }} </span> </span>
-              </p>
-              <p><van-icon name="friends" />{{ itme.department }} </p>
-              <p>
-                <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
-                  green: itme.report_status == 2, red: itme.report_status == 1
-                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
-              </p>
-              <hr>
-            </div>
-            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
-          </van-list>
-        </div>
-      </van-tab>
-      <van-tab title="报备我的">
+      <van-tab v-if="0" title="提交记录">
         <div class="listBox">
           <van-dropdown-menu>
             <van-dropdown-item v-model="value1" :options="option1" />
             <van-dropdown-item v-model="value3" :options="option3" />
           </van-dropdown-menu>
           <hr>
-          <van-list v-model:loading="loading" offset="15" :finished="finished" 
-          :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
+          <van-list v-model:loading="loading" offset="15" :finished="finished"
+            :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
             <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
               <h4>{{ itme.activity_name }} <span :class="{
                 blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
               }">{{ showText(itme.audit_status) }}</span></h4>
               <p>
                 <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span  @click="goPhone(j)" v-for="(j,i) in itme.leader_phone.split('/')" :key="j">{{i?'/':''}}{{i?'/':''}}{{ j }}</span> </span>
+                <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
+                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ i ? '/' : '' }}{{ j
+                    }}</span>
+                </span>
               </p>
               <p><van-icon name="friends" />{{ itme.department }} </p>
               <p>
@@ -118,7 +132,29 @@ import { ref, onMounted, watch, inject } from "vue";
 import { getRecordsList, getActivityList } from "@/api/index";
 import { showToast } from 'vant';
 
+const minDate = new Date(new Date().getFullYear() - 5, 0, 1);
+const maxDate = new Date(new Date().getFullYear() + 3, 0, 1);
+
+const date = ref('');
+const show = ref(false);
+const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
+const onConfirm = (values) => {
+  const [start, end] = values;
+  show.value = false;
+  date.value = `${formatDate(start)} - ${formatDate(end)}`;
+};
+
 const router = useRouter()
+// if (navigator.geolocation) {
+//   navigator.geolocation.getCurrentPosition((res) => {
+//     console.log(res);//这里会返回经纬度，然后还要通过经纬度转换地区名称
+//     fetch(`https://restapi.amap.com/v3/geocode/regeo?key=bf9a6cb247abb72dbf6a8525ccb9aade&location=${res.coords.longitude.toFixed(6)},${res.coords.latitude.toFixed(6)}`).then((response) => {
+//       return response.json();
+//     }).then((data) => {
+//       console.log(data.regeocode.formatted_address);
+//     })
+//   });
+// }
 
 const goPhone = (phone) => {
   window.location.href = `tel:${phone}`
@@ -146,9 +182,9 @@ const option3 = [
   { text: '已报备', value: 2 },
 ];
 const initiateActivities = (item) => {
-  if (item.type==1) {
-  router.push('/applyActivities?id=' + item.id)
-  }else{
+  if (item.type == 1) {
+    router.push('/checkDetails?id=' + item.id)
+  } else {
     showToast(item.clue);
   }
 }
@@ -249,7 +285,7 @@ const onLoad = async () => {
       break;
   }
   const data = (await getRecordsList(query)).data;
-  console.log(ResultsDetailList.value);
+  // console.log(ResultsDetailList.value);
   if (toPage.value > 1) {
     ResultsDetailList.value = ResultsDetailList.value.concat(data.data)
   } else {
@@ -277,6 +313,10 @@ onMounted(() => {
 :deep(.van-tab--active) {
   font-size: 16px;
   font-weight: 600;
+}
+
+:deep(.van-tabs__line) {
+  width: 50vw;
 }
 
 .applicationResults {
@@ -309,7 +349,15 @@ onMounted(() => {
     border-radius: 15px 15px 0 0;
     // overflow: auto;
     background-color: #fff;
-    height: 100%;
+    height: calc(100% - 60px);
+    margin: 0 15px;
+    overflow: auto;
+    .bookshelf{
+      height: 30px;
+      background-image: url(@/assets/book.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
 
     .van-dropdown-menu {
       border-radius: 15px 15px 0 0;
@@ -352,9 +400,11 @@ onMounted(() => {
         display: flex;
         width: 100%;
         gap: 20px;
-        span{
+
+        span {
           width: 35%;
         }
+
         & span.auditStatus {
           left: 125px;
           flex-grow: 1;

@@ -1,5 +1,9 @@
 import request from "@/request/index.ts";
 
+//南苑
+export const getInfo = async (params) =>
+  request.get("/api/wap/user/get_user_login_info/", { params });
+
 //获取token
 export const getInfoApi = async (params) =>
   request.get("api/wap/get-user", { params });

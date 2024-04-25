@@ -26,10 +26,9 @@ request.interceptors.request.use(
     });
 
     const userCode = localStorage.getItem("userCode");
-    config.headers["Authorization"] = userCode;
+    // config.headers["Authorization"] = userCode;
     const tid = uid().replaceAll('-','')
     config.headers["Trace-Id"] = tid;
-    config.headers["Trace_id"] = tid;
     const { data, params, method } = config;
     // 统一过滤空字段
     const obj = method === "get" ? params : data;
