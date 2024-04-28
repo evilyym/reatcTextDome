@@ -197,7 +197,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { getActivityDetail, addActivity, upload } from "@/api/index"
+import { upload } from "@/api/index"
 import { useRouter } from "vue-router";
 import { showToast, showConfirmDialog } from 'vant';
 import '@nutui/nutui/dist/packages/toast/style';
@@ -259,14 +259,14 @@ const submit = async () => {
     usage_images: usage_imagesArr.value,
     file: usage_fileArr.value.length > 0 ? usage_fileArr.value[0] : null,
   }
-  const data = (await addActivity(query))
-  if (data.code == 200) {
-    setTimeout(() => {
-      router.go(-1)
-    }, 500);
-  } else {
-    showToast(data.msg)
-  }
+  // const data = (await addActivity(query))
+  // if (data.code == 200) {
+  //   setTimeout(() => {
+  //     router.go(-1)
+  //   }, 500);
+  // } else {
+  //   showToast(data.msg)
+  // }
 }
 
 const userInfo = ref<any>({})

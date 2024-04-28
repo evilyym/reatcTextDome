@@ -2,7 +2,7 @@
   <div class="applicationResults">
     <van-tabs v-model:active="active" color="#2488FF" style="" background="#fff" title-inactive-color="#333"
       title-active-color="#2488FF">
-      <van-tab v-if="1" title="检查情况通知">
+      <van-tab v-if="aType == 2" title="检查情况通知">
         <van-field v-model="date" is-link readonly label="" placeholder="日期选择" @click="show = !show" />
         <div style=""></div>
         <van-calendar first-day-of-week="1" :default-date="[new Date(), new Date()]" :allow-same-day="true"
@@ -14,10 +14,7 @@
               <h4>{{ itme.name }}</h4>
               <p style="display: flex;">
                 <span>
-                  <!-- <van-icon name="user" /> -->
                   {{ itme.leader_phone.split('/')[0] }} </span>
-                <!-- <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
-                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ j }} </span></span> -->
               </p>
               <div class="rightArrow"></div>
               <hr>
@@ -26,7 +23,7 @@
           <van-empty v-if="ResultsList.length == 1" description="暂无数据"></van-empty>
         </div>
       </van-tab>
-      <van-tab v-if="1" title="资质证书查看">
+      <van-tab v-if="aType == 2" title="资质证书查看">
         <van-dropdown-menu>
           <van-dropdown-item style="width: 50%;" v-model="value1" :options="option1" />
         </van-dropdown-menu><br>
@@ -58,7 +55,7 @@
           </van-list>
         </div>
       </van-tab>
-      <van-tab v-if="0" title="检查提交">
+      <van-tab v-if="aType == 1" title="检查提交">
         <div class="listBox">
           <van-dropdown-menu active-color="#1677FF">
             <van-dropdown-item v-model="value1" :options="option1" active-color="#1677FF" />
@@ -89,7 +86,7 @@
           </van-list>
         </div>
       </van-tab>
-      <van-tab v-if="0" title="提交记录">
+      <van-tab v-if="aType == 1" title="提交记录">
         <div class="listBox">
           <van-dropdown-menu>
             <van-dropdown-item v-model="value1" :options="option1" />
@@ -129,7 +126,7 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { ref, onMounted, watch, inject } from "vue";
-import { getRecordsList, getActivityList } from "@/api/index";
+import { getCheckRecordList, getMaintenanceType } from "@/api/index";
 import { showToast } from 'vant';
 
 const minDate = new Date(new Date().getFullYear() - 5, 0, 1);
@@ -143,6 +140,10 @@ const onConfirm = (values) => {
   show.value = false;
   date.value = `${formatDate(start)} - ${formatDate(end)}`;
 };
+const page = ref({
+  "page": 1,
+  "page_size": 10
+})
 
 const router = useRouter()
 // if (navigator.geolocation) {
@@ -163,6 +164,10 @@ const goPhone = (phone) => {
 const codeType = router.currentRoute.value.query.activitysupporCode
 
 const active: any = inject("$active");
+const aType: any = inject("$aType");
+
+const loading = ref(false);
+const finished = ref(false);
 
 const value1 = ref('');
 const value2 = ref('');
@@ -209,52 +214,23 @@ const getList = async (val = 0, blue = true) => {
       query.report = value3.value
       break;
   }
-  const activityQuery = { type: 1, perPage: 999, code: codeType }
+  const activityQuery = { type: 1, perPage: 999, code: codeType, ...page.value }
   if (ResultsList.value.length == 0 || val == 0) {
-    option = (await getActivityList(activityQuery)).data.data
-    option.forEach((itme) => {
-      itme.text = itme.name
-      itme.value = itme.id
-    })
+    // option = await (await getCheckRecordList(activityQuery)).data
+    // option.forEach((itme) => {
+    //   itme.text = itme.name
+    //   itme.value = itme.id
+    // })
     option.unshift({ text: '全部活动', value: '' })
   } else {
     option = ResultsList.value
   }
   option1.value = option;
   ResultsList.value = option;
-  if (blue) {
-    (active.value > 0) && (ResultsDetailList.value = (await getRecordsList(query)).data.data)
-  }
+  // if (blue) {
+  //   (active.value > 0) && (ResultsDetailList.value = (await getMaintenanceType(query)).data.data)
+  // }
 }
-
-watch(active, (val: any) => {
-  toPage.value = 0;
-  loading.value = false;
-  finished.value = false;
-  getList(val)
-})
-watch(value1, async () => {
-  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, status: '', report: '' }
-  switch (active.value) {
-    case 1:
-    case 2:
-      query.status = value2.value
-      break;
-
-    case 3:
-      query.report = value3.value
-      break;
-  }
-  ResultsDetailList.value = (await getRecordsList(query)).data.data
-})
-watch(value2, async () => {
-  const query = { type: active.value, perPage: 5, id: value1.value, status: value2.value }
-  ResultsDetailList.value = (await getRecordsList(query)).data.data
-})
-watch(value3, async () => {
-  const query = { type: active.value, perPage: 5, id: value1.value, report: value3.value }
-  ResultsDetailList.value = (await getRecordsList(query)).data.data
-})
 
 const showText = (key) => {
   switch (key) {
@@ -266,8 +242,6 @@ const showText = (key) => {
       return '审核驳回'
   }
 }
-const loading = ref(false);
-const finished = ref(false);
 
 const onLoad = async () => {
   toPage.value++
@@ -284,14 +258,14 @@ const onLoad = async () => {
       query.report = value3.value
       break;
   }
-  const data = (await getRecordsList(query)).data;
-  // console.log(ResultsDetailList.value);
+  const data = (await getMaintenanceType(query)).data;
   if (toPage.value > 1) {
     ResultsDetailList.value = ResultsDetailList.value.concat(data.data)
   } else {
-    ResultsDetailList.value = (data.data)
+    ResultsDetailList.value = data
   }
   loading.value = false;
+  finished.value = true;
   if (data.last_page <= toPage.value) {
     finished.value = true;
   }
@@ -352,7 +326,8 @@ onMounted(() => {
     height: calc(100% - 60px);
     margin: 0 15px;
     overflow: auto;
-    .bookshelf{
+
+    .bookshelf {
       height: 30px;
       background-image: url(@/assets/book.png);
       background-repeat: no-repeat;

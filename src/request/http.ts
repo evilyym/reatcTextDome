@@ -14,7 +14,7 @@ if (
 ) {
   configURL.baseURL = "https://dev-msupervision.goliveplus.cn"; //测试服
   configURL.saasURL = "https://dev-zjtie.goliveplus.cn/saas_wap/"; //测试服
-  new Vconsole()
+  // new Vconsole()
 } else {
   configURL.baseURL = "https://zhhq.zjtie.edu.cn/activitysupport_api"; //正式服
   configURL.saasURL = "https://zhhq.zjtie.edu.cn/saas_wap/"; //正式服

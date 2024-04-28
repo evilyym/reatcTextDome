@@ -1,15 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
-import configURL from "../request/http";
+import { inject } from 'vue'
 
 const routes = [
+  // {
+  //   path: "/",
+  //   name: "index",
+  //   component: () => import("@/page/applicationResults/index.vue"),
+  // },
   {
-    path: "/",
-    component: () => import("@/page/applicationResults/index.vue"),
+    // 1維護工 有提交權限
+    path: "/maintenancePersonnel",
+    name: "maintenancePersonnel",
+    component: () => import("@/page/maintenancePersonnel/index.vue"),
   },
   {
-    path: "/applicationResults",
-    name: "applicationResults",
-    component: () => import("@/page/applicationResults/index.vue"),
+    // 2用戶列表 沒有提交權限
+    path: "/generalUser",
+    name: "generalUser",
+    component: () => import("@/page/generalUser/index.vue"),
   },
   {
     path: "/applyActivities",
@@ -37,6 +45,7 @@ const routerQuery = { code: "", id: "", user_type: "" };
 
 router.beforeEach(async (to: any, from, next) => {
   console.log(from);
+  const global = inject('$aType')
   if (to.query.saas_wap_token && !sessionStorage.getItem("go")) {
   }
   next();

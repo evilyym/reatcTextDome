@@ -1,11 +1,15 @@
 <style lang="less" scoped>
+// :deep(.van-field__label){
+//   color: #B4B4B4;
+// }
+
 .eventDetails {
   background-color: #EDEDED;
   position: relative;
-  padding-top: 5px;
+  // padding-top: 5px;
   // display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 60px);
   overflow: auto;
 
   .dialog {
@@ -108,6 +112,41 @@
     }
   }
 
+  .activityStateInfo {
+    background-color: #fff;
+    margin: 15px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    flex-grow: 1;
+    box-sizing: content-box;
+    // height: 80px;
+
+    &>div {
+      // display: flex;
+      color: #B4B4B4;
+
+      &>p {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &>p:first-child {
+        color: #000;
+        display: block;
+
+        &::before {
+          display: inline-block;
+          content: " ";
+          width: 12px;
+          height: 12px;
+          margin-right: 15px;
+          background: #2488FF;
+          border-radius: 12px;
+        }
+      }
+    }
+  }
+
   .materialsBox {
     display: flex;
     gap: 10px;
@@ -126,66 +165,75 @@
   }
 
   .btnBox {
+    background-color: #fff;
     display: flex;
     gap: 10px;
   }
 
   .subBtn {
     position: fixed;
-    bottom: 10px;
+    bottom: 0;
+    height: 60px;
     left: 0;
     width: 100%;
     padding: 0 30px;
     box-sizing: border-box;
+    align-items: center;
   }
 }
 </style>
 <template>
   <div class="eventDetails">
-    <template v-for="(item, index) in 4">
-      <p style="margin: 15px 15px 10px 15px; font-size: 16px; line-height: 20px;">{{ item }}: 步骤</p>
+    <template v-for="(item, index) in activityInfo.audit_project">
+      <p style="margin: 15px 15px 10px 15px; font-size: 16px; line-height: 20px;">{{ index + 1 }}、{{ item.audit_name }}
+      </p>
       <div class="activityState back_white">
-        <p>检查时填写的描述，若有照片则展示照片有定</p>
+        <p>{{ item.audit_content }}</p>
         <div style="background-color: aqua;">
           <van-field readonly name="uploader" label="">
             <template #input>
-              <van-uploader readonly :deletable="false" v-model="imgArr"
-                :after-read="afterRead" multiple :max-count="3" />
+              <van-uploader readonly :deletable="false" v-model="item.image_urls" :after-read="afterRead" multiple
+                :max-count="item.image_urls.length" />
             </template>
           </van-field>
         </div>
-        <p style="color: #666;"><van-icon name="location-o" />西湖国际科技大厦 E座</p>
+        <p style="color: #666;"><van-icon name="location-o" />{{ activityInfo.local_name }}</p>
       </div>
     </template>
-    <!-- <p style="margin: 15px 15px 10px 15px; font-size: 16px; line-height: 20px;">2: 步骤二</p>
-    <div class="activityState back_white">
-      <p>检查时填写的描述，若有照片则展示照片有定</p>
-      <div style="width: 100px; height: 100px; background-color: aqua;"></div>
-      <p style="color: #666;"><van-icon name="location-o" />西湖国际科技大厦 E座</p>
-    </div> -->
     <div class="activityInfo">
       <van-form input-align="right">
-        <van-field v-model="activityInfo.activity_name" name="" label="区域位置:" readonly placeholder="当前地址" />
-        <van-field v-model="activityInfo.leader_name" name="" label="提交时间:" placeholder="17点06分" readonly />
-        <!-- <van-field v-model="activityInfo.leader_phone.split('/')[0]" @click-input="goPhone(activityInfo.leader_phone.split('/')[0])" name="" label="手机号:" placeholder="手机号" readonly /> -->
-        <!-- <van-field v-if="activityInfo.leader_phone.split('/').length > 1" v-model="activityInfo.leader_phone.split('/')[1]" @click-input="goPhone(activityInfo.leader_phone.split('/')[1])" name="" label="" placeholder="手机号" readonly /> -->
+        <van-field v-model="activityInfo.local_name" name="" label="区域位置" readonly placeholder="当前地址" />
+        <van-field v-model="activityInfo.submit_time" name="" label="提交时间" placeholder="17点06分" readonly />
       </van-form>
+    </div>
+    <p v-if="activityInfo.audit_result && activityInfo.audit_result.length"
+      style="margin: 15px 15px 10px 15px; font-size: 16px; line-height: 20px;">审核内容
+    </p>
+    <div class="activityStateInfo" v-if="activityInfo.audit_result && activityInfo.audit_result.length">
+      <div v-for="item in activityInfo.audit_result">
+        <p>{{ item.created_at }}</p>
+        <p>审核结果 <span :style="{ color: item.audit_record_status_name == '退回' ? 'red' : '#2488FF' }">{{
+          item.audit_record_status_name }}</span></p>
+        <p>审核人 <span style="color: #000;">{{ item.audit_user }}</span></p>
+        <p>审核原因 <span style="color: #000;">{{ item.audit_content }}</span></p>
+      </div>
+    </div>
+
+    <div class="btnBox subBtn">
+      <van-button @click="$router.go(-1)" round block>返回</van-button>
+      <van-button type="primary" native-type="submit" round block>去修改</van-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, inject } from "vue";
-import { getRecordsDetail, setAudit, upload, setReport, setConfirm, setCancel } from "@/api/index"
+import { getCheckRecordDetail, upload, } from "@/api/index"
 import { useRouter } from "vue-router";
 import { showToast, showConfirmDialog } from 'vant';
 
 const router = useRouter()
-const imgArr = [{ url: 'https://img.yzcdn.cn/vant/cat.jpeg' },{ url: 'https://img.yzcdn.cn/vant/cat.jpeg' },{ url: 'https://img.yzcdn.cn/vant/cat.jpeg' },{ url: 'https://img.yzcdn.cn/vant/cat.jpeg' }]
-
-const goPhone = (phone) => {
-  window.location.href = `tel:${phone}`
-}
+const imgArr = [{ url: 'https://img.yzcdn.cn/vant/cat.jpeg' }, { url: 'https://img.yzcdn.cn/vant/cat.jpeg' }, { url: 'https://img.yzcdn.cn/vant/cat.jpeg' }, { url: 'https://img.yzcdn.cn/vant/cat.jpeg' }]
 
 const active: any = router.currentRoute.value.query.userType || inject("$active");
 
@@ -201,7 +249,6 @@ const onSubmit = async () => {
         id: router.currentRoute.value.query.id,
         status: btnText.value.status,
       }
-      data = await setAudit(query)
       break;
 
     case 4:
@@ -216,7 +263,6 @@ const onSubmit = async () => {
         report_image: report_imageArr.value,
         file: reportFileArr.value.length > 0 ? reportFileArr.value[0] : null,
       }
-      data = await setReport(query)
 
       break;
   }
@@ -233,13 +279,6 @@ const btnConfirm = async () => {
     id: router.currentRoute.value.query.id,
   }
 
-  const data = (await setConfirm(query))
-
-  if (data.code == 200) {
-    setTimeout(() => {
-      router.go(router.currentRoute.value.query.userType ? 0 : -1)
-    }, 500);
-  }
 }
 
 const btnCancel = () => {
@@ -259,13 +298,6 @@ const cancel = async () => {
     id: router.currentRoute.value.query.id,
   }
 
-  const data = (await setCancel(query))
-
-  if (data.code == 200) {
-    setTimeout(() => {
-      router.go(-1)
-    }, 300);
-  }
 }
 
 const btnText = ref({
@@ -345,16 +377,12 @@ const afterRead = async (e) => {
       let param = new FormData()
       param.append('file', file, file.name)
       param.append('type', '2')
-      const data = await upload(param)
-      auditInfo.value.report_image[index].url = data.data.url;
     }
   } else {
     let file = e.file
     let param = new FormData()
     param.append('file', file, file.name)
     param.append('type', '2')
-    const data = await upload(param)
-    auditInfo.value.report_image[auditInfo.value.report_image.length - 1].url = data.data.url;
   }
 }
 
@@ -365,52 +393,43 @@ const afterFileRead = async (e) => {
       let param = new FormData()
       param.append('file', file, file.name)
       param.append('type', '1')
-      const data = await upload(param)
-      reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
-      reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
-      reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
-      delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
-      delete reportFileArr.value[reportFileArr.value.length - 1].content
+      // reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
+      // reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
+      // reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
+      // delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+      // delete reportFileArr.value[reportFileArr.value.length - 1].content
     }
   } else {
     let file = e.file
     let param = new FormData()
     param.append('file', file, file.name)
     param.append('type', '1')
-    const data = await upload(param)
-    reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
-    reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
-    reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
-    delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
-    delete reportFileArr.value[reportFileArr.value.length - 1].content
+    // const data = await upload(param)
+    // reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
+    // reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
+    // reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
+    // delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
+    // delete reportFileArr.value[reportFileArr.value.length - 1].content
   }
 }
 
-const showText = (key) => {
-  switch (key) {
-    case 1:
-      return '待审核'
-    case 2:
-      return '审核通过'
-    case 3:
-      return '审核驳回'
-
-  }
-}
 
 onMounted(async () => {
-  const data: any = (await getRecordsDetail({ id: router.currentRoute.value.query.id })).data
+  const data: any = (await getCheckRecordDetail({ id: router.currentRoute.value.query.id })).data
   data.file = data.file ? [data.file] : []
   data.report_file = data.report_file ? [data.report_file] : []
+  data.audit_project.forEach(item => {
+    item.image_urls = item.image_urls ? item.image_urls.map(img => ({ url: img })) : []
+  })
   activityInfo.value = data
 
-  activityInfo.value.attachment ? activityInfo.value.attachment.forEach((itme, index) => {
-    activityInfo.value.attachment[index] = { url: itme }
-  }) : activityInfo.value.attachment = []
+  // activityInfo.value.attachment ? activityInfo.value.attachment.forEach((itme, index) => {
+  //   activityInfo.value.attachment[index] = { url: itme }
+  // }) : activityInfo.value.attachment = []
 
-  activityInfo.value.report_image ? activityInfo.value.report_image.forEach((itme, index) => {
-    itme && (activityInfo.value.report_image[index] = { url: itme })
-  }) : activityInfo.value.report_image = []
+  // activityInfo.value.report_image ? activityInfo.value.report_image.forEach((itme, index) => {
+  //   itme && (activityInfo.value.report_image[index] = { url: itme })
+  // }) : activityInfo.value.report_image = []
 })
 
 </script>

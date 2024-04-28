@@ -53,8 +53,7 @@ request.interceptors.response.use(
     closeToast();
     //成功
     const { data, config } = response;
-    statusCodeHandle(data.code, data.data, data.msg, config.headers['Trace-Id'].substr(0, 12) );
-    // return { data: data.data, msg: data.msg, code: data.code };
+    statusCodeHandle(data.code, data.data, data.msg||data.message, config.headers['Trace-Id'].substr(0, 12) );
     return response.data;
   },
   (error) => {
