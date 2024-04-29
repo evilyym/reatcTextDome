@@ -2,122 +2,41 @@
   <div class="applicationResults">
     <van-tabs v-model:active="active" color="#2488FF" style="" background="#fff" title-inactive-color="#333"
       title-active-color="#2488FF">
-      <van-tab v-if="aType == 2" title="检查情况通知">
-        <van-field v-model="date" is-link readonly label="" placeholder="日期选择" @click="show = !show" />
+      <van-tab title="检查情况通知">
+        <van-field v-model="date" is-link readonly label="" placeholder="日期选择" @click="showDate = !showDate" />
         <div style=""></div>
         <van-calendar first-day-of-week="1" :default-date="[new Date(), new Date()]" :allow-same-day="true"
-          :min-date="minDate" :max-date="maxDate" v-model:show="show" type="range" @confirm="onConfirm" />
+          :min-date="minDate" :max-date="maxDate" v-model:show="showDate" type="range" @confirm="getDate" />
         <br>
-        <div class="listBox">
-          <template v-for="itme in ResultsList">
-            <div class="cirdBox" @click="initiateActivities(itme)" v-if="itme.leader_phone">
-              <h4>{{ itme.name }}</h4>
-              <p style="display: flex;">
+        <div class="listBox listBoxBold">
+          <template v-for="itme in checkRecordList.results">
+            <div class="cirdBox" @click="initiateActivities(itme)">
+              <h4>{{ itme.maintenance_type_name }}</h4>
+              <p style="display: block;">
                 <span>
-                  {{ itme.leader_phone.split('/')[0] }} </span>
+                  {{ itme.created_at }} </span>
               </p>
               <div class="rightArrow"></div>
               <hr>
             </div>
           </template>
-          <van-empty v-if="ResultsList.length == 1" description="暂无数据"></van-empty>
+          <van-empty v-if="checkRecordList.count < 1" description="暂无数据"></van-empty>
         </div>
       </van-tab>
-      <van-tab v-if="aType == 2" title="资质证书查看">
-        <van-dropdown-menu>
-          <van-dropdown-item style="width: 50%;" v-model="value1" :options="option1" />
-        </van-dropdown-menu><br>
-        <div class="listBox">
-          <img src="https://img.yzcdn.cn/vant/cat.jpeg" height="100px" alt="">
-          <img src="https://img.yzcdn.cn/vant/cat.jpeg" height="100px" alt="">
-          <div class="bookshelf"></div>
-          <van-list v-model:loading="loading" offset="15" :finished="finished"
-            :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
-            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity_name }} <span :class="{
-                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
-              }">{{ showText(itme.audit_status) }}</span></h4>
-              <p>
-                <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
-                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ j }} </span> </span>
-              </p>
-              <p><van-icon name="friends" />{{ itme.department }} </p>
-              <p>
-                <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
-                  green: itme.report_status == 2, red: itme.report_status == 1
-                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
-              </p>
-              <hr>
-            </div>
-            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
-          </van-list>
+      <van-tab title="资质证书查看">
+        <van-field v-model="certification" is-link readonly label="" placeholder="请选择证书类型" @click="certiShow = true" />
+        <van-popup v-model:show="certiShow" round position="bottom">
+          <van-cascader v-model="certificationType" title="请选择证书类型" :options="certificationTypeOpt"
+            :field-names="fieldNames" @close="certiShow = false" @finish="onFinish" />
+        </van-popup>
+        <div class="certificationImagelist">
+          <template v-for="(item, index) in certificationImage" :key="index" class="certificationImage">
+            <van-image @click="showImagePreview([item.url])" width="100" height="100" lazy-load :src="item.url" />
+            <div class="bookBox" v-if="(index + 1) % 3 == 0"></div>
+          </template>
+          <div class="bookBox" v-if="certificationImage.length % 3"></div>
         </div>
-      </van-tab>
-      <van-tab v-if="aType == 1" title="检查提交">
-        <div class="listBox">
-          <van-dropdown-menu active-color="#1677FF">
-            <van-dropdown-item v-model="value1" :options="option1" active-color="#1677FF" />
-            <van-dropdown-item v-model="value2" :options="option2" active-color="#1677FF" />
-          </van-dropdown-menu>
-          <hr>
-          <van-list v-model:loading="loading" offset="15" :finished="finished"
-            :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
-            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity_name }} <span :class="{
-                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
-              }">{{ showText(itme.audit_status) }}</span></h4>
-              <p>
-                <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
-                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ j }} </span> </span>
-              </p>
-              <p><van-icon name="friends" />{{ itme.department }} </p>
-              <p>
-                <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
-                  green: itme.report_status == 2, red: itme.report_status == 1
-                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
-              </p>
-              <hr>
-            </div>
-            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
-          </van-list>
-        </div>
-      </van-tab>
-      <van-tab v-if="aType == 1" title="提交记录">
-        <div class="listBox">
-          <van-dropdown-menu>
-            <van-dropdown-item v-model="value1" :options="option1" />
-            <van-dropdown-item v-model="value3" :options="option3" />
-          </van-dropdown-menu>
-          <hr>
-          <van-list v-model:loading="loading" offset="15" :finished="finished"
-            :finished-text="ResultsDetailList.length > 0 ? '没有更多了' : ''" @load="onLoad">
-            <div class="cirdBox" @click="eventCheckDetails(itme.id)" v-for="itme in ResultsDetailList">
-              <h4>{{ itme.activity_name }} <span :class="{
-                blue: itme.audit_status == 1, green: itme.audit_status == 2, red: itme.audit_status == 3,
-              }">{{ showText(itme.audit_status) }}</span></h4>
-              <p>
-                <span> <van-icon name="user" />{{ itme.name }} </span>
-                <span class="auditStatus"><van-icon name="phone" /> <span @click="goPhone(j)"
-                    v-for="(j, i) in itme.leader_phone.split('/')" :key="j">{{ i ? '/' : '' }}{{ i ? '/' : '' }}{{ j
-                    }}</span>
-                </span>
-              </p>
-              <p><van-icon name="friends" />{{ itme.department }} </p>
-              <p>
-                <van-icon name="underway" />{{ itme.created_at }}
-                <span class="reportStatus" v-if="itme.audit_status == 2" :class="{
-                  green: itme.report_status == 2, red: itme.report_status == 1
-                }">{{ itme.report_status == 2 ? '已确认' : '未确认' }}</span>
-              </p>
-              <hr>
-            </div>
-            <van-empty v-if="ResultsDetailList.length == 0" description="暂无数据"></van-empty>
-          </van-list>
-        </div>
+        <van-empty v-if="certificationImage.length < 1" description="暂无数据"></van-empty>
       </van-tab>
     </van-tabs>
   </div>
@@ -125,157 +44,93 @@
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
-import { ref, onMounted, watch, inject } from "vue";
-import { getCheckRecordList, getMaintenanceType } from "@/api/index";
-import { showToast } from 'vant';
+import { ref, onMounted, inject, watch } from "vue";
+import { getCheckRecordPassList, getCertification, getCertificateImage } from "@/api/index";
+import { showImagePreview } from 'vant';
 
 const minDate = new Date(new Date().getFullYear() - 5, 0, 1);
 const maxDate = new Date(new Date().getFullYear() + 3, 0, 1);
 
 const date = ref('');
-const show = ref(false);
-const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
-const onConfirm = (values) => {
-  const [start, end] = values;
-  show.value = false;
-  date.value = `${formatDate(start)} - ${formatDate(end)}`;
+const certification = ref('');
+const certificationType = ref('');
+const certiShow = ref(false);
+const showDate = ref(false);
+const certificationTypeOpt = ref([]);
+const certificationImage = ref([])
+const fieldNames = {
+  text: 'name',
+  value: 'id',
 };
-const page = ref({
-  "page": 1,
-  "page_size": 10
-})
 
-const router = useRouter()
-// if (navigator.geolocation) {
-//   navigator.geolocation.getCurrentPosition((res) => {
-//     console.log(res);//这里会返回经纬度，然后还要通过经纬度转换地区名称
-//     fetch(`https://restapi.amap.com/v3/geocode/regeo?key=bf9a6cb247abb72dbf6a8525ccb9aade&location=${res.coords.longitude.toFixed(6)},${res.coords.latitude.toFixed(6)}`).then((response) => {
-//       return response.json();
-//     }).then((data) => {
-//       console.log(data.regeocode.formatted_address);
-//     })
-//   });
-// }
+const onFinish = ({ selectedOptions }) => {
+  certiShow.value = false;
+  certification.value = selectedOptions.map((option) => option.name).join('/');
+};
 
-const goPhone = (phone) => {
-  window.location.href = `tel:${phone}`
+const initiateActivities = (item) => {
+  router.push('/checkDetails?id=' + item.id)
 }
 
-const codeType = router.currentRoute.value.query.activitysupporCode
+const router = useRouter()
 
 const active: any = inject("$active");
-const aType: any = inject("$aType");
 
 const loading = ref(false);
 const finished = ref(false);
 
-const value1 = ref('');
-const value2 = ref('');
-const value3 = ref('');
-const option1 = ref([
-  { text: '全部活动', value: '' },
-]);
-const option2 = [
-  { text: '审核状态', value: '' },
-  { text: '待审核', value: 1 },
-  { text: '审核通过', value: 2 },
-  { text: '审核驳回', value: 3 },
-];
-const option3 = [
-  { text: '报备状态', value: '' },
-  { text: '未报备', value: 1 },
-  { text: '已报备', value: 2 },
-];
-const initiateActivities = (item) => {
-  if (item.type == 1) {
-    router.push('/checkDetails?id=' + item.id)
-  } else {
-    showToast(item.clue);
-  }
-}
-const eventCheckDetails = (id) => {
-  router.push('/eventDetails?id=' + id)
-}
+const dropdownStatus = ref('');
 
 const ResultsList = ref<any>([])
-const ResultsDetailList = ref<any>([])
-let option: any[] = []
+
 const toPage = ref(0);
 
-const getList = async (val = 0, blue = true) => {
-  const query = { type: active.value, perPage: 5, page: 1, id: value1.value, status: '', report: '' }
-  switch (active.value) {
-    case 1:
-    case 2:
-      query.status = value2.value
-      break;
+const formatDate = (date) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-    case 3:
-      query.report = value3.value
-      break;
-  }
-  const activityQuery = { type: 1, perPage: 999, code: codeType, ...page.value }
-  if (ResultsList.value.length == 0 || val == 0) {
-    // option = await (await getCheckRecordList(activityQuery)).data
-    // option.forEach((itme) => {
-    //   itme.text = itme.name
-    //   itme.value = itme.id
-    // })
-    option.unshift({ text: '全部活动', value: '' })
-  } else {
-    option = ResultsList.value
-  }
-  option1.value = option;
-  ResultsList.value = option;
-  // if (blue) {
-  //   (active.value > 0) && (ResultsDetailList.value = (await getMaintenanceType(query)).data.data)
-  // }
+const getDate = (value) => {
+  const [start, end] = value;
+  showDate.value = false;
+  date.value = `${formatDate(start)} - ${formatDate(end)}`;
 }
+const checkRecordList = ref<any>([])
 
-const showText = (key) => {
-  switch (key) {
-    case 1:
-      return '待审核'
-    case 2:
-      return '审核通过'
-    case 3:
-      return '审核驳回'
-  }
+watch(date, () => {
+  getList(active.value, false)
+})
+
+const getList = async (_val = 0, _blue = true) => {
+  checkRecordList.value = (await getCheckRecordPassList({
+    "status": dropdownStatus.value,
+    "start_time": date.value.split(' - ')[0],
+    "end_time": date.value.split(' - ')[1],
+    "page": 1,
+    "page_size": 999
+  })).data;
+
+
+  ResultsList.value = [1, 2];
 }
-
-const onLoad = async () => {
-  toPage.value++
-  const query = {
-    type: active.value, perPage: 5, page: toPage.value, id: value1.value, status: '', report: ''
-  };
-  switch (active.value) {
-    case 1:
-    case 2:
-      query.status = value2.value
-      break;
-
-    case 3:
-      query.report = value3.value
-      break;
-  }
-  const data = (await getMaintenanceType(query)).data;
-  if (toPage.value > 1) {
-    ResultsDetailList.value = ResultsDetailList.value.concat(data.data)
-  } else {
-    ResultsDetailList.value = data
-  }
-  loading.value = false;
-  finished.value = true;
-  if (data.last_page <= toPage.value) {
-    finished.value = true;
-  }
-};
-
-onMounted(() => {
+const pagination = ref({
+  "page": 1,
+  "page_size": 10
+})
+watch(certification, () => {
+  pagination.value.page = 1;
+  getCertificateImage({ certification_type_id: certificationType.value, ...pagination.value }).then(res => {
+    certificationImage.value = res.data.results;
+  })
+})
+onMounted(async () => {
   toPage.value = 0;
   loading.value = false;
   finished.value = false;
   getList(active.value, false)
+  getCertification(null).then(res => {
+    certificationTypeOpt.value = res.data;
+  })
+  getCertificateImage(pagination.value).then(res => {
+    certificationImage.value = res.data.results;
+  })
 })
 </script>
 
@@ -293,9 +148,52 @@ onMounted(() => {
   width: 50vw;
 }
 
+:deep(.van-button--default) {
+  border-bottom: none;
+  border-right: none;
+  border-left: none;
+}
+
 .applicationResults {
-  background-color: #EDEDED;
+  background-color: #F5F5F5;
+  ;
   height: 100%;
+
+  .submitMsg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    background-color: #F5F5F5;
+    ;
+
+    div {
+      position: absolute;
+      width: 345px;
+      height: 241px;
+      background: #FFFFFF;
+      border-radius: 15px;
+      margin: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding-bottom: 30px;
+    }
+
+    .van-button {
+      width: 285px;
+      height: 49px;
+      background: #FFFFFF;
+      border-radius: 24px;
+      border: 1px solid #E5E5E5;
+      position: absolute;
+      top: 210px;
+      left: 45px;
+    }
+  }
 
   .van-tabs {
     height: 100%;
@@ -305,6 +203,10 @@ onMounted(() => {
     :deep(.van-tabs__content) {
       flex-grow: 1;
       height: 0;
+
+      &.van-tabs__content--animated {
+        height: auto;
+      }
 
       .van-tab__panel {
         height: 100%;
@@ -316,16 +218,58 @@ onMounted(() => {
     font-size: 1px;
     border: none;
     height: 1px;
-    background-color: #EDEDED;
+    background-color: #F5F5F5;
+    ;
+  }
+
+  .activityState {
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 15px;
+  }
+
+  .btnBox {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding: 15px;
+    background: #fff;
+    display: flex;
+    justify-self: start;
+    gap: 10px;
   }
 
   .listBox {
-    border-radius: 15px 15px 0 0;
-    // overflow: auto;
+    border-radius: 15px;
+    overflow: auto;
     background-color: #fff;
-    height: calc(100% - 60px);
     margin: 0 15px;
     overflow: auto;
+    position: relative;
+
+    &.listBoxBold {
+      height: calc(100% - 80px);
+    }
+
+    .listStatus {
+      border-bottom: 1px solid #eee;
+      position: fixed;
+      // border-radius: 15px 15px 0 0;
+      top: 103px;
+      left: 30px;
+      background: #fff;
+      width: calc(100% - 60px);
+      z-index: 99;
+
+      .van-dropdown-menu {
+        // :deel(.van-dropdown-menu__bar){
+        width: 50%;
+        // }
+      }
+    }
+
 
     .bookshelf {
       height: 30px;
@@ -403,6 +347,35 @@ onMounted(() => {
         color: #1677FF;
       }
 
+      position: relative;
+
+      .statusBox {
+        position: absolute;
+        top: 35%;
+        right: 30px;
+        width: 45px;
+        height: 15px;
+        font-family: PingFangSC, PingFang SC;
+        font-weight: 600;
+        font-size: 15px;
+
+        &.color-blue {
+          color: #2488FF;
+        }
+
+        &.color-orange {
+          color: #F06B00;
+        }
+
+        &.color-red {
+          color: #F24848;
+        }
+
+        line-height: 15px;
+        text-align: center;
+        font-style: normal;
+      }
+
       .rightArrow {
         position: absolute;
         width: 10px;
@@ -410,9 +383,26 @@ onMounted(() => {
         border-top: 2px solid #333;
         border-right: 2px solid #333;
         transform: rotate(45deg);
-        right: 15px;
+        right: 18px;
         top: 30px;
       }
+    }
+  }
+
+  .certificationImagelist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 20px;
+    overflow: auto;
+    max-height: calc(100% - 80px);
+    padding: 15px 0;
+
+    .bookBox {
+      background-image: url(@/assets/book.png);
+      background-size: cover;
+      height: 30px;
+      width: 100%;
     }
   }
 }

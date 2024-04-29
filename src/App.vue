@@ -36,7 +36,7 @@ onMounted(async () => {
       // router.beforeEach((to: any, from, next) => {
       //   console.log(to, from);
       // });
-      route.path == '/' && router.push('maintenancePersonnel')
+      // route.path == '/' && router.push('maintenancePersonnel')
       // });
     } else {
       // router.hasRoute('checkDetails') && router.removeRoute('checkDetails');

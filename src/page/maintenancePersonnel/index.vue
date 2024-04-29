@@ -7,7 +7,7 @@
         <div class="listBox">
           <van-form input-align="left">
             <van-field v-model="activityInfo.type_name" is-link readonly label="维护类型" placeholder="请选择维护类型"
-              @click="showPicker = true" />
+              @click="(showPicker = true)" />
             <van-popup v-model:show="showPicker" round position="bottom">
               <van-picker :columns="columns" :columns-field-names="{
                 text: 'type_name',
@@ -19,7 +19,7 @@
           </van-form>
         </div>
 
-        <van-form @submit="setCreateMaintenance" @failed="onFailed" :show-error="true" :show-error-message="true"
+        <van-form @submit="setCreateMaintenance(true)" @failed="onFailed" :show-error="true" :show-error-message="true"
           v-if="activityInfo.type" style="background-color: #ededed;padding-bottom: 90px;">
           <template v-for="(item, index) in numberOfSteps">
             <p style="padding: 15px 15px 10px 15px; margin: 0; font-size: 16px; line-height: 20px;">{{ item.audit_name
@@ -42,7 +42,7 @@
             </div>
           </template>
           <div class="btnBox subBtn">
-            <van-button @click="" round block>暂存</van-button>
+            <van-button @click="setCreateMaintenance(false)" round block>暂存</van-button>
             <van-button type="primary" native-type="submit" round block>提交</van-button>
           </div>
         </van-form>
@@ -87,7 +87,7 @@
         <p style="margin: 10px 0 0 0;font-size: 18px;">提交成功</p>
         <p style="margin: 0 0 15px 0;font-size: 12px; color: rgba(0, 0, 0, .5);">您已成功提交反馈，感谢您的配合！</p>
       </div>
-      <van-button round type="default" @click="() => { submitStatue = false; active=1 }">查看提交记录</van-button>
+      <van-button round type="default" @click="() => { submitStatue = false; active = 1 }">查看提交记录</van-button>
     </div>
   </div>
 </template>
@@ -95,13 +95,16 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { ref, onMounted, inject, watch } from "vue";
-import { getTypeSubmitSet, getMaintenanceType, getCheckRecordList, upload, createMaintenanceType } from "@/api/index";
+import {
+  getTypeSubmitSet, getMaintenanceType, getCheckRecordDetail,
+  getCheckRecordList, upload, getTemporaryStorage, updateCheckRecord,
+  createMaintenanceType, createTemporaryStorage
+} from "@/api/index";
 // import { showToast } from 'vant';
 import { showToast } from '@nutui/nutui';
 
-const aType: any = inject("$aType");
-
 const submitStatue = ref(false);
+const usertype: any = inject('$aType')
 
 const minDate = new Date(new Date().getFullYear() - 5, 0, 1);
 const maxDate = new Date(new Date().getFullYear() + 3, 0, 1);
@@ -109,6 +112,7 @@ const activityInfo = ref({
   adrres: '',
   type: '',
   type_name: '',
+  id: '',
 })
 
 const listDown = ref([
@@ -133,6 +137,7 @@ const onConfirm = async ({ selectedOptions }) => {
   showPicker.value = false;
   activityInfo.value.type_name = selectedOptions[0].type_name;
   activityInfo.value.type = selectedOptions[0].id;
+  activityInfo.value.id = '';
   (await getTypeSubmitSet({ maintenance_type_id: selectedOptions[0].id })).data.forEach((item, index) => {
     numberOfSteps.value.push({
       boolean: index == 0 ? false : true,
@@ -212,8 +217,10 @@ watch(dropdownStatus, () => {
   getList(active.value, false)
 })
 
-watch(activityInfo.value, () => {
-  // getList(active.value, false)
+watch(usertype.value, (newVal, oldVal) => {
+  getTemporaryStorage(null).then(res => {
+    console.log(res);
+  })
 })
 
 const getList = async (_val = 0, _blue = true) => {
@@ -234,21 +241,41 @@ const onFailed = (errorInfo: any) => {
 }
 
 // 提交接口
-const setCreateMaintenance = async () => {
+const setCreateMaintenance = async (_boolean) => {
   const data = numberOfSteps.value.map(item => {
     return {
       "audit_name": item.audit_name,
+      submit_type: item.submit_type,
       "audit_content": item.audit_content,
       "image_urls": item.image_urls.map(item => item.url),
       "level": item.level
     }
   })
 
-  await createMaintenanceType({
-    maintenance_type_id: activityInfo.value.type,
-    local_name: '青橄榄3楼',
-    audit_project: data
-  })
+  if (_boolean) {
+    if (activityInfo.value.id) {
+      await updateCheckRecord({
+        id: activityInfo.value.id,
+        maintenance_type_id: activityInfo.value.type,
+        local_name: '青橄榄3楼',
+        audit_project: data
+      })
+    }
+    await createMaintenanceType({
+      maintenance_type_id: activityInfo.value.type,
+      local_name: '青橄榄3楼',
+      audit_project: data
+    })
+  } else {
+    // 暂存
+    await createTemporaryStorage({
+      id: activityInfo.value.id,
+      maintenance_type_id: activityInfo.value.type,
+      maintenance_type_name: activityInfo.value.type_name,
+      local_name: '青橄榄3楼',
+      audit_project: data
+    })
+  }
 
   submitStatue.value = true;
   activityInfo.value.type_name = '';
@@ -264,6 +291,45 @@ onMounted(async () => {
 
   const data = (await getMaintenanceType(null)).data;
   columns.value = data;
+  if (router.currentRoute.value.query.id) {
+    getCheckRecordDetail({ id: router.currentRoute.value.query.id }).then(res => {
+      numberOfSteps.value = []
+      activityInfo.value.type = res.data.maintenance_type_id
+      res.data.audit_project.forEach(item => {
+        let arr = [];
+        item.audit_content && arr.push(1)
+        item.image_urls.length && arr.push(2)
+        numberOfSteps.value.push({
+          "audit_name": item.audit_name,
+          "audit_content": item.audit_content,
+          "image_urls": (item.image_urls.length && item.image_urls.map(item => ({ url: item }))) || [],
+          "level": item.level,
+          "submit_type": arr,
+        })
+      })
+      activityInfo.value.type = res.data.maintenance_type;
+      activityInfo.value.type_name = res.data.maintenance_type_name;
+      activityInfo.value.adrres = res.data.local_name;
+      activityInfo.value.id = res.data.id;
+    })
+  } else if (usertype.value.storage == 1) {
+    getTemporaryStorage(null).then(res => {
+      numberOfSteps.value = []
+      activityInfo.value.type = res.data.maintenance_type_id
+      res.data.audit_project.forEach(item => {
+        numberOfSteps.value.push({
+          "audit_name": item.audit_name,
+          "audit_content": item.audit_content,
+          "image_urls": (item.image_urls.length && item.image_urls.map(item => ({ url: item }))) || [],
+          "level": item.level,
+          "submit_type": item.submit_type || [],
+        })
+      })
+      activityInfo.value.type = res.data.maintenance_type_id;
+      activityInfo.value.type_name = res.data.maintenance_type_name;
+      activityInfo.value.adrres = res.data.local_name;
+    })
+  }
 })
 </script>
 

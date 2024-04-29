@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { inject } from 'vue'
+// import { inject } from 'vue'
 
 const routes = [
   // {
@@ -45,7 +45,7 @@ const routerQuery = { code: "", id: "", user_type: "" };
 
 router.beforeEach(async (to: any, from, next) => {
   console.log(from);
-  const global = inject('$aType')
+  // const global = inject('$aType')
   if (to.query.saas_wap_token && !sessionStorage.getItem("go")) {
   }
   next();

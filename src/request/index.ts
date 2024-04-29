@@ -54,6 +54,9 @@ request.interceptors.response.use(
     //成功
     const { data, config } = response;
     statusCodeHandle(data.code, data.data, data.msg||data.message, config.headers['Trace-Id'].substr(0, 12) );
+    if (response.data.code !== 200) {
+      return Promise.reject(data);
+    }
     return response.data;
   },
   (error) => {

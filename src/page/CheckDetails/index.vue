@@ -10,6 +10,7 @@
   // display: flex;
   flex-direction: column;
   height: calc(100% - 60px);
+  padding-bottom: 60px;
   overflow: auto;
 
   .dialog {
@@ -192,7 +193,7 @@
         <div style="background-color: aqua;">
           <van-field readonly name="uploader" label="">
             <template #input>
-              <van-uploader readonly :deletable="false" v-model="item.image_urls" :after-read="afterRead" multiple
+              <van-uploader readonly :deletable="false" v-model="item.image_urls" multiple
                 :max-count="item.image_urls.length" />
             </template>
           </van-field>
@@ -206,212 +207,43 @@
         <van-field v-model="activityInfo.submit_time" name="" label="提交时间" placeholder="17点06分" readonly />
       </van-form>
     </div>
-    <p v-if="activityInfo.audit_result && activityInfo.audit_result.length"
-      style="margin: 15px 15px 10px 15px; font-size: 16px; line-height: 20px;">审核内容
-    </p>
-    <div class="activityStateInfo" v-if="activityInfo.audit_result && activityInfo.audit_result.length">
-      <div v-for="item in activityInfo.audit_result">
-        <p>{{ item.created_at }}</p>
-        <p>审核结果 <span :style="{ color: item.audit_record_status_name == '退回' ? 'red' : '#2488FF' }">{{
-          item.audit_record_status_name }}</span></p>
-        <p>审核人 <span style="color: #000;">{{ item.audit_user }}</span></p>
-        <p>审核原因 <span style="color: #000;">{{ item.audit_content }}</span></p>
+    <template v-if="usertype.status == 1">
+      <p v-if="activityInfo.audit_result && activityInfo.audit_result.length"
+        style="margin: 15px 15px 10px 15px; font-size: 16px; line-height: 20px;">审核内容
+      </p>
+      <div class="activityStateInfo" v-if="activityInfo.audit_result && activityInfo.audit_result.length">
+        <div v-for="item in activityInfo.audit_result">
+          <p>{{ item.created_at }}</p>
+          <p>审核结果 <span :style="{ color: item.audit_record_status_name == '退回' ? 'red' : '#2488FF' }">{{
+            item.audit_record_status_name }}</span></p>
+          <p>审核人 <span style="color: #000;">{{ item.audit_user }}</span></p>
+          <p>审核原因 <span style="color: #000;">{{ item.audit_content }}</span></p>
+        </div>
       </div>
-    </div>
-
+    </template>
     <div class="btnBox subBtn">
       <van-button @click="$router.go(-1)" round block>返回</van-button>
-      <van-button type="primary" native-type="submit" round block>去修改</van-button>
+      <van-button type="primary" v-if="usertype.status == 1 && activityInfo.status == 3"
+        @click="() => { active = 0; $router.push({ path: '/maintenancePersonnel', query: { id: router.currentRoute.value.query.id } }) }"
+        round block>去修改</van-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, inject } from "vue";
-import { getCheckRecordDetail, upload, } from "@/api/index"
+import { getCheckRecordDetail, } from "@/api/index"
 import { useRouter } from "vue-router";
-import { showToast, showConfirmDialog } from 'vant';
 
 const router = useRouter()
-const imgArr = [{ url: 'https://img.yzcdn.cn/vant/cat.jpeg' }, { url: 'https://img.yzcdn.cn/vant/cat.jpeg' }, { url: 'https://img.yzcdn.cn/vant/cat.jpeg' }, { url: 'https://img.yzcdn.cn/vant/cat.jpeg' }]
 
-const active: any = router.currentRoute.value.query.userType || inject("$active");
+const active: any = inject("$active");
+const usertype: any = inject('$aType')
 
-const showBottom = ref(false)
-
-const onSubmit = async () => {
-  let data, query;
-  switch (btnText.value.status) {
-    case 2:
-    case 3:
-      query = {
-        ...auditInfo.value,
-        id: router.currentRoute.value.query.id,
-        status: btnText.value.status,
-      }
-      break;
-
-    case 4:
-      const report_imageArr = ref([])
-
-      auditInfo.value.report_image && auditInfo.value.report_image.forEach((itme) => {
-        report_imageArr.value.push(itme.url)
-      })
-      query = {
-        ...auditInfo.value,
-        id: router.currentRoute.value.query.id,
-        report_image: report_imageArr.value,
-        file: reportFileArr.value.length > 0 ? reportFileArr.value[0] : null,
-      }
-
-      break;
-  }
-  showBottom.value = false
-  if (data.code == 200) {
-    setTimeout(() => {
-      router.go(router.currentRoute.value.query.userType ? 0 : -1)
-    }, 500);
-  }
-}
-
-const btnConfirm = async () => {
-  const query = {
-    id: router.currentRoute.value.query.id,
-  }
-
-}
-
-const btnCancel = () => {
-
-  showConfirmDialog({
-    message: '确定要撤销申请?',
-  }).then(() => {
-    cancel()
-  }).catch(() => {
-  });
-}
-
-const reportFileArr = ref([])
-
-const cancel = async () => {
-  const query = {
-    id: router.currentRoute.value.query.id,
-  }
-
-}
-
-const btnText = ref({
-  label: '',
-  status: null,
-  placeholder: '',
-  height: '260px',
-})
-const auditInfo: { [name: string]: any } = ref({
-  report_image: []
-})
-
-const btnClick = (status) => {
-  showBottom.value = true
-  // 同意驳回理由
-  switch (status) {
-    case 1:
-      showBottom.value = false
-      btnCancel()
-      break;
-
-    case 2:
-      btnText.value = {
-        label: '同意',
-        status: status,
-        placeholder: '同意理由:',
-        height: '260px',
-      }
-      break;
-
-    case 3:
-      btnText.value = {
-        label: '驳回',
-        status: status,
-        placeholder: '驳回理由:',
-        height: '260px',
-      }
-      break;
-    case 4:
-      btnText.value = {
-        label: '报备',
-        status: status,
-        placeholder: '',
-        height: '70%',
-      }
-      break;
-  }
-
-}
 const activityInfo = ref<any>({
   activity: {},
   file: [],
 })
-
-const beforeFilrRead = (file) => {
-  const fileType = ['pdf', 'docx', 'doc', 'txt', 'xlsx', 'xls']
-  if (file instanceof Array) {
-    for (let index = 0; index < file.length; index++) {
-      if (fileType.indexOf(file[index].name.split('.').reverse()[0]) == -1) {
-        showToast('只能上传' + fileType.join() + '文件')
-        return false;
-      }
-    }
-  } else {
-    if (fileType.indexOf(file.name.split('.').reverse()[0]) == -1) {
-      showToast('只能上传' + fileType.join() + '文件')
-      return false;
-    }
-    return true;
-  }
-};
-
-const afterRead = async (e) => {
-  if (e instanceof Array) {
-    for (let index = 0; index < e.length; index++) {
-      let file = e[index].file
-      let param = new FormData()
-      param.append('file', file, file.name)
-      param.append('type', '2')
-    }
-  } else {
-    let file = e.file
-    let param = new FormData()
-    param.append('file', file, file.name)
-    param.append('type', '2')
-  }
-}
-
-const afterFileRead = async (e) => {
-  if (e instanceof Array) {
-    for (let index = 0; index < e.length; index++) {
-      let file = e[index].file
-      let param = new FormData()
-      param.append('file', file, file.name)
-      param.append('type', '1')
-      // reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
-      // reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
-      // reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
-      // delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
-      // delete reportFileArr.value[reportFileArr.value.length - 1].content
-    }
-  } else {
-    let file = e.file
-    let param = new FormData()
-    param.append('file', file, file.name)
-    param.append('type', '1')
-    // const data = await upload(param)
-    // reportFileArr.value[reportFileArr.value.length - 1].url = data.data.url;
-    // reportFileArr.value[reportFileArr.value.length - 1].name = file.name;
-    // reportFileArr.value[reportFileArr.value.length - 1].file_tpye = file.type;
-    // delete reportFileArr.value[reportFileArr.value.length - 1].objectUrl
-    // delete reportFileArr.value[reportFileArr.value.length - 1].content
-  }
-}
 
 
 onMounted(async () => {
@@ -422,14 +254,6 @@ onMounted(async () => {
     item.image_urls = item.image_urls ? item.image_urls.map(img => ({ url: img })) : []
   })
   activityInfo.value = data
-
-  // activityInfo.value.attachment ? activityInfo.value.attachment.forEach((itme, index) => {
-  //   activityInfo.value.attachment[index] = { url: itme }
-  // }) : activityInfo.value.attachment = []
-
-  // activityInfo.value.report_image ? activityInfo.value.report_image.forEach((itme, index) => {
-  //   itme && (activityInfo.value.report_image[index] = { url: itme })
-  // }) : activityInfo.value.report_image = []
 })
 
 </script>
