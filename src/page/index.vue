@@ -120,7 +120,7 @@ const onSubmit = () => {
   if (hostname.indexOf('dev') > -1 ) {
     bastUrl="https://dev-zjnu-vvr.goliveplus.cn/vvr_api/"
   } else if(hostname.indexOf('localhost') > -1|| hostname.indexOf('127.0.0.1') > -1){
-    bastUrl="/activitysupport_wap/api"
+    bastUrl="/msupervision_wap/api"
   }else{
     bastUrl="https://zjnu-vvr.goliveplus.cn/vvr_api/"
   }

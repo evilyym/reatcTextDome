@@ -33,6 +33,7 @@ onMounted(async () => {
       // router.hasRoute('applicationResults') && router.removeRoute('applicationResults');
       // router.hasRoute('applyActivities') && router.removeRoute('applyActivities');
       console.log(route);
+      console.log(router);
       // router.beforeEach((to: any, from, next) => {
       //   console.log(to, from);
       // });

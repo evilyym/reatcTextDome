@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@nutui/nutui": "^4.1.6",
     "axios": "^1.5.1",
     "uuid": "^9.0.1",

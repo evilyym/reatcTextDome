@@ -15,7 +15,8 @@
               }" @cancel="showPicker = false" @confirm="onConfirm" />
             </van-popup>
 
-            <van-field v-model="activityInfo.adrres" is-link readonly label="添加定位" placeholder="点击添加定位" @click="" />
+            <van-field v-model="activityInfo.adrres" is-link readonly label="添加定位" placeholder="点击添加定位"
+              @click="showMap = true" />
           </van-form>
         </div>
 
@@ -89,11 +90,15 @@
       </div>
       <van-button round type="default" @click="() => { submitStatue = false; active = 1 }">查看提交记录</van-button>
     </div>
+    <van-popup v-model:show="showMap" :style="{ width: '100%', height: '100%' }">
+      <Map @getAddress="(e) => { activityInfo.adrres = e; showMap = false }" />
+    </van-popup>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
+import Map from './map.vue'
 import { ref, onMounted, inject, watch } from "vue";
 import {
   getTypeSubmitSet, getMaintenanceType, getCheckRecordDetail,
@@ -104,6 +109,7 @@ import {
 import { showToast } from '@nutui/nutui';
 
 const submitStatue = ref(false);
+const showMap = ref(false);
 const usertype: any = inject('$aType')
 
 const minDate = new Date(new Date().getFullYear() - 5, 0, 1);
@@ -217,9 +223,24 @@ watch(dropdownStatus, () => {
   getList(active.value, false)
 })
 
-watch(usertype.value, (newVal, oldVal) => {
+watch(usertype.value, () => {
   getTemporaryStorage(null).then(res => {
-    console.log(res);
+    getTemporaryStorage(null).then(res => {
+      numberOfSteps.value = []
+      activityInfo.value.type = res.data.maintenance_type_id
+      res.data.audit_project.forEach(item => {
+        numberOfSteps.value.push({
+          "audit_name": item.audit_name,
+          "audit_content": item.audit_content,
+          "image_urls": (item.image_urls.length && item.image_urls.map(item => ({ url: item }))) || [],
+          "level": item.level,
+          "submit_type": item.submit_type || [],
+        })
+      })
+      activityInfo.value.type = res.data.maintenance_type_id;
+      activityInfo.value.type_name = res.data.maintenance_type_name;
+      activityInfo.value.adrres = res.data.local_name;
+    })
   })
 })
 

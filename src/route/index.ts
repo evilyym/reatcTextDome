@@ -2,11 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 // import { inject } from 'vue'
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "index",
-  //   component: () => import("@/page/applicationResults/index.vue"),
-  // },
   {
     // 1維護工 有提交權限
     path: "/maintenancePersonnel",
@@ -20,16 +15,6 @@ const routes = [
     component: () => import("@/page/generalUser/index.vue"),
   },
   {
-    path: "/applyActivities",
-    name: "applyActivities",
-    component: () => import("@/page/applyActivities/index.vue"),
-  },
-  {
-    path: "/eventDetails",
-    name: "eventDetails",
-    component: () => import("@/page/eventDetails/index.vue"),
-  },
-  {
     path: "/checkDetails",
     name: "checkDetails",
     component: () => import("@/page/CheckDetails/index.vue"),
@@ -37,7 +22,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory("/activitysupport_wap/"),
+  history: createWebHistory("/msupervision_wap/"),
   routes,
 });
 

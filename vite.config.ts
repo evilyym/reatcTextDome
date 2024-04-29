@@ -7,7 +7,7 @@ import path from 'path'
 
 
 const buildConfig = {
-  outDir: 'dist/activitysupport_wap',
+  outDir: 'dist/msupervision_wap',
   terserOptions: {
     compress: {
       drop_console: true, // 生产环境移除console
@@ -23,7 +23,7 @@ const buildConfig = {
 }
 
 export default defineConfig({
-  base: "/activitysupport_wap",
+  base: "/msupervision_wap",
   build: { ...buildConfig},
   plugins: [vue(),
     Components({
@@ -40,10 +40,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/activitysupport_wap/api": {
+      "/msupervision_wap/api": {
         target: "https://dev-zjnu-vvr.goliveplus.cn/vvr_api",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/activitysupport_wap\/api/, ""),
+        rewrite: (path) => path.replace(/^\/msupervision_wap\/api/, ""),
       },
     },
   },

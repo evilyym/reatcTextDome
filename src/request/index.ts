@@ -25,7 +25,7 @@ request.interceptors.request.use(
       loadingType: "spinner",
     });
 
-    const userCode = localStorage.getItem("userCode");
+    // const userCode = localStorage.getItem("userCode");
     // config.headers["Authorization"] = userCode;
     const tid = uid().replaceAll('-','')
     config.headers["Trace-Id"] = tid;
