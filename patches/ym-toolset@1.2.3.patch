@@ -1,0 +1,9 @@
+diff --git a/src/index.ts b/src/index.ts
+index 7bda9f959d0ba122a1c07122fc343fc496ff1695..8db4f973716424b3a82dfbd6e87079052b066b63 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -3,3 +3,4 @@ export { default as formatPast } from './formatPast';
+ export { default as debounce } from './debounce';
+ export { default as throttle } from './throttle';
+ export { default as computeNumber } from './computeNumber';
++console.log('测试修补');

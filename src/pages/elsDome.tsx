@@ -16,7 +16,7 @@ const App: FC = () => {
   }, []);
   return (
     <div>
-      <h1>俄罗斯方块</h1>
+      <h1>Tetris</h1>
       <canvas ref={canvasRef}></canvas>
     </div>
   );

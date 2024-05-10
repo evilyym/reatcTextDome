@@ -67,5 +67,10 @@
       "yarn run lint",
       "prettier --write"
     ]
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "ym-toolset@1.2.3": "patches/ym-toolset@1.2.3.patch"
+    }
   }
 }

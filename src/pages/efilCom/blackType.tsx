@@ -115,7 +115,7 @@ const App: FC = () => {
   }, []);
   return (
     <Wrapper>
-      <div id="box">111</div>
+      <div id="box"></div>
     </Wrapper>
   );
 };

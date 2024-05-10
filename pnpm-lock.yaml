@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  ym-toolset@1.2.3:
+    hash: pixrcmg5oke2gwbghw3jhgwszq
+    path: patches/ym-toolset@1.2.3.patch
+
 dependencies:
   '@ant-design/icons':
     specifier: ^5.3.1
@@ -70,7 +75,7 @@ dependencies:
     version: 9.0.1
   ym-toolset:
     specifier: ^1.1.13
-    version: 1.2.3
+    version: 1.2.3(patch_hash=pixrcmg5oke2gwbghw3jhgwszq)
   ym-vue-module:
     specifier: ^1.0.2
     version: 1.0.2
@@ -5887,7 +5892,7 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ym-toolset@1.2.3:
+  /ym-toolset@1.2.3(patch_hash=pixrcmg5oke2gwbghw3jhgwszq):
     resolution: {integrity: sha512-TRmZRdIGBcYmAFSpYPIHsYfUqawRN2oEhWAddjFFATaOkbk0UgLqUlOAwYNuDWNj1szXZrbfqXy3WyulJmD4HA==}
     dependencies:
       '@rollup/plugin-node-resolve': 15.2.3
@@ -5895,6 +5900,7 @@ packages:
     transitivePeerDependencies:
       - rollup
     dev: false
+    patched: true
 
   /ym-vue-module@1.0.2:
     resolution: {integrity: sha512-Mes0jbbTUSKoPW7ko6vDHEf8XoOnwAUCFYfXsvxaDsoU/zYuM3VgkRiN9Uw87N2cVtyjA8C7NkfZrN14cjaxKA==}
