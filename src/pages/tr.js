@@ -77,95 +77,86 @@
     ],
   };
 
-  const TetrisJS = function (opt = {}) {
-    init(opt);
-  };
-
-  // 工厂函数
-  TetrisJS.create = (opt = {}) => {
-    return new TetrisJS(opt);
-  };
-
-  TetrisJS.prototype = {
+  class TetrisJS {
+    constructor(opt = {}) {
+      init(opt);
+    }
+    // 工厂函数
+    static create(opt = {}) {
+      return new TetrisJS(opt);
+    }
     // 返回游戏渲染数据
     get map() {
       return [...screenMap.values()];
-    },
+    }
     // 返回游戏状态
     get status() {
       return status;
-    },
+    }
     // 返回消了多少层（得分）
     get score() {
       return score;
-    },
+    }
     // 返回以一个方块
     get nextShap() {
       return {
         type: nextShapIndex,
         shapData: nextShapData,
       };
-    },
-  };
-
-  // 开始前准备
-  TetrisJS.prototype.ready = function () {
-    if (status === 0) {
-      // 创建场景
-      createScreen();
-      // 设置方块
-      addShapToScreen();
-
-      status = 1;
     }
-  };
+    // 开始前准备
+    ready() {
+      if (status === 0) {
+        // 创建场景
+        createScreen();
+        // 设置方块
+        addShapToScreen();
 
-  // 游戏开始方法
-  TetrisJS.prototype.play = function () {
-    if (status === 1) {
-      status = 2;
+        status = 1;
+      }
     }
+    // 游戏开始方法
+    play() {
+      if (status === 1) {
+        status = 2;
+      }
 
-    if (isPause) {
-      isPause = false;
-      heartbeat();
+      if (isPause) {
+        isPause = false;
+        heartbeat();
+      }
     }
-  };
+    // 游戏暂停方法
+    pause() {
+      isPause = true;
+    }
+    // 游戏暂停方法
+    over() {
+      status = 3;
+    }
+    // 再次游戏
+    again(opt = {}) {
+      init(opt);
 
-  // 游戏暂停方法
-  TetrisJS.prototype.pause = function () {
-    isPause = true;
-  };
+      // 准备阶段
+      this.ready();
+    }
+    // 游戏每次心跳监听方法
+    update(cb) {
+      updateCB = cb;
+    }
+    // 动作
+    action(name) {
+      const [x, y] = currentShapVector;
 
-  // 游戏暂停方法
-  TetrisJS.prototype.over = function () {
-    status = 3;
-  };
+      if (status !== 2 || isPause) return;
 
-  // 再次游戏
-  TetrisJS.prototype.again = function (opt = {}) {
-    init(opt);
-
-    // 准备阶段
-    this.ready();
-  };
-
-  // 游戏每次心跳监听方法
-  TetrisJS.prototype.update = function (cb) {
-    updateCB = cb;
-  };
-
-  // 动作
-  TetrisJS.prototype.action = function (name) {
-    const [x, y] = currentShapVector;
-
-    if (status !== 2 || isPause) return;
-
-    if (name === 'left') shapMove([x - 1, y]);
-    else if (name === 'right') shapMove([x + 1, y]);
-    else if (name === 'lower') shapMove([x, y + 1], true);
-    else if (name === 'change') changeShapStatus();
-  };
+      if (name === 'left') shapMove([x - 1, y]);
+      else if (name === 'right') shapMove([x + 1, y]);
+      else if (name === 'lower') shapMove([x, y + 1], true);
+      else if (name === 'change') changeShapStatus();
+    }
+  }
 
   // 初始化
   const init = (opt = {}) => {
