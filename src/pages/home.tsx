@@ -34,10 +34,10 @@ const items1: MenuProps['items'] = [
   { key: '2', name: '设置' },
 ].map((item) => ({
   key: item.key,
-  label: `${item.name}`,
+  label: item.name,
 }));
 
-const items2: any = [];
+const items2: [] = [];
 
 const items: MenuProps['items'] = [
   {
@@ -81,10 +81,10 @@ const App: React.FC = () => {
     navigate(e.keyPath.reverse().join('/'), { replace: true });
   };
 
-  const itemRender: any = (item: any, params: any, items: any, paths: any) => {
-    const last = items.indexOf(item) === items.length - 1;
+  function itemRender(item: any, params: any, items: any, paths: any): Element | React.ReactNode {
+    const last: boolean = items.indexOf(item) === items.length - 1;
     return last ? <span>{item.title}</span> : <Link to={paths.join('/')}>{item.title}</Link>;
-  };
+  }
 
   const [userTtems2, setUserTtems2] = useState(items2);
   const [openKeys, setOpenKeys] = useState<string[]>();
@@ -180,7 +180,7 @@ const App: React.FC = () => {
         };
       };
       // 获取菜单后动态添加路由
-      router.routes[3].children = arrN.map((menu: any) => {
+      router.routes[4].children = arrN.map((menu: any) => {
         return getRouterList(menu);
       });
     });

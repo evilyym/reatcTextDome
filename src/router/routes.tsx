@@ -45,13 +45,29 @@ const routes = [
         path: '/1',
         element: <User />,
       },
-
+      // FoodApplication/OrderFood/OrderFoodIndex
+      // {
+      //   path: 'FoodApplication',
+      //   children: [
+      //     {
+      //       path: 'OrderFood',
+      //       children: [
+      //         {
+      //           path: 'OrderFoodIndex',
+      //           children: [],
+      //           Component: lazy(() => import('../pages/user')),
+      //           // element: <User />,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
       {
-        path: '/2',
+        path: '2',
         element: <Manage />,
       },
       {
-        path: '/3',
+        path: '3',
         element: <File />,
       },
       {
