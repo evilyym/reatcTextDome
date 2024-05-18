@@ -38,13 +38,14 @@ const routes = [
     element: <Dropdoswns />,
   },
   {
+    path: '*',
     element: <Home />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: '/1',
-        element: <User />,
-      },
+      // {
+      //   path: '/1',
+      //   element: <User />,
+      // },
       // FoodApplication/OrderFood/OrderFoodIndex
       // {
       //   path: 'FoodApplication',
@@ -70,22 +71,22 @@ const routes = [
         path: '3',
         element: <File />,
       },
-      {
-        path: '/',
-        element: <Info />,
-      },
-      {
-        path: '/elsTst',
-        element: <ElsTst />,
-      },
-      {
-        path: '/els',
-        element: <Els />,
-      },
-      {
-        path: '/data',
-        element: <DatePicker />,
-      },
+      // {
+      //   path: '/4',
+      //   element: <Info />,
+      // },
+      // {
+      //   path: '/elsTst',
+      //   element: <ElsTst />,
+      // },
+      // {
+      //   path: '/els',
+      //   element: <Els />,
+      // },
+      // {
+      //   path: '/data',
+      //   element: <DatePicker />,
+      // },
     ],
   },
 ];
