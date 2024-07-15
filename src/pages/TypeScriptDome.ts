@@ -61,6 +61,6 @@ fnName();
 // 不在上传本地修改内容
 // git update-index --assume-unchanged .gitlab-ci.yml
 
-const someValue: string | number = 'this is a string';
+const someValue: any = 'this is a string';
 
 const strLength: number = (someValue as string).length;
