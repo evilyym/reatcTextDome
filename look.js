@@ -154,3 +154,11 @@ var removeElement = function (nums, val) {
 };
 
 // removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2);
+
+var removeDuplicates = function (nums) {
+  let arr = Array.from(new Set(nums));
+  nums = arr;
+  console.log(nums);
+};
+
+removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]);
