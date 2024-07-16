@@ -102,18 +102,16 @@ const getIntersectionNode = function (headA, headB) {
 
 // getIntersectionNode(list, list2);
 
-const mergeAlternately = function(word1='ab', word2='pqrs') {
-  let i=0;
-  let arr='';
-  const num = Math.max(word1.length,word2.length);
-  console.log(num);
-  while(i<num){
-    word1[i] && (arr+=word1[i])
-    word2[i] && (arr+=word2[i])
-    i++
+const mergeAlternately = function (word1 = 'ab', word2 = 'pqrs') {
+  let i = 0;
+  let arr = '';
+  const num = Math.max(word1.length, word2.length);
+  while (i < num) {
+    word1[i] && (arr += word1[i]);
+    word2[i] && (arr += word2[i]);
+    i++;
   }
-  console.log(arr);
-  return arr
+  return arr;
 };
 
 // mergeAlternately()
