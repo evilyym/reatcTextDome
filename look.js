@@ -115,3 +115,42 @@ const mergeAlternately = function (word1 = 'ab', word2 = 'pqrs') {
 };
 
 // mergeAlternately()
+
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
+var merge = function (nums1, m, nums2, n) {
+  // nums1 = nums1
+  //   .concat(nums2)
+  //   .sort((a, b) => a - b)
+  //   .splice(m, m + n);
+  nums1.splice(m, nums1.length - m, ...nums2);
+  nums1.sort((a, b) => a - b);
+  console.log(nums1);
+};
+
+// merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3);
+
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function (nums, val) {
+  let ans = nums.length;
+  for (let i = 0; i < ans; ) {
+    if (nums[i] == val) {
+      nums[i] = nums[ans - 1];
+      ans--;
+    } else {
+      i++;
+    }
+  }
+  return ans;
+};
+
+// removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2);
