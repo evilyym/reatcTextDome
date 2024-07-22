@@ -161,4 +161,74 @@ var removeDuplicates = function (nums) {
   console.log(nums);
 };
 
-removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]);
+// removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]);
+
+const lengthOfLIS = function (nums = []) {
+  // let num = 0;
+  // // nums.forEach((i, index) => {
+  // for (let index = 0; index < nums.length; index++) {
+  //   const i = nums[index];
+  //   if (index && i > num) {
+  //     num = i;
+  //   } else {
+  //     nums[index] = null;
+  //   }
+  // }
+  // // });
+  // console.log(nums);
+  // return nums.length;
+  // 每堆的堆顶
+  const top = [];
+  // 牌堆数初始化为0
+  let piles = 0;
+  for (let i = 0; i < nums.length; i++) {
+    // 要处理的扑克牌
+    let poker = nums[i];
+    // 左堆和最右堆进行二分搜索，因为堆顶是有序排的，最终找到该牌要插入的堆
+    let left = 0,
+      right = piles;
+    //搜索区间是左闭右开
+    while (left < right) {
+      let mid = left + ((right - left) >> 1);
+      if (top[mid] > poker) {
+        right = mid;
+      } else if (top[mid] < poker) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+
+    //  没找到合适的牌堆，新建一堆
+    if (left == piles) piles++;
+    // 把这张牌放到堆顶
+    top[left] = poker;
+  }
+  return piles; //*/
+};
+
+// lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]);
+
+var generateParenthesis = function (n) {
+  const res = [];
+
+  const dfs = (lRemain, rRemain, str) => {
+    // 左右括号所剩的数量，str是当前构建的字符串
+    if (str.length == 2 * n) {
+      // 字符串构建完成
+      res.push(str); // 加入解集
+      return; // 结束当前递归分支
+    }
+    if (lRemain > 0) {
+      // 只要左括号有剩，就可以选它，然后继续做选择（递归）
+      dfs(lRemain - 1, rRemain, str + '(');
+    }
+    if (lRemain < rRemain) {
+      // 右括号比左括号剩的多，才能选右括号
+      dfs(lRemain, rRemain - 1, str + ')'); // 然后继续做选择（递归）
+    }
+  };
+
+  dfs(n, n, ''); // 递归的入口，剩余数量都是n，初始字符串是空串
+  return res;
+};
