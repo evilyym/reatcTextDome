@@ -91,12 +91,9 @@ const getIntersectionNode = function (headA, headB) {
   let pA = headA,
     pB = headB;
   while (pA !== pB) {
-    console.log(pA);
-    console.log(pB);
     pA = pA ? pA.next : headB;
     pB = pB ? pB.next : headA;
   }
-  console.log(pA);
   return pA;
 };
 
@@ -130,7 +127,6 @@ var merge = function (nums1, m, nums2, n) {
   //   .splice(m, m + n);
   nums1.splice(m, nums1.length - m, ...nums2);
   nums1.sort((a, b) => a - b);
-  console.log(nums1);
 };
 
 // merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3);
@@ -158,7 +154,6 @@ var removeElement = function (nums, val) {
 var removeDuplicates = function (nums) {
   let arr = Array.from(new Set(nums));
   nums = arr;
-  console.log(nums);
 };
 
 // removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]);
@@ -231,4 +226,57 @@ var generateParenthesis = function (n) {
 
   dfs(n, n, ''); // 递归的入口，剩余数量都是n，初始字符串是空串
   return res;
+};
+
+var isPalindrome = function (x) {
+  // if (x < 0) return false;
+  // const str = x + '';
+  // for (let index = 0; index < str.length / 2; index++) {
+  //   if (str[index] !== str[str.length - 1 - index]) return false;
+  // }
+  // return true;
+
+  if (x < 0) return false;
+  if (x > 0 && x % 10 == 0) return false;
+  let y = x;
+  let num = 0;
+  while (x !== 0) {
+    num = (x % 10) + num * 10;
+    x = Math.floor(x / 10);
+  }
+  return y === num;
+};
+// isPalindrome(121);
+
+/**
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {boolean}
+ */
+var isSameTree = function (p, q) {
+  if (p === q) return true;
+  if (!p || !q) return false;
+  if (p.val != q.val) return false;
+  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+};
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var containsNearbyDuplicate = function (nums, k) {
+  let arr = [];
+  for (let index = 0; index < nums.length; index++) {
+    const element = nums[index];
+    if (arr.indexOf(element) == -1) {
+      arr.push(element);
+    } else {
+      return true;
+    }
+    if (arr.length > k) {
+      arr.shift();
+    }
+  }
+  return false;
 };
