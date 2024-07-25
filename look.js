@@ -280,3 +280,36 @@ var containsNearbyDuplicate = function (nums, k) {
   }
   return false;
 };
+
+/**
+ * @param {number[]} nums
+ * @return {string[]}
+ */
+var summaryRanges = function (nums = [0, 2, 3, 4, 6, 8, 9]) {
+  if (nums.length == 0) return [];
+  let arr = [[nums[0]]];
+  let j = 0;
+  for (let index = 1; index < nums.length; index++) {
+    if (nums[index] == nums[index - 1] + 1) {
+      arr[j].push(nums[index]);
+    } else {
+      j++;
+      arr[j] = [nums[index]];
+    }
+  }
+  // console.log(arr);
+  arr = arr.map((itme) => {
+    if (itme.length > 1) {
+      let str = '';
+      str = itme[0] + '->' + itme[itme.length - 1];
+      return str;
+    } else {
+      return itme[0] + '';
+    }
+  });
+  // ["0","2->4","6","8->9"]
+  // console.log(arr);
+  return arr;
+};
+
+// summaryRanges();
