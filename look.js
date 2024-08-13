@@ -378,3 +378,20 @@ var longestPalindrome = function (s) {
   }
   return res;
 };
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+var plusOne = function (digits = []) {
+  if (digits.length == 0) return digits;
+  // digits.so;
+};
+
+let a = 0;
+do {
+  a++;
+  if (a == 1) continue;
+  if (a == 2) throw new Error('12');
+  if (a == 3) break;
+  if (a == 4) return;
+} while (a == 2);
