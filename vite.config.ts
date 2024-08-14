@@ -37,7 +37,7 @@ export default ({ mode }) => {
       },
     },
     build: {
-      outDir: fileName + process.env.VITE_BASE,
+      outDir: fileName + loadEnv(mode, process.cwd()).VITE_BASE, //process.env.VITE_BASE,
       rollupOptions: {
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',

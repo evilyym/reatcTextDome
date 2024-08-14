@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && test",
+    "build": "tsc --noEmit && vite build && vite build --mode staging",
     "test": "vite build && vite build --mode staging",
     "ts": "tsc --noEmit",
     "lint": "eslint src --fix --ext .ts,.tsx,.js,.jsx --max-warnings 0",
