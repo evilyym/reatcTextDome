@@ -186,10 +186,12 @@ const App: React.FC = () => {
     });
   }, [location]); //[] 监听对象 数据更新后 会请求
   // 换色
+  const [value, setValue] = useState('defaultAlgorithm');
   const colorChange = (e) => {
     // 获取到 transition API 实例
     const transition = document.startViewTransition(() => {
-      document.documentElement.classList.toggle('dark');
+      // document.documentElement.classList.toggle('dark');
+      value == 'defaultAlgorithm' ? setValue('darkAlgorithm') : setValue('defaultAlgorithm');
     });
 
     // 在 transition.ready 的 Promise 完成后，执行自定义动画
@@ -200,7 +202,7 @@ const App: React.FC = () => {
       // 计算半径，以鼠标点击的位置为圆心，到四个角的距离中最大的那个作为半径
       const radius = Math.hypot(Math.max(clientX, innerWidth - clientX), Math.max(clientY, innerHeight - clientY));
       const clipPath = [`circle(0% at ${clientX}px ${clientY}px)`, `circle(${radius}px at ${clientX}px ${clientY}px)`];
-      const isDark = document.documentElement.classList.contains('dark');
+      const isDark = value == 'defaultAlgorithm';
       // 自定义动画
       document.documentElement.animate(
         {
@@ -215,10 +217,12 @@ const App: React.FC = () => {
       );
     });
   };
+  // theme.defaultAlgorithm
   return (
     <ConfigProvider
       locale={zhCN}
       theme={{
+        algorithm: theme[value],
         components: {
           Layout: {
             footerPadding: '10px 10px',
