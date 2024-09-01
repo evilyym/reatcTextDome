@@ -393,9 +393,10 @@ do {
   if (a == 1) continue;
   if (a == 2) throw a; //new Error('12');
   if (a == 3) break;
-  if (a == 4) return;
+  // if (a == 4) return;
 } while (a == 2);
 
+/*
 const btn = document.getElementById('btn');
 // 点击按钮时切换主题
 btn.addEventListener('click', (e) => {
@@ -427,3 +428,26 @@ btn.addEventListener('click', (e) => {
     );
   });
 });
+// */
+
+function f1(params) {
+  console.log(1, params);
+}
+
+function f2(params) {
+  console.log(2, params);
+}
+
+f2();
+f1();
+f2();
+
+const xNum = 3;
+
+function f3() {
+  console.log(3, xNum);
+  console.log(4, yNum);
+}
+const yNum = 3;
+f3();  //js学习指南 115页 错误
+
