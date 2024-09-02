@@ -5,6 +5,7 @@
  * @LastEditTime: 2024-04-08 09:40:36
  */
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Outlet, useNavigate, Link, useLocation, useMatches } from 'react-router-dom';
 
 import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button } from 'antd';
@@ -17,6 +18,7 @@ import '@/assets/styles/home.scss';
 import Bread from '@/components/breadcrumb'; //面包屑导航组件
 import { useMenuRoute } from '@/components/useMenuRoute';
 
+import i18n from '@/utils/i18';
 import { getAssetsFile } from '@/utils/share';
 
 import { getProductList, getListAll } from '@/apis/user';
@@ -30,7 +32,7 @@ import router from '@/router';
 
 const { Header, Content, Sider, Footer } = Layout;
 const items1: MenuProps['items'] = [
-  { key: '1', name: '主页' },
+  { key: '1', name: i18n.t('主页') },
   { key: '2', name: '设置' },
 ].map((item) => ({
   key: item.key,
@@ -64,6 +66,7 @@ const items: MenuProps['items'] = [
 type aTpye = { key: string; name?: string }[];
 
 const App: React.FC = () => {
+  const { t } = useTranslation();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -240,10 +243,10 @@ const App: React.FC = () => {
               }}
             />
             <div className={styles['head-title']} onClick={navClick}>
-              {Number(title)}
+              {i18n.t('主页')}
             </div>
             <div className={styles['head-user']}>
-              <button onClick={colorChange}>换色</button>
+              <button onClick={colorChange}>{t('主页')}</button>
               <Dropdown menu={{ items }} placement="bottom" arrow={{ pointAtCenter: true }}>
                 <img src={getAssetsFile('home.png')} alt="" />
                 {/* <Button>bottom</Button> */}

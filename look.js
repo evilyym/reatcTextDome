@@ -449,5 +449,4 @@ function f3() {
   console.log(4, yNum);
 }
 const yNum = 3;
-f3();  //js学习指南 115页 错误
-
+f3(); //js学习指南 115页 错误
