@@ -378,14 +378,6 @@ var longestPalindrome = function (s) {
   }
   return res;
 };
-/**
- * @param {number[]} digits
- * @return {number[]}
- */
-var plusOne = function (digits = []) {
-  if (digits.length == 0) return digits;
-  // digits.so;
-};
 
 let a = 0;
 do {
@@ -430,6 +422,7 @@ btn.addEventListener('click', (e) => {
 });
 // */
 
+/*
 function f1(params) {
   console.log(1, params);
 }
@@ -450,3 +443,30 @@ function f3() {
 }
 const yNum = 3;
 f3(); //js学习指南 115页 错误
+// */
+// 数组魔法 累加器
+const arr = [1, 2, 3, 4];
+
+arr.reduce((accumulate, item, index, arr) => {
+  console.log(accumulate);
+  console.log(item);
+  console.log(index);
+  console.log(arr);
+  console.log('打印完成');
+  return accumulate + '1';
+}, 0);
+
+/**
+ * 给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础上加一。
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+const plusOne = (digits = [9, 9]) => {
+  let num = ++digits[digits.length - 1];
+  digits = digits.slice(0, -1);
+  const arr = (digits.join('') + num).split('');
+  arr[0] == 0 && arr.shift(0, 1);
+  return arr;
+};
+// 本地测试用例成功 力扣失败
+// const num22 = plusOne();
