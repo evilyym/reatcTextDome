@@ -1,3 +1,4 @@
+'use strict'
 // 类型
 type stringType = string;
 interface IUser {
