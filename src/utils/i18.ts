@@ -2,8 +2,8 @@ import { initReactI18next } from 'react-i18next';
 
 import i18n from 'i18next';
 
-import { chinese } from './Language/chinese.ts';
-import { englisth } from './Language/Englisth.ts';
+import { chinese } from '../i18n/chinese.ts';
+import { englisth } from '../i18n/Englisth.ts';
 
 i18n.use(initReactI18next).init({
   resources: {

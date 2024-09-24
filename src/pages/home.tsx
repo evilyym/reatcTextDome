@@ -163,7 +163,7 @@ const App: React.FC = () => {
         };
       }
 
-      const arrN = menu_list.map(mapMenuTree);
+      const arrN = menu_list[0].child[0].list.map(mapMenuTree);
       setOpenKeys(location.split('/'));
       setSelectedKeys(location.split('/').slice(-1));
       setUserTtems2(arrN);
