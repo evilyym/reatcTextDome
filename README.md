@@ -20,3 +20,27 @@ React18 + React-Router-Dom6 + Zustand4 + TypeScript5 + Vite5 + Antd5
 方块
 
 信息
+
+
+## react 项目 需求
+
+动态路由
+
+权限请求
+
+页面操作权限
+
+换肤 主题
+
+表单 
+
+表格
+
+svg 等icon
+
+国际化
+
+独立组件库
+
+按需加载
+

@@ -164,10 +164,7 @@ const App: React.FC = () => {
       }
 
       const arrN = menu_list[0].child[0].list.map(mapMenuTree);
-      setOpenKeys(location.split('/'));
-      setSelectedKeys(location.split('/').slice(-1));
-      setUserTtems2(arrN);
-      setLoadingMeun(false);
+
       // 添加路由
       // 递归获取路由名称
       const getRouterList = (menu: any, pathFather = '') => {
@@ -186,6 +183,17 @@ const App: React.FC = () => {
       router.routes[4].children = arrN.map((menu: any) => {
         return getRouterList(menu);
       });
+      const recursiveFirst = (arr) => {
+        return arr.children?recursiveFirst(arr.children):arr.key
+      }
+      const firstMenu = recursiveFirst(arrN[0]);
+      debugger
+      router.navigate(firstMenu);
+
+      setOpenKeys(location.split('/'));
+      setSelectedKeys(location.split('/').slice(-1));
+      setUserTtems2(arrN);
+      setLoadingMeun(false);
     });
   }, [location]); //[] 监听对象 数据更新后 会请求
   // 换色

@@ -30,7 +30,7 @@ export const getProductList = (data: dataAny) => HttpClient.post('/api/saas/admi
 export const getProductListJson = (data: dataAny) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      return resolve(listJosn.data)
+      resolve(listJosn.data)
     }, 800)
   });
 }
