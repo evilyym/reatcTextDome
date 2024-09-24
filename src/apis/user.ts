@@ -24,6 +24,13 @@ export const verifyToken = (token: dataAny) =>
   HttpClient.post('/admin/verifyToken', {
     token,
   });
-
+import { listJosn } from '@/apis/login'
 // 超级平台 saas接口
 export const getProductList = (data: dataAny) => HttpClient.post('/api/saas/admin/info', data);
+export const getProductListJson = (data: dataAny) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return resolve(listJosn.data)
+    }, 800)
+  });
+}

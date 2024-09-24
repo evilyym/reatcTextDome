@@ -21,7 +21,7 @@ import { useMenuRoute } from '@/components/useMenuRoute';
 import i18n from '@/utils/i18';
 import { getAssetsFile } from '@/utils/share';
 
-import { getProductList, getListAll } from '@/apis/user';
+import { getProductListJson, getListAll } from '@/apis/user';
 
 import type { MenuProps } from 'antd';
 
@@ -81,7 +81,7 @@ const App: React.FC = () => {
   const goReace = (e: any) => {
     // reverse().join("")
     setSelectedKeys(e.keyPath[0]);
-    navigate(e.keyPath.reverse().join('/'), { replace: true });
+    navigate(e.keyPath.reverse().join('/'), { replace: false });
   };
 
   function itemRender(item: any, params: any, items: any, paths: any): Element | React.ReactNode {
@@ -141,7 +141,7 @@ const App: React.FC = () => {
   }, {}) as any;
   useEffect(() => {
     // getListAll({ token: localStorage.getItem('token') }).then(({ menu_list }) => {
-    getProductList({}).then(({ menu_list, name }: any) => {
+    getProductListJson({}).then(({ menu_list, name }: any) => {
       // const myProduct = menu_list.find((item: any) => item.en_name == 'controllability');
       // let myMenu = { list: [], name: '' };
       // if (myProduct) {
@@ -179,7 +179,7 @@ const App: React.FC = () => {
             menu.children.map((children: any) =>
               getRouterList(children, pathFather ? pathFather + '/' + menu.key : menu.key),
             ),
-          Component: menu.children == null && lazy(components[pathFather ? pathFather + '/' + menu.key : menu.key]),
+          Component: menu.children == null && lazy(components[(pathFather ? pathFather + '/' + menu.key : menu.key) + '/index']),
         };
       };
       // 获取菜单后动态添加路由
