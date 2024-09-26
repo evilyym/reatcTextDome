@@ -176,7 +176,8 @@ const App: React.FC = () => {
             menu.children.map((children: any) =>
               getRouterList(children, pathFather ? pathFather + '/' + menu.key : menu.key),
             ),
-          Component: menu.children == null && lazy(components[(pathFather ? pathFather + '/' + menu.key : menu.key) + '/index']),
+          Component:
+            menu.children == null && lazy(components[(pathFather ? pathFather + '/' + menu.key : menu.key) + '/index']),
         };
       };
       // 获取菜单后动态添加路由
@@ -184,10 +185,9 @@ const App: React.FC = () => {
         return getRouterList(menu);
       });
       const recursiveFirst = (arr) => {
-        return arr.children?recursiveFirst(arr.children):arr.key
-      }
+        return arr.children ? recursiveFirst(arr.children) : arr.key;
+      };
       const firstMenu = recursiveFirst(arrN[0]);
-      debugger
       router.navigate(firstMenu);
 
       setOpenKeys(location.split('/'));
