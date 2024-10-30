@@ -56,3 +56,14 @@ Date.prototype.format = function (fmt: string): string {
   }
   return fmt;
 };
+
+const nums1 = [1, 2, 3, 0, 0, 0],
+  m = 3,
+  nums2 = [2, 5, 6],
+  n = 3;
+// 合并两个有序数组
+function merge(nums1: number[], m: number, nums2: number[], n: number): void {
+  console.log(nums1);
+}
+
+merge(nums1, m, nums2, n);

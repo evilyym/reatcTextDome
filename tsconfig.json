@@ -28,6 +28,9 @@
     "checkJs": true
   },
   "include": ["src"], //需要检测的文件
+  "ts-node": {
+    "esm": true
+  },
   "references": [
     {
       "path": "./tsconfig.node.json"
