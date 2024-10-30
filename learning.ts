@@ -61,9 +61,15 @@ const nums1 = [1, 2, 3, 0, 0, 0],
   m = 3,
   nums2 = [2, 5, 6],
   n = 3;
+// [1,2,2,3,5,6]
 // 合并两个有序数组
 function merge(nums1: number[], m: number, nums2: number[], n: number): void {
-  console.log(nums1);
+  const arr = nums1.splice(0, m).concat(nums2.splice(0, n));
+  nums1 = arr;
+
+  for (let i = m - 1, j = n - 1, k = m + n - 1; j >= 0; --k) {
+    nums1[k] = i >= 0 && nums1[i] > nums2[j] ? nums1[i--] : nums2[j--];
+  }
 }
 
 merge(nums1, m, nums2, n);
