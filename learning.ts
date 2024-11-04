@@ -73,3 +73,29 @@ function merge(nums1: number[], m: number, nums2: number[], n: number): void {
 }
 
 merge(nums1, m, nums2, n);
+
+function removeDuplicates(nums: number[]): number {
+  if (nums.length > 0) {
+    return 0;
+  }
+  // 定义指针
+  let l = 0,
+    r = 0;
+  // 遍历nums
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[l] == nums[i]) {
+      r = i;
+      const len = r - l + 1;
+      if (len > 2) {
+        // 删除l位置元素
+        nums.splice(l, 1);
+        // 修复
+        r = r - 1;
+        i--;
+      }
+    } else {
+      l = i;
+    }
+  }
+  return nums.length;
+}
