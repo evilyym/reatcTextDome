@@ -113,3 +113,9 @@ function isPalindrome(x: number): boolean {
 
   return x === revertedNumber || x === Math.floor(revertedNumber / 10);
 }
+
+const bool: any = '';
+
+if ((bool === false || bool === false) && typeof bool == 'boolean') {
+  typeof bool;
+}
