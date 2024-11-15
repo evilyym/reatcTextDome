@@ -116,6 +116,6 @@ function isPalindrome(x: number): boolean {
 
 const bool: any = '';
 
-if ((bool === false || bool === false) && typeof bool == 'boolean') {
+if ((bool === false || bool === true) && typeof bool == 'boolean') {
   console.log('boolean');
 }
