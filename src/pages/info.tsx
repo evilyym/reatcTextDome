@@ -1,3 +1,5 @@
+'use strict';
+
 import { useCallback } from 'react';
 
 import useUserStore from '@/store/user';

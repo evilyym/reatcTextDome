@@ -33,7 +33,7 @@ import router from '@/router';
 const { Header, Content, Sider, Footer } = Layout;
 const items1: MenuProps['items'] = [
   { key: '1', name: i18n.t('主页') },
-  { key: '2', name: '设置' },
+  { key: '2', name: i18n.t('注册') },
 ].map((item) => ({
   key: item.key,
   label: item.name,
