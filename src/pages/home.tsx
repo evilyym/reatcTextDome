@@ -66,7 +66,7 @@ const items: MenuProps['items'] = [
 type aTpye = { key: string; name?: string }[];
 
 const App: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -254,7 +254,10 @@ const App: React.FC = () => {
               {i18n.t('主页')}
             </div>
             <div className={styles['head-user']}>
-              <button onClick={colorChange}>{t('主页')}</button>
+              <button onClick={() => i18n.changeLanguage(i18n.language == 'en_US' ? 'zh_CN' : 'en_US')}>
+                {i18n.language == 'en_US' ? '简体中文' : '美式英语'}
+              </button>
+              <button onClick={colorChange}>{t('主题')}</button>
               <Dropdown menu={{ items }} placement="bottom" arrow={{ pointAtCenter: true }}>
                 <img src={getAssetsFile('home.png')} alt="" />
                 {/* <Button>bottom</Button> */}
