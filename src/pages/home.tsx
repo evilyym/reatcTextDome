@@ -228,6 +228,10 @@ const App: React.FC = () => {
       );
     });
   };
+  enum language {
+    zh_CN = '简体中文',
+    en_US = 'English',
+  }
   // theme.defaultAlgorithm
   return (
     <ConfigProvider
@@ -255,7 +259,7 @@ const App: React.FC = () => {
             </div>
             <div className={styles['head-user']}>
               <button onClick={() => i18n.changeLanguage(i18n.language == 'en_US' ? 'zh_CN' : 'en_US')}>
-                {i18n.language == 'en_US' ? '简体中文' : '美式英语'}
+                {language[i18n.language]}
               </button>
               <button onClick={colorChange}>{t('主题')}</button>
               <Dropdown menu={{ items }} placement="bottom" arrow={{ pointAtCenter: true }}>
