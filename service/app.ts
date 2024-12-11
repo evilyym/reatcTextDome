@@ -11,10 +11,10 @@ async function init() {
   await ds
     .initialize()
     .then(() => {
-      console.log('Data Source has been initialized!');
+      console.log('数据源已初始化！');
     })
     .catch((e: any) => {
-      console.log('Error during Data Source initialization:', e);
+      console.log('数据源初始化时出错', e);
     });
 
   const app = express();

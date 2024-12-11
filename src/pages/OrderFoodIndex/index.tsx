@@ -1,5 +1,9 @@
 import { useCallback } from 'react';
 
+import { Space, Table, Tag } from 'antd';
+
+import Search from './search.tsx';
+
 import useUserStore from '@/store/user';
 
 const Info = () => {
@@ -17,15 +21,42 @@ const Info = () => {
     updateToken('23652');
   }, [updateToken]);
 
+  const dataSource = [
+    {
+      key: '1',
+      name: '胡彦斌',
+      age: 32,
+      address: '西湖区湖底公园1号',
+    },
+    {
+      key: '2',
+      name: '胡彦祖',
+      age: 42,
+      address: '西湖区湖底公园1号',
+    },
+  ];
+
+  const columns = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: '住址',
+      dataIndex: 'address',
+      key: 'address',
+    },
+  ];
   return (
     <div className="App">
-      <div>
-        姓名：{userInfo.name} 年龄：{userInfo.age}
-      </div>
-      <div>token：{token}</div>
-      <button onClick={hanlderUser}>更新用户</button>
-      <button onClick={handlerAge}>更新年龄</button>
-      <button onClick={handlerToken}>更新token</button>
+      <Search />
+      <Table dataSource={dataSource} columns={columns} />
     </div>
   );
 };
