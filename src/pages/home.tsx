@@ -2,7 +2,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2024-04-08 09:40:36
+ * @LastEditTime: 2025-01-04 13:47:32
  */
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -255,7 +255,7 @@ const App: React.FC = () => {
               }}
             />
             <div className={styles['head-title']} onClick={navClick}>
-              {i18n.t('主页')}
+              {title + i18n.t('主页')}
             </div>
             <div className={styles['head-user']}>
               <button onClick={() => i18n.changeLanguage(i18n.language == 'en_US' ? 'zh_CN' : 'en_US')}>
