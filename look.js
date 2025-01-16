@@ -448,11 +448,6 @@ f3(); //js学习指南 115页 错误
 const arr = [1, 2, 3, 4];
 
 arr.reduce((accumulate, item, index, arr) => {
-  console.log(accumulate);
-  console.log(item);
-  console.log(index);
-  console.log(arr);
-  console.log('打印完成');
   return accumulate + '1';
 }, 0);
 
