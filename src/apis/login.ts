@@ -387,7 +387,7 @@ export const listJosn = {
                   {
                     id: 108,
                     pid: 107,
-                    name: '菜品库管理',
+                    name: '库管理',
                     en_name: 'OrderFoodRepositoryManage',
                     is_nav: 2,
                     router: 'api/saas/admin/order-food/food-repository/list',
@@ -579,7 +579,7 @@ export const listJosn = {
                   {
                     id: 110,
                     pid: 107,
-                    name: '食堂管理',
+                    name: '区域管理',
                     en_name: 'OrderFoodCanteenManage',
                     is_nav: 2,
                     router: 'api/saas/admin/order-food/canteen/list',
@@ -661,7 +661,7 @@ export const listJosn = {
                   {
                     id: 908,
                     pid: 107,
-                    name: '医嘱标签',
+                    name: '内容管理',
                     en_name: 'doctorsAdvice',
                     is_nav: 2,
                     router: 'api/saas/admin/order-food/advice/listadviceManagement',
@@ -671,7 +671,7 @@ export const listJosn = {
                   {
                     id: 1081,
                     pid: 107,
-                    name: '原料管理',
+                    name: '人员管理',
                     en_name: 'materialManage',
                     is_nav: 2,
                     router: 'api/saas/admin/order-food/nutrition/material/list',
@@ -847,7 +847,7 @@ export const listJosn = {
                   {
                     id: 565,
                     pid: 511,
-                    name: '签单单位管理',
+                    name: '超级AI',
                     en_name: 'SignTheBillManagement',
                     is_nav: 2,
                     router: 'api/saas/admin/order-food/onCredit/group_list',
@@ -939,7 +939,7 @@ export const listJosn = {
                   {
                     id: 566,
                     pid: 511,
-                    name: '签单用户管理',
+                    name: '低代码',
                     en_name: 'SignUpusermanagement',
                     is_nav: 2,
                     router: 'api/saas/admin/order-food/onCredit/user_list',
@@ -1031,7 +1031,7 @@ export const listJosn = {
                   {
                     id: 567,
                     pid: 511,
-                    name: '开票管理',
+                    name: '视图模块',
                     en_name: 'RestaurantMiddle',
                     is_nav: 2,
                     router: 'RestaurantMiddle',
@@ -1083,7 +1083,7 @@ export const listJosn = {
                   {
                     id: 1088,
                     pid: 511,
-                    name: '第三方数据统计',
+                    name: '第三方管理',
                     en_name: 'oyherDataStatistics',
                     is_nav: 2,
                     router: 'api/saas/admin/order-food/other_order/list',
