@@ -1,3 +1,9 @@
+/*
+ * @Date: 2024-09-25 09:00:30
+ * @LastEditors: You yangym@golive.cc
+ * @LastEditTime: 2025-02-06 15:26:10
+ * @FilePath: \vite-react-ts-seed-master\src\pages\OrderFoodIndex\index.tsx
+ */
 import { useCallback } from 'react';
 
 import { Space, Table, Tag } from 'antd';
