@@ -1,3 +1,9 @@
+/*
+ * @Date: 2024-01-26 01:29:24
+ * @LastEditors: You yangym@golive.cc
+ * @LastEditTime: 2025-02-07 16:15:21
+ * @FilePath: \vite-react-ts-seed-master\src\store\user.ts
+ */
 import { produce } from 'immer';
 import { create } from 'zustand';
 
@@ -20,7 +26,7 @@ const useUserStore = create<UserState>((set) => ({
     name: 'zhangsan',
     age: 23,
   },
-  token: 'S1',
+  token: 'token',
   //更新整个对象
   updateUserInfo: (userInfo) => set({ userInfo }), //合并userInfo
   //更新对象中某个属性

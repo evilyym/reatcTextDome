@@ -2,7 +2,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2025-02-06 15:51:07
+ * @LastEditTime: 2025-02-07 16:21:34
  */
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -181,7 +181,7 @@ const App: React.FC = () => {
         };
       };
       // 获取菜单后动态添加路由
-      router.routes[4].children = arrN.map((menu: any) => {
+      router.routes[2].children = arrN.map((menu: any) => {
         return getRouterList(menu);
       });
       const recursiveFirst = (arr) => {

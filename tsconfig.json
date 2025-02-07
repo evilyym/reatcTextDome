@@ -27,7 +27,7 @@
     "noFallthroughCasesInSwitch": true, //确保switch语句中的任何非空情况都包含
     "checkJs": true
   },
-  "include": ["src"], //需要检测的文件
+  "include": ["src", "学习dome/TypeScriptDome.ts"], //需要检测的文件
   "ts-node": {
     "esm": true
   },

@@ -1,7 +1,7 @@
 /*
  * @Author: yym
  * @Date: 2024-03-05 10:50:22
- * @LastEditTime: 2024-03-08 10:45:38
+ * @LastEditTime: 2025-02-07 16:20:56
  */
 import React, { Suspense } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
@@ -32,24 +32,7 @@ const Bread: React.FC = () => {
     {
       path: '1',
       title: 'first',
-      children: [
-        {
-          path: '/1',
-          title: 'General',
-        },
-        {
-          path: '/2',
-          title: 'Layout',
-        },
-        {
-          path: '/3',
-          title: 'Navigation',
-        },
-        {
-          path: '/',
-          title: '主页',
-        },
-      ],
+      children: [],
     },
     {
       path: 'second',
