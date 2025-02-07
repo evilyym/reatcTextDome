@@ -2,7 +2,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2025-01-04 13:47:32
+ * @LastEditTime: 2025-02-07 21:36:56
  */
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -246,7 +246,7 @@ const App: React.FC = () => {
       }}
     >
       <Layout style={{ height: '100%' }}>
-        <Header className={styles.main} style={{ display: 'flex', alignItems: 'center' }}>
+        <Header className={styles.main} style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white' }}>
           <>
             <div
               className={styles['head-logo']}
@@ -315,7 +315,7 @@ const App: React.FC = () => {
                 padding: 24,
                 margin: 0,
                 minHeight: 280,
-                background: colorBgContainer,
+                // background: colorBgContainer,
                 borderRadius: borderRadiusLG,
               }}
             >
