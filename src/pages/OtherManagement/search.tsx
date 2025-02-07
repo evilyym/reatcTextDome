@@ -1,3 +1,9 @@
+/*
+ * @Date: 2024-12-11 15:57:34
+ * @LastEditors: You yangym@golive.cc
+ * @LastEditTime: 2025-02-07 17:11:10
+ * @FilePath: \vite-react-ts-seed-master\src\pages\OtherManagement\search.tsx
+ */
 import React, { useEffect, useState } from 'react';
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
@@ -7,7 +13,6 @@ const App: React.FC = () => {
   const [form] = Form.useForm();
   const [clientReady, setClientReady] = useState<boolean>(false);
 
-  // To disable submit button at the beginning.
   useEffect(() => {
     setClientReady(true);
   }, []);

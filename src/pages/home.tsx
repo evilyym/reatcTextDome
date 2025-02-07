@@ -2,13 +2,13 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2025-02-07 16:21:34
+ * @LastEditTime: 2025-02-07 17:23:36
  */
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet, useNavigate, Link, useLocation, useMatches } from 'react-router-dom';
 
-import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button } from 'antd';
+import { Layout, Menu, theme, ConfigProvider, Spin, Dropdown, message, Button, Card } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 
 import '@/assets/styles/home.scss';
@@ -312,21 +312,23 @@ const App: React.FC = () => {
             {/* <Bread /> */}
             <Content
               style={{
-                padding: 24,
+                padding: 10,
                 margin: 0,
                 minHeight: 280,
                 // background: colorBgContainer,
                 borderRadius: borderRadiusLG,
               }}
             >
-              {/* 选中: {selectedKeys}
+              <Card>
+                {/* 选中: {selectedKeys}
               <br />
               展开: {openKeys}
               <br />
               路由 {location} */}
-              <Suspense fallback={<div>Loading...</div>}>
-                <Outlet />
-              </Suspense>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Outlet />
+                </Suspense>
+              </Card>
             </Content>
             <Footer style={{ textAlign: 'center' }}>YM ©{new Date().getFullYear()} Created by Ant UED</Footer>
           </Layout>
