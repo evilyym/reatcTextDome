@@ -1,11 +1,17 @@
+/*
+ * @Date: 2024-04-09 14:41:21
+ * @LastEditors: You yangym@golive.cc
+ * @LastEditTime: 2025-02-12 09:54:34
+ * @FilePath: \vite-react-ts-seed-master\src\components\YM-C\1.ts
+ */
 let lastTime = 0;
-const prefixes = "webkit moz ms o".split(" "); // 各浏览器前缀
+const prefixes = 'webkit moz ms o'.split(' '); // 各浏览器前缀
 
 let requestAnimationFrame;
 let cancelAnimationFrame;
 
 // 判断是否是服务器环境
-const isServer = typeof window === "undefined";
+const isServer = typeof window === 'undefined';
 if (isServer) {
   requestAnimationFrame = function () {
     return;
@@ -23,9 +29,9 @@ if (isServer) {
       break;
     }
     prefix = prefixes[i];
-    requestAnimationFrame = requestAnimationFrame || window[prefix + "RequestAnimationFrame"];
+    requestAnimationFrame = requestAnimationFrame || window[prefix + 'RequestAnimationFrame'];
     cancelAnimationFrame =
-      cancelAnimationFrame || window[prefix + "CancelAnimationFrame"] || window[prefix + "CancelRequestAnimationFrame"];
+      cancelAnimationFrame || window[prefix + 'CancelAnimationFrame'] || window[prefix + 'CancelRequestAnimationFrame'];
   }
 
   // 如果当前浏览器不支持requestAnimationFrame和cancelAnimationFrame，则会退到setTimeout

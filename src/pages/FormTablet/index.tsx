@@ -110,11 +110,11 @@ const FormDom: React.FC = () => {
             <Button
               type="primary"
               htmlType="submit"
-            // disabled={
-            //   !clientReady ||
-            //   !form.isFieldsTouched(true) ||
-            //   !!form.getFieldsError().filter(({ errors }) => errors.length).length
-            // }
+              // disabled={
+              //   !clientReady ||
+              //   !form.isFieldsTouched(true) ||
+              //   !!form.getFieldsError().filter(({ errors }) => errors.length).length
+              // }
             >
               查询
             </Button>

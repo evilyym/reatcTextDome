@@ -1,14 +1,14 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2024-04-08 09:43:44
+ * @LastEditTime: 2025-02-10 09:11:41
  */
 import path from 'path'; //这个path用到了上面安装的@types/node
 
+import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import viteCompression from 'vite-plugin-compression';
-import legacy from '@vitejs/plugin-legacy'
 
 // https://vitejs.dev/config/
 
@@ -19,7 +19,7 @@ export default ({ mode }) => {
     base: loadEnv(mode, process.cwd()).VITE_BASE,
     plugins: [
       legacy({
-        targets: ['defaults', 'ie>=11', 'chrome 57'],  //需要兼容的目标列表，可以设置多个
+        targets: ['defaults', 'ie>=11', 'chrome 57'], //需要兼容的目标列表，可以设置多个
         // additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
         // renderLegacyChunks: true,
         // polyfills: [
