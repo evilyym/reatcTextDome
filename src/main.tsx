@@ -3,7 +3,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2025-02-06 15:26:54
+ * @LastEditTime: 2025-02-14 16:34:55
  */
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Provider } from 'react-redux';
@@ -11,6 +11,7 @@ import { RouterProvider, BrowserRouter } from 'react-router-dom';
 
 import { App, Spin, message } from 'antd';
 import ReactDOM from 'react-dom/client';
+import Track from 'sunshine-track';
 
 import router from './router';
 import store from './store/store';
@@ -18,7 +19,6 @@ import store from './store/store';
 import styles from '@/assets/styles/home.module.scss';
 import useStore from '@/store/spinState';
 import './index.scss';
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -51,6 +51,26 @@ const Msg = () => {
     </>
   );
 };
+
+Track.init({
+  projectKey: 'test-project', // 项目的key
+  userId: 'digger', // 用户id
+  log: true,
+  report: {
+    url: 'http://example.com/report', // 上报url
+    reportType: 'img', // 上报方式
+  },
+  switchs: {
+    // 上报数据开关
+    xhr: true, // xhr请求
+    fetch: true, // fetch请求
+    error: true, // 报错
+    hashchange: true, // hash变化
+    history: true, // history变化
+    whitescreen: true, // 白屏
+    performance: true, // 页面性能
+  },
+});
 
 root.render(
   <Provider store={store}>
