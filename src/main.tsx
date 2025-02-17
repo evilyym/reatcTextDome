@@ -3,7 +3,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2025-02-17 13:17:42
+ * @LastEditTime: 2025-02-17 17:27:03
  */
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Provider } from 'react-redux';
@@ -53,8 +53,8 @@ const Msg = () => {
 };
 
 Track.init({
-  projectKey: 'test-project', // 项目的key
-  userId: 'digger', // 用户id
+  projectKey: '项目的key', // 项目的key
+  userId: '用户id', // 用户id
   log: true,
   report: {
     url: 'http://127.0.0.1:5000/track', // 上报url
@@ -68,7 +68,7 @@ Track.init({
     hashchange: true, // hash变化
     history: true, // history变化
     whitescreen: true, // 白屏
-    performance: true, // 页面性能
+    // performance: true, // 页面性能
   },
 });
 
