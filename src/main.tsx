@@ -3,7 +3,7 @@
 /*
  * @Author: yym
  * @Date: 2024-01-26 01:29:24
- * @LastEditTime: 2025-02-14 16:34:55
+ * @LastEditTime: 2025-02-17 13:17:42
  */
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Provider } from 'react-redux';
@@ -57,7 +57,7 @@ Track.init({
   userId: 'digger', // 用户id
   log: true,
   report: {
-    url: 'http://example.com/report', // 上报url
+    url: 'http://127.0.0.1:5000/track', // 上报url
     reportType: 'img', // 上报方式
   },
   switchs: {

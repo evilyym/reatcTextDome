@@ -1,8 +1,8 @@
 /*
  * @Date: 2024-09-25 09:00:30
  * @LastEditors: You yangym@golive.cc
- * @LastEditTime: 2025-02-06 15:26:10
- * @FilePath: \vite-react-ts-seed-master\src\pages\OrderFoodIndex\index.tsx
+ * @LastEditTime: 2025-02-14 16:36:48
+ * @FilePath: \vite-react-ts-seed-master\src\pages\OtherManagement\index.tsx
  */
 import { useCallback } from 'react';
 
@@ -12,7 +12,7 @@ import Search from './search.tsx';
 
 import useUserStore from '@/store/user';
 
-const Info = () => {
+const App = () => {
   const { userInfo, token, updateUserInfo, updateAge, updateToken } = useUserStore();
 
   const hanlderUser = useCallback(() => {
@@ -67,4 +67,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default App;
