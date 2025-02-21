@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Flex, Space, Table, Tag, Card } from 'antd';
+import { Button, Form, Input, Flex, Dropdown, Table, Tag, Card, Space } from 'antd';
 
-import type { TableProps } from 'antd';
+import type { TableProps, MenuProps } from 'antd';
 interface DataType {
   key: string;
   name: string;
@@ -93,7 +93,9 @@ const FormDom: React.FC = () => {
     setClientReady(true);
   }, []);
 
-  const onFinish = (values: any) => {};
+  const onFinish = (values: any) => {
+    console.log('Finish:', values);
+  };
 
   return (
     <Form form={form} name="horizontal_login" layout="inline" onFinish={onFinish}>
@@ -107,15 +109,7 @@ const FormDom: React.FC = () => {
       <Form.Item shouldUpdate>
         {() => (
           <Flex gap="small" wrap="wrap">
-            <Button
-              type="primary"
-              htmlType="submit"
-              // disabled={
-              //   !clientReady ||
-              //   !form.isFieldsTouched(true) ||
-              //   !!form.getFieldsError().filter(({ errors }) => errors.length).length
-              // }
-            >
+            <Button type="primary" htmlType="submit">
               查询
             </Button>
             <Button>重置</Button>
@@ -126,9 +120,36 @@ const FormDom: React.FC = () => {
   );
 };
 
+const items: MenuProps['items'] = [
+  {
+    key: '1',
+    label: <Button>word</Button>,
+  },
+  {
+    key: '2',
+    label: <Button>pdf</Button>,
+  },
+  {
+    key: '3',
+    label: <Button>exll</Button>,
+  },
+];
+
+const ButtonBox: React.FC = () => (
+  <Space direction="vertical">
+    <Space wrap>
+      <Dropdown menu={{ items }} placement="bottomLeft" arrow={{ pointAtCenter: true }}>
+        <Button>导出</Button>
+      </Dropdown>
+      <Button>打印</Button>
+    </Space>
+  </Space>
+);
+
 const App: React.FC = () => (
   <>
     <FormDom />
+    <ButtonBox></ButtonBox>
     <br />
     <Table<DataType> columns={columns} dataSource={data} />
   </>
