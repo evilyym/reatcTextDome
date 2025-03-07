@@ -2,7 +2,7 @@
 /*
  * @Author: yym
  * @Date: 2024-02-28 15:06:28
- * @LastEditTime: 2025-02-07 17:23:36
+ * @LastEditTime: 2025-03-07 16:48:25
  */
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,28 +42,12 @@ const items1: MenuProps['items'] = [
 const items2: [] = [];
 
 const items: MenuProps['items'] = [
-  {
-    key: '1',
-    label: '修改头像',
-  },
-  {
-    key: '2',
-    label: '系统消息',
-  },
-  {
-    key: '3',
-    label: '个人中心',
-  },
-  {
-    key: '4',
-    label: '修改密码',
-  },
-  {
-    key: '5',
-    label: '退出登录',
-  },
+  { key: '1', label: '修改头像' },
+  { key: '2', label: '系统消息' },
+  { key: '3', label: '个人中心' },
+  { key: '4', label: '修改密码' },
+  { key: '5', label: '退出登录' },
 ];
-type aTpye = { key: string; name?: string }[];
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
