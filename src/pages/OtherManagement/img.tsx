@@ -36,7 +36,7 @@ function OcrComponent() {
       const result = await Tesseract.recognize(
         source,
         // 'chi_sim', // 中文简体
-        'eng', // 可以根据需要指定语言包
+        'chi_sim+eng', // 可以根据需要指定语言包
         // 'chi_sim+eng', // 使用中文和英文语言包
         {
           logger: (m) => {
