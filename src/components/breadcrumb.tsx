@@ -10,6 +10,8 @@ import { Breadcrumb, Layout, Menu, theme, ConfigProvider } from 'antd';
 
 import type { MenuProps } from 'antd';
 
+import router from '@/router';
+
 // import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 
 const Bread: React.FC = () => {
@@ -24,21 +26,8 @@ const Bread: React.FC = () => {
     return last ? <span>{item.title}</span> : <Link to={paths.join('/')}>{item.title}</Link>;
   };
 
-  const breadcrumbItems = [
-    {
-      path: '/',
-      title: 'home',
-    },
-    {
-      path: '1',
-      title: 'first',
-      children: [],
-    },
-    {
-      path: 'second',
-      title: 'second',
-    },
-  ];
+  const breadcrumbItems = router.routes;
+  console.log('router.routes', router.routes);
   return <Breadcrumb style={{ margin: '16px 0' }} itemRender={itemRender} items={breadcrumbItems}></Breadcrumb>;
 };
 

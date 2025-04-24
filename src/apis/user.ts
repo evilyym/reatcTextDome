@@ -5,6 +5,8 @@
  */
 import HttpClient from '@/utils/axios';
 
+import { listJosn } from '@/apis/login';
+
 import type { ListParams, ListModel, dataAny } from './model/userModel';
 
 export const getList = (params: ListParams) => {
@@ -24,13 +26,12 @@ export const verifyToken = (token: dataAny) =>
   HttpClient.post('/admin/verifyToken', {
     token,
   });
-import { listJosn } from '@/apis/login'
 // 超级平台 saas接口
 export const getProductList = (data: dataAny) => HttpClient.post('/api/saas/admin/info', data);
 export const getProductListJson = (data: dataAny) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(listJosn.data)
-    }, 800)
+      resolve(listJosn.data);
+    }, 800);
   });
-}
+};
