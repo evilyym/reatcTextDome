@@ -293,7 +293,7 @@ const App: React.FC = () => {
             </ConfigProvider>
           </Sider>
           <Layout style={{ padding: '20px 24px 5px' }}>
-            {/* <Bread /> */}
+            <Bread />
             <Content
               style={{
                 padding: 10,
