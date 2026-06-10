@@ -1,5 +1,7 @@
-$test-color: red;
-
+$test-color: red !default; // 测试颜色变量
+:export {
+  $test-color: $test-color,
+};
 html,
 body,
 div,
